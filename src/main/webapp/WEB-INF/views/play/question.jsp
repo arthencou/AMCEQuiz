@@ -1,0 +1,1 @@
+<core:out value="${question.texto}" />

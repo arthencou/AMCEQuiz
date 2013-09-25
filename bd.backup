@@ -1,0 +1,337 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.2.4
+-- Dumped by pg_dump version 9.2.4
+-- Started on 2013-09-25 19:21:27 BRT
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- TOC entry 175 (class 3079 OID 11778)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2009 (class 0 OID 0)
+-- Dependencies: 175
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 171 (class 1259 OID 27961)
+-- Name: jogo; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE jogo (
+    id integer NOT NULL,
+    nome character varying(30) NOT NULL
+);
+
+
+ALTER TABLE public.jogo OWNER TO postgres;
+
+--
+-- TOC entry 170 (class 1259 OID 27959)
+-- Name: jogo_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE jogo_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.jogo_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2010 (class 0 OID 0)
+-- Dependencies: 170
+-- Name: jogo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE jogo_id_seq OWNED BY jogo.id;
+
+
+--
+-- TOC entry 174 (class 1259 OID 27995)
+-- Name: jogo_usuario; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE jogo_usuario (
+    usuario_id integer NOT NULL,
+    jogo_id integer NOT NULL
+);
+
+
+ALTER TABLE public.jogo_usuario OWNER TO postgres;
+
+--
+-- TOC entry 173 (class 1259 OID 27984)
+-- Name: questao; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE questao (
+    id integer NOT NULL,
+    jogo_id integer NOT NULL,
+    resposta integer NOT NULL
+);
+
+
+ALTER TABLE public.questao OWNER TO postgres;
+
+--
+-- TOC entry 172 (class 1259 OID 27982)
+-- Name: questao_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE questao_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.questao_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2011 (class 0 OID 0)
+-- Dependencies: 172
+-- Name: questao_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE questao_id_seq OWNED BY questao.id;
+
+
+--
+-- TOC entry 169 (class 1259 OID 27953)
+-- Name: usuario; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE usuario (
+    id integer NOT NULL,
+    nome character varying(30) NOT NULL
+);
+
+
+ALTER TABLE public.usuario OWNER TO postgres;
+
+--
+-- TOC entry 168 (class 1259 OID 27951)
+-- Name: usuario_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE usuario_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.usuario_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2012 (class 0 OID 0)
+-- Dependencies: 168
+-- Name: usuario_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE usuario_id_seq OWNED BY usuario.id;
+
+
+--
+-- TOC entry 1982 (class 2604 OID 27964)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY jogo ALTER COLUMN id SET DEFAULT nextval('jogo_id_seq'::regclass);
+
+
+--
+-- TOC entry 1983 (class 2604 OID 27987)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY questao ALTER COLUMN id SET DEFAULT nextval('questao_id_seq'::regclass);
+
+
+--
+-- TOC entry 1981 (class 2604 OID 27956)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY usuario ALTER COLUMN id SET DEFAULT nextval('usuario_id_seq'::regclass);
+
+
+--
+-- TOC entry 1998 (class 0 OID 27961)
+-- Dependencies: 171
+-- Data for Name: jogo; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY jogo (id, nome) FROM stdin;
+1	AMCE
+\.
+
+
+--
+-- TOC entry 2013 (class 0 OID 0)
+-- Dependencies: 170
+-- Name: jogo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('jogo_id_seq', 1, true);
+
+
+--
+-- TOC entry 2001 (class 0 OID 27995)
+-- Dependencies: 174
+-- Data for Name: jogo_usuario; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY jogo_usuario (usuario_id, jogo_id) FROM stdin;
+1	1
+\.
+
+
+--
+-- TOC entry 2000 (class 0 OID 27984)
+-- Dependencies: 173
+-- Data for Name: questao; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY questao (id, jogo_id, resposta) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2014 (class 0 OID 0)
+-- Dependencies: 172
+-- Name: questao_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('questao_id_seq', 1, false);
+
+
+--
+-- TOC entry 1996 (class 0 OID 27953)
+-- Dependencies: 169
+-- Data for Name: usuario; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY usuario (id, nome) FROM stdin;
+1	Arthur Henrique Coutinho
+\.
+
+
+--
+-- TOC entry 2015 (class 0 OID 0)
+-- Dependencies: 168
+-- Name: usuario_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('usuario_id_seq', 1, true);
+
+
+--
+-- TOC entry 1987 (class 2606 OID 27966)
+-- Name: pk_jogo; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY jogo
+    ADD CONSTRAINT pk_jogo PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1989 (class 2606 OID 27989)
+-- Name: pk_questao; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY questao
+    ADD CONSTRAINT pk_questao PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1985 (class 2606 OID 27958)
+-- Name: pk_usuario; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY usuario
+    ADD CONSTRAINT pk_usuario PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1991 (class 2606 OID 27999)
+-- Name: pk_usuario_jogo; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY jogo_usuario
+    ADD CONSTRAINT pk_usuario_jogo PRIMARY KEY (usuario_id, jogo_id);
+
+
+--
+-- TOC entry 1992 (class 2606 OID 27990)
+-- Name: fk_questao_jogo; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY questao
+    ADD CONSTRAINT fk_questao_jogo FOREIGN KEY (jogo_id) REFERENCES jogo(id) ON UPDATE CASCADE;
+
+
+--
+-- TOC entry 1993 (class 2606 OID 28000)
+-- Name: fk_usuario_jogo_jogo; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY jogo_usuario
+    ADD CONSTRAINT fk_usuario_jogo_jogo FOREIGN KEY (jogo_id) REFERENCES jogo(id) ON UPDATE CASCADE;
+
+
+--
+-- TOC entry 1994 (class 2606 OID 28005)
+-- Name: fk_usuario_jogo_usuario; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY jogo_usuario
+    ADD CONSTRAINT fk_usuario_jogo_usuario FOREIGN KEY (usuario_id) REFERENCES usuario(id) ON UPDATE CASCADE;
+
+
+--
+-- TOC entry 2008 (class 0 OID 0)
+-- Dependencies: 6
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2013-09-25 19:21:27 BRT
+
+--
+-- PostgreSQL database dump complete
+--
+
