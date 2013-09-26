@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class JogoManager {
@@ -18,6 +19,7 @@ public class JogoManager {
 		this.jogoDao = jogoDao;
 	}
 
+	@Transactional
 	public List<Jogo> findByUserId(Integer id) {
 		return jogoDao.findByUserId(id);
 	}

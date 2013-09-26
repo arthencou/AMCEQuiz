@@ -9,10 +9,10 @@ import br.uel.amcequiz.util.HibernateUtils;
 @Repository
 public class UsuarioDao {
 
-	public Usuario findByLogin(String login) {
-		return (Usuario) HibernateUtils.getCurrentSession()
-				.createQuery("from Usuario where login = :login)")
-				.setString("login", login)
+	public Usuario findByNome(String nome) {
+		return (Usuario) HibernateUtils.getSessionFactory().openSession()
+				.createQuery("from Usuario where nome = :nome ")
+				.setString("nome", nome)
 				.uniqueResult();
 	}
 	

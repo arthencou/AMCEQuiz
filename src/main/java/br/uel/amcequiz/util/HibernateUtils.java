@@ -22,13 +22,21 @@ public class HibernateUtils {
 
 	/**
 	 * 
-	 * @return Uma sessão com a camada de persistência.
+	 * @return O bean de sessionFactory da aplicação.
 	 */
 	public static SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 	
+	public static void openSession() {
+		sessionFactory.openSession();
+	}
+
+	/**
+	 * 
+	 * @return Uma sessão com a camada de persistência.
+	 */
 	public static Session getCurrentSession() {
-		return HibernateUtils.getSessionFactory().getCurrentSession();
+		return sessionFactory.getCurrentSession();
 	}
 }

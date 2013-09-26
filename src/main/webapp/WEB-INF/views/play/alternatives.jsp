@@ -1,3 +1,4 @@
+<%@include file="/WEB-INF/views/include.jsp"%>
 	<core:forEach items="${alternativasList}" var="alternativa">
 		<a href="#" onclick="submitResp(${alternativa.key})">
 			<core:out value="${alternativa.value}" />
@@ -7,7 +8,7 @@
 	function submitResposta(alternativa) {
 		$.ajax({
 			type : "POST",
-			url : "amcequiz/answer",
+			url : "/amcequiz/answer",
 			data : "op=" + alternativa,
 			dataType : "JSON",
 			success : function(response) {
@@ -15,7 +16,7 @@
 					alert("Resposta incorreta");
 				}
 				carregarQuestao();
-				carregarAlternativas();	
+				carregarAlternativas();
 			},
 			error : function(e) {
 				alert('Error: ' + e);

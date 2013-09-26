@@ -17,13 +17,9 @@ public class UsuarioManager {
 		this.usuarioDao = usuarioDao;
 	}
 	
-	@Transactional
-	public boolean logar(Usuario usuario) {
-		if (usuarioDao.findByLogin(usuario.getLogin()) != null) {
-			return true;
-		} else {
-			return false;
-		}
+	@Transactional(readOnly = true)
+	public Usuario logar(String nome) {
+		return usuarioDao.findByNome(nome);
 	}
 
 }

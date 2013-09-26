@@ -6,13 +6,17 @@
 </div>
 
 <%@include file="/WEB-INF/views/footer.jsp"%>
-<script>
+<script type="text/javascript">
+$(document).ready(function() {
+	carregarQuestao();
+	carregarAlternativas();
+});
 function carregarQuestao() {
 	$.ajax({
 		type : "POST",
-		url : "amcequiz/question",
+		url : "/amcequiz/question",
 		success : function(response) {
-			$('questao').html(response);
+			$('#questao').html(response);
 		},
 		error : function(e) {
 			alert('Error: ' + e);
@@ -22,17 +26,13 @@ function carregarQuestao() {
 function carregarAlternativas() {
 	$.ajax({
 		type : "POST",
-		url : "amcequiz/alternatives",
+		url : "/amcequiz/alternatives",
 		success : function(response) {
-			$('alternativas').html(response);
+			$('#alternativas').html(response);
 		},
 		error : function(e) {
 			alert('Error: ' + e);
 		}
 	});
 }
-$(document).ready(function() {
-	carregarQuestao();
-	carregarAlternativas();
-});
 </script>

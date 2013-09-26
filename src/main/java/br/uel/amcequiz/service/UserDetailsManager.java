@@ -31,7 +31,7 @@ public class UserDetailsManager implements UserDetailsService {
 	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String login)
 			throws UsernameNotFoundException {
-		Usuario usuario = usuarioDao.findByLogin(login);
+		Usuario usuario = usuarioDao.findByNome(login);
 
 		boolean enabled = true;
 		boolean accountNonExpired = true;

@@ -1,23 +1,17 @@
 <%@include file="/WEB-INF/views/header.jsp"%>
 <div>
-	<p>Menu Lateral</p>
-	<a href="play">Jogar</a>
-	<a href="edit">Criar/editar jogo</a>
-</div>
-
-<div>
 	<table>
 		<thead>
 			<tr>
 				<th>Jogo</th>
-				<th></th>
+				<th>Play</th>
 			</tr>
 		</thead>
 		<tbody>
-			<core:forEach  items="gamesList" var="game">
+			<core:forEach items="${gamesList}" var="jogo">
 				<tr>
-					<td>${game.nome}</td>
-					<td><a href="play?jogo=${game.id}"></a></td>
+					<td><core:out value="${jogo.nome}" /></td>
+					<td><a href="play?jogo=${jogo.id}">Jogar</a></td>
 				</tr>
 			</core:forEach>
 		</tbody>
