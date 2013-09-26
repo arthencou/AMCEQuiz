@@ -6,5 +6,5 @@ pelas linhas tracejadas).
 As etapas que consistem o círculo de Mohr apresentam várias propriedades matemáticas, uma dessas
 etapas é ilustrada na figura abaixo. De acordo com os seus conhecimentos de trigonometria, qual deve ser
 o ângulo (em graus) formado entre as linhas tracejadas inscritas no círculo?
-<img src="" />
+<img src="${pageContext.request.contextPath}/assets/images/questions/1.jpeg" />
 <%@include file="/WEB-INF/views/questions.qfooter.jsp"%>
