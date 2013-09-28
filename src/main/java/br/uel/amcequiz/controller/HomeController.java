@@ -1,12 +1,16 @@
 package br.uel.amcequiz.controller;
 
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import br.uel.amcequiz.manager.JogoManager;
 import br.uel.amcequiz.manager.UsuarioManager;
@@ -39,19 +43,26 @@ public class HomeController {
 
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public String submitLogin(@ModelAttribute("usuario") Usuario usuarioForm,
-			Model model) {
+			Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession(true);
+		
 		Usuario usuario = usuarioManager.logar(usuarioForm.getNome());
 		if (usuario != null) {
-			model.addAttribute("gamesList", jogoManager.findByUserId(usuario.getId()));
-			return "home";
+			session.setAttribute("usuario", usuario);
+			return "redirect:home";
 		} else {
 			return "redirect:/";
 		}
 	}
 	
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public String home() {
-		return "home";
+	public ModelAndView home(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		
+		Usuario usuario = (Usuario) session.getAttribute("usuario");
+		
+		return new ModelAndView("home", 
+				"gamesList", jogoManager.findByUserId(usuario.getId()));
 	}
 	
 }

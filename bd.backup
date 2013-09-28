@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.2.4
 -- Dumped by pg_dump version 9.2.4
--- Started on 2013-09-26 19:52:12 BRT
+-- Started on 2013-09-27 21:27:27 BRT
 
 SET statement_timeout = 0;
 SET client_encoding = 'UTF8';
@@ -86,7 +86,7 @@ CREATE TABLE jogo_usuario (
 ALTER TABLE public.jogo_usuario OWNER TO postgres;
 
 --
--- TOC entry 174 (class 1259 OID 28016)
+-- TOC entry 174 (class 1259 OID 28070)
 -- Name: questao; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -94,15 +94,16 @@ CREATE TABLE questao (
     id integer NOT NULL,
     jogo_id integer NOT NULL,
     numero smallint NOT NULL,
-    resposta integer NOT NULL,
-    alternativas json
+    texto text,
+    alternativas json,
+    resposta character varying(1) NOT NULL
 );
 
 
 ALTER TABLE public.questao OWNER TO postgres;
 
 --
--- TOC entry 173 (class 1259 OID 28014)
+-- TOC entry 173 (class 1259 OID 28068)
 -- Name: questao_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -171,7 +172,7 @@ ALTER TABLE ONLY jogo ALTER COLUMN id SET DEFAULT nextval('jogo_id_seq'::regclas
 
 
 --
--- TOC entry 1984 (class 2604 OID 28019)
+-- TOC entry 1984 (class 2604 OID 28073)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -218,12 +219,13 @@ COPY jogo_usuario (usuario_id, jogo_id) FROM stdin;
 
 
 --
--- TOC entry 2004 (class 0 OID 28016)
+-- TOC entry 2004 (class 0 OID 28070)
 -- Dependencies: 174
 -- Data for Name: questao; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY questao (id, jogo_id, numero, resposta, alternativas) FROM stdin;
+COPY questao (id, jogo_id, numero, texto, alternativas, resposta) FROM stdin;
+1	1	1	\nNum projeto para calcular a estrutura de uma obra é preciso analisar as forças que atuam nos materiais utilizados. Para isso, um dos métodos usuais a engenharia é o círculo de Mohr, o qual nos indica as forças máximas que podem romper o material, assim como a localização dessas forças (representada pelas linhas tracejadas). As etapas que consistem o círculo de Mohr apresentam várias propriedades matemáticas, uma dessas etapas é ilustrada na figura abaixo. De acordo com os seus conhecimentos de trigonometria, qual deve ser o ângulo (em graus) formado entre as linhas tracejadas inscritas no círculo?\n<img src="/amcequiz/assets/images/questions/1.jpeg" /> 	{\n"a":"$9,15m^2$",\n"b":"$915m^2$",\n"c":"$915km^2$"\n}	b
 \.
 
 
@@ -233,7 +235,7 @@ COPY questao (id, jogo_id, numero, resposta, alternativas) FROM stdin;
 -- Name: questao_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('questao_id_seq', 1, false);
+SELECT pg_catalog.setval('questao_id_seq', 1, true);
 
 
 --
@@ -266,7 +268,7 @@ ALTER TABLE ONLY jogo
 
 
 --
--- TOC entry 1992 (class 2606 OID 28024)
+-- TOC entry 1992 (class 2606 OID 28078)
 -- Name: pk_questao; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -293,7 +295,7 @@ ALTER TABLE ONLY jogo_usuario
 
 
 --
--- TOC entry 1994 (class 2606 OID 28026)
+-- TOC entry 1994 (class 2606 OID 28080)
 -- Name: uq_jogo_numero_questao; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -302,7 +304,7 @@ ALTER TABLE ONLY questao
 
 
 --
--- TOC entry 1997 (class 2606 OID 28027)
+-- TOC entry 1997 (class 2606 OID 28081)
 -- Name: fk_questao_jogo; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -340,7 +342,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2013-09-26 19:52:12 BRT
+-- Completed on 2013-09-27 21:27:28 BRT
 
 --
 -- PostgreSQL database dump complete
