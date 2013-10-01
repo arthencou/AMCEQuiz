@@ -1,9 +1,13 @@
 package br.uel.amcequiz.manager;
 
+import br.uel.amcequiz.controller.DadosJogada;
 import br.uel.amcequiz.dao.JogoDao;
 import br.uel.amcequiz.model.Jogo;
+import br.uel.amcequiz.model.JogosUsuarios;
 
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +26,42 @@ public class JogoManager {
 	@Transactional
 	public List<Jogo> findByUserId(Integer id) {
 		return jogoDao.findByUserId(id);
+	}
+
+	@Transactional
+	public void saveDadosJogadas(Integer jogoId, Integer usuarioId, 
+			TreeMap<Integer, DadosJogada> jogadasDados) {
+		Integer noAcertos = 0;
+		Long tempoJogada = new Long(0);
+		
+		DadosJogada dadosJogada = null;
+		for (Map.Entry<Integer, DadosJogada> entry : jogadasDados.entrySet()) {
+			dadosJogada = entry.getValue();
+			if (dadosJogada.getIsCorrect()) {
+				noAcertos++;
+			}
+			tempoJogada += (dadosJogada.getTimeFinish() 
+					- dadosJogada.getTimeStart());
+		}
+		System.out.println("\n noAcertos: \n"+noAcertos);
+		System.out.println(" tempoJogada: \n"+tempoJogada+"ms\n");
+		
+		if (dadosJogada != null) {
+			JogosUsuarios jogoUsuario = 
+					jogoDao.getJogoUsuario(jogoId, usuarioId);
+			Integer melhorNoAcertosAtual = jogoUsuario.getMelhorNumeroAcertos();
+			Long melhorTempoAtual = jogoUsuario.getMelhorTempo();
+			if (noAcertos >= melhorNoAcertosAtual &&
+					tempoJogada <= melhorTempoAtual) {
+				if (noAcertos > melhorNoAcertosAtual) {
+					jogoUsuario.setMelhorNumeroAcertos(noAcertos);
+				}
+				if (tempoJogada < melhorTempoAtual) {
+					jogoUsuario.setMelhorTempo(tempoJogada);
+				}
+			}
+			jogoDao.saveJogoUsuario(jogoUsuario);
+		}
 	}
 
 }

@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.2.4
 -- Dumped by pg_dump version 9.2.4
--- Started on 2013-09-27 21:27:27 BRT
+-- Started on 2013-10-01 17:17:46 BRT
 
 SET statement_timeout = 0;
 SET client_encoding = 'UTF8';
@@ -21,7 +21,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2012 (class 0 OID 0)
+-- TOC entry 2014 (class 0 OID 0)
 -- Dependencies: 175
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
@@ -64,7 +64,7 @@ CREATE SEQUENCE jogo_id_seq
 ALTER TABLE public.jogo_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2013 (class 0 OID 0)
+-- TOC entry 2015 (class 0 OID 0)
 -- Dependencies: 170
 -- Name: jogo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -79,7 +79,9 @@ ALTER SEQUENCE jogo_id_seq OWNED BY jogo.id;
 
 CREATE TABLE jogo_usuario (
     usuario_id integer NOT NULL,
-    jogo_id integer NOT NULL
+    jogo_id integer NOT NULL,
+    melhor_tempo bigint DEFAULT 0,
+    melhor_numero_acertos integer DEFAULT 0
 );
 
 
@@ -118,7 +120,7 @@ CREATE SEQUENCE questao_id_seq
 ALTER TABLE public.questao_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2014 (class 0 OID 0)
+-- TOC entry 2016 (class 0 OID 0)
 -- Dependencies: 173
 -- Name: questao_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -155,7 +157,7 @@ CREATE SEQUENCE usuario_id_seq
 ALTER TABLE public.usuario_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2015 (class 0 OID 0)
+-- TOC entry 2017 (class 0 OID 0)
 -- Dependencies: 168
 -- Name: usuario_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -172,7 +174,7 @@ ALTER TABLE ONLY jogo ALTER COLUMN id SET DEFAULT nextval('jogo_id_seq'::regclas
 
 
 --
--- TOC entry 1984 (class 2604 OID 28073)
+-- TOC entry 1986 (class 2604 OID 28073)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -188,7 +190,7 @@ ALTER TABLE ONLY usuario ALTER COLUMN id SET DEFAULT nextval('usuario_id_seq'::r
 
 
 --
--- TOC entry 2001 (class 0 OID 27961)
+-- TOC entry 2003 (class 0 OID 27961)
 -- Dependencies: 171
 -- Data for Name: jogo; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -199,7 +201,7 @@ COPY jogo (id, nome) FROM stdin;
 
 
 --
--- TOC entry 2016 (class 0 OID 0)
+-- TOC entry 2018 (class 0 OID 0)
 -- Dependencies: 170
 -- Name: jogo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -208,18 +210,18 @@ SELECT pg_catalog.setval('jogo_id_seq', 1, true);
 
 
 --
--- TOC entry 2002 (class 0 OID 27995)
+-- TOC entry 2004 (class 0 OID 27995)
 -- Dependencies: 172
 -- Data for Name: jogo_usuario; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY jogo_usuario (usuario_id, jogo_id) FROM stdin;
-1	1
+COPY jogo_usuario (usuario_id, jogo_id, melhor_tempo, melhor_numero_acertos) FROM stdin;
+1	1	0	0
 \.
 
 
 --
--- TOC entry 2004 (class 0 OID 28070)
+-- TOC entry 2006 (class 0 OID 28070)
 -- Dependencies: 174
 -- Data for Name: questao; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -230,7 +232,7 @@ COPY questao (id, jogo_id, numero, texto, alternativas, resposta) FROM stdin;
 
 
 --
--- TOC entry 2017 (class 0 OID 0)
+-- TOC entry 2019 (class 0 OID 0)
 -- Dependencies: 173
 -- Name: questao_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -239,7 +241,7 @@ SELECT pg_catalog.setval('questao_id_seq', 1, true);
 
 
 --
--- TOC entry 1999 (class 0 OID 27953)
+-- TOC entry 2001 (class 0 OID 27953)
 -- Dependencies: 169
 -- Data for Name: usuario; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -250,7 +252,7 @@ COPY usuario (id, nome) FROM stdin;
 
 
 --
--- TOC entry 2018 (class 0 OID 0)
+-- TOC entry 2020 (class 0 OID 0)
 -- Dependencies: 168
 -- Name: usuario_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -259,7 +261,7 @@ SELECT pg_catalog.setval('usuario_id_seq', 1, true);
 
 
 --
--- TOC entry 1988 (class 2606 OID 27966)
+-- TOC entry 1990 (class 2606 OID 27966)
 -- Name: pk_jogo; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -268,7 +270,7 @@ ALTER TABLE ONLY jogo
 
 
 --
--- TOC entry 1992 (class 2606 OID 28078)
+-- TOC entry 1994 (class 2606 OID 28078)
 -- Name: pk_questao; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -277,7 +279,7 @@ ALTER TABLE ONLY questao
 
 
 --
--- TOC entry 1986 (class 2606 OID 27958)
+-- TOC entry 1988 (class 2606 OID 27958)
 -- Name: pk_usuario; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -286,7 +288,7 @@ ALTER TABLE ONLY usuario
 
 
 --
--- TOC entry 1990 (class 2606 OID 27999)
+-- TOC entry 1992 (class 2606 OID 27999)
 -- Name: pk_usuario_jogo; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -295,7 +297,7 @@ ALTER TABLE ONLY jogo_usuario
 
 
 --
--- TOC entry 1994 (class 2606 OID 28080)
+-- TOC entry 1996 (class 2606 OID 28080)
 -- Name: uq_jogo_numero_questao; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -304,7 +306,7 @@ ALTER TABLE ONLY questao
 
 
 --
--- TOC entry 1997 (class 2606 OID 28081)
+-- TOC entry 1999 (class 2606 OID 28081)
 -- Name: fk_questao_jogo; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -313,7 +315,7 @@ ALTER TABLE ONLY questao
 
 
 --
--- TOC entry 1995 (class 2606 OID 28000)
+-- TOC entry 1997 (class 2606 OID 28000)
 -- Name: fk_usuario_jogo_jogo; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -322,7 +324,7 @@ ALTER TABLE ONLY jogo_usuario
 
 
 --
--- TOC entry 1996 (class 2606 OID 28005)
+-- TOC entry 1998 (class 2606 OID 28005)
 -- Name: fk_usuario_jogo_usuario; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -331,7 +333,7 @@ ALTER TABLE ONLY jogo_usuario
 
 
 --
--- TOC entry 2011 (class 0 OID 0)
+-- TOC entry 2013 (class 0 OID 0)
 -- Dependencies: 6
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
@@ -342,7 +344,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2013-09-27 21:27:28 BRT
+-- Completed on 2013-10-01 17:17:47 BRT
 
 --
 -- PostgreSQL database dump complete

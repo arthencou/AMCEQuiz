@@ -2,11 +2,20 @@ package br.uel.amcequiz.controller;
 
 public class DadosJogada {
 	
+	private Integer jogoId;
 	private Integer noQuestao;
 	private Long timeStart;
 	private Long timeFinish;
 	private Boolean isCorrect;
 	
+	
+	public void setJogoId(Integer jogoId) {
+		this.jogoId = jogoId;
+	}
+	
+	public Integer getJogoId() {
+		return jogoId;
+	}
 	
 	public Integer getNoQuestao() {
 		return noQuestao;

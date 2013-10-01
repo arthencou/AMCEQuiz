@@ -15,22 +15,33 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.uel.amcequiz.manager.JogoManager;
 import br.uel.amcequiz.manager.QuestaoManager;
 import br.uel.amcequiz.model.Questao;
+import br.uel.amcequiz.model.Usuario;
 
 @Controller
 public class PlayController {
 	
 	private QuestaoManager questaoManager;
+	private JogoManager jogoManager;
 	
 	@Autowired
 	public void setQuestaoManager(QuestaoManager questaoManager) {
 		this.questaoManager = questaoManager;
 	}
 	
+	@Autowired
+	public void setJogoManager(JogoManager jogoManager) {
+		this.jogoManager = jogoManager;
+	}
+	
 	@SuppressWarnings("unchecked")
 	private DadosJogada generateDadosJogada(Questao questao, HttpSession session) {
+		Integer jogoId = (Integer) session.getAttribute("jogoId");
+		
 		DadosJogada dadosJogada = new DadosJogada();
+		dadosJogada.setJogoId(jogoId);
 		dadosJogada.setNoQuestao(questao.getNumero());
 		dadosJogada.setTimeStart(System.currentTimeMillis());
 		
@@ -144,9 +155,13 @@ public class PlayController {
 	public ModelAndView gameOver(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		
+		Integer jogoId = (Integer) session.getAttribute("jogoId");
+		Usuario usuario = (Usuario) session.getAttribute("usuario");
 		TreeMap<Integer, DadosJogada> jogadasDados =
 				(TreeMap<Integer, DadosJogada>)
 				session.getAttribute("jogadasDados");
+		
+		jogoManager.saveDadosJogadas(jogoId, usuario.getId(), jogadasDados);
 		
 		session.removeAttribute("jogoId");
 		session.removeAttribute("noQuestao");
