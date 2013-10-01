@@ -1,7 +1,6 @@
 package br.uel.amcequiz.controller;
 
 
-import java.util.Map;
 import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,17 +23,6 @@ public class PlayController {
 	
 	private QuestaoManager questaoManager;
 	
-	private class DadosJogada {
-		@SuppressWarnings("unused")
-		public Integer no_questao;
-		@SuppressWarnings("unused")
-		public Long time_start;
-		@SuppressWarnings("unused")
-		public Long time_finish;
-		@SuppressWarnings("unused")
-		public Boolean is_correct;
-	}
-	
 	@Autowired
 	public void setQuestaoManager(QuestaoManager questaoManager) {
 		this.questaoManager = questaoManager;
@@ -43,8 +31,8 @@ public class PlayController {
 	@SuppressWarnings("unchecked")
 	private DadosJogada generateDadosJogada(Questao questao, HttpSession session) {
 		DadosJogada dadosJogada = new DadosJogada();
-		dadosJogada.no_questao = questao.getNumero();
-		dadosJogada.time_start = System.currentTimeMillis();
+		dadosJogada.setNoQuestao(questao.getNumero());
+		dadosJogada.setTimeStart(System.currentTimeMillis());
 		
 		TreeMap<Integer, DadosJogada> jogadasDados = 
 				(TreeMap<Integer, DadosJogada>) 
@@ -112,16 +100,16 @@ public class PlayController {
 				session.getAttribute("jogadasDados");
 		
 		DadosJogada dadosJogada = jogadasDados.get(noQuestao); 
-		dadosJogada.time_finish = System.currentTimeMillis();
+		dadosJogada.setTimeFinish(System.currentTimeMillis());
 		
 		Questao questao = (Questao) session.getAttribute("questao");
 		
 		String isCorrect = null;
 		if (op.equals(questao.getResposta())) {
-			dadosJogada.is_correct = true;
+			dadosJogada.setIsCorrect(true);
 			isCorrect = "{\"rightAns\":\"true\"}";
 		} else {
-			dadosJogada.is_correct = false;
+			dadosJogada.setIsCorrect(false);
 			isCorrect = "{\"rightAns\":\"false\"}";
 		}
 
@@ -165,7 +153,7 @@ public class PlayController {
 		session.removeAttribute("questao");
 		session.removeAttribute("jogadasDados");
 		
-		return new ModelAndView("redirect:/home");
+		return new ModelAndView("gameover", "jogadasDados", jogadasDados);
 	}
 
 }

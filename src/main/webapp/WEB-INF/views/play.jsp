@@ -51,14 +51,18 @@ function submitResposta(alternativa) {
 			} else {
 				alert('Resposta incorreta');
 			}
+			checkGameOver();
 		},
 		error : function(e) {
 			alert('Error: ' + e);
 		}
 	});
+}
+function checkGameOver() {
 	$.ajax({
 		type : "POST",
 		url : "/amcequiz/checkgameover",
+		dataType : "JSON",
 		success : function(response) {
 			if (response.isGameOver = 'true') {
 				window.location.replace("/amcequiz/gameover");
