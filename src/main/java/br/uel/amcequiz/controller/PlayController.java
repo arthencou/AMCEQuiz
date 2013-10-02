@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import br.uel.amcequiz.manager.JogoManager;
-import br.uel.amcequiz.manager.QuestaoManager;
+import br.uel.amcequiz.service.JogoManager;
+import br.uel.amcequiz.service.QuestaoManager;
 import br.uel.amcequiz.model.Questao;
 import br.uel.amcequiz.model.Usuario;
 
@@ -58,7 +58,7 @@ public class PlayController {
 	}
 	
 	@RequestMapping("/play")
-	public String play(@RequestParam String jogo, 
+	public ModelAndView play(@RequestParam String jogo, 
 			HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession(false);
 		
@@ -72,10 +72,21 @@ public class PlayController {
 			session.setAttribute("questao", firstQuestion);
 			session.setAttribute("noQuestao", new Integer(1));
 			generateDadosJogada(firstQuestion, session);
-			return "play";
+			return new ModelAndView("play", "questoesList", 
+					questaoManager.findAllByJogoId(jogoId));
 		} else {
-			return "redirect:home";
+			return new ModelAndView("redirect:/home");
 		}
+	}
+	
+	@RequestMapping(value = "/select", method = RequestMethod.POST)
+	public @ResponseBody void select(@RequestParam Integer qnum, 
+			HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		session.removeAttribute("questao");
+		Integer jogoId = (Integer) session.getAttribute("jogoId");
+		Questao questao = questaoManager.findByJogoIdENum(jogoId, qnum);
+		session.setAttribute("questao", questao);
 	}
 
 	@RequestMapping(value = "/question", method = RequestMethod.POST)
@@ -160,6 +171,10 @@ public class PlayController {
 		TreeMap<Integer, DadosJogada> jogadasDados =
 				(TreeMap<Integer, DadosJogada>)
 				session.getAttribute("jogadasDados");
+		
+		if (jogoId == null) {
+			return new ModelAndView("redirect:/home");
+		}
 		
 		jogoManager.saveDadosJogadas(jogoId, usuario.getId(), jogadasDados);
 		

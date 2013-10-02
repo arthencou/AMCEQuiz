@@ -1,11 +1,24 @@
 <%@include file="/WEB-INF/views/header.jsp"%>
 <%@include file="/WEB-INF/views/questions/qheader.jsp"%>
 
-<div id="questao">
+<div class="header">
+	<ul class="nav nav-pills">
+		<li id="questao${questao.numero}">
+			<core:forEach items="${questoesList}" var="questao">
+				<a href="#"
+					onclick="selecionarQuestao(${questao.numero});" >
+					<core:out value="Questão ${questao.numero}" ></core:out>
+				</a>
+			</core:forEach>
+		</li>
+	</ul>
+</div>
+
+<div id="questao" class="container-fluid">
 </div>
 
 <p>Alternativas:</p>
-<div id="alternativas">
+<div id="alternativas" class="container-fluid">
 </div>
 
 <%@include file="/WEB-INF/views/questions/qfooter.jsp"%>
@@ -15,6 +28,21 @@ $(document).ready(function() {
 	carregarQuestao();
 	carregarAlternativas();
 });
+function selecionarQuestao(qnum) {
+	$.ajax({
+		type : "POST",
+		url : "/amcequiz/select",
+		data : "qnum=" + qnum,
+		success : function(response) {
+			carregarQuestao();
+			carregarAlternativas();
+			$('#questao'+qnum).attr('class', 'active');
+		},
+		error : function(e) {
+			alert('Error: ' + e);
+		}
+	});
+}
 function carregarQuestao() {
 	$.ajax({
 		type : "POST",

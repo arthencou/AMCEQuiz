@@ -9,6 +9,14 @@ public class DadosJogada {
 	private Boolean isCorrect;
 	
 	
+	public DadosJogada() {
+		jogoId = 0;
+		noQuestao = 0;
+		timeStart = 0L;;
+		timeFinish = 0L;
+		isCorrect = false;
+	}
+	
 	public void setJogoId(Integer jogoId) {
 		this.jogoId = jogoId;
 	}

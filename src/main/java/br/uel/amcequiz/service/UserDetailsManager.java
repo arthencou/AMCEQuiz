@@ -53,11 +53,11 @@ public class UserDetailsManager implements UserDetailsService {
 	public List<String> getRoles(Long role) {
 		List<String> roles = new ArrayList<String>();
 
-		/*if (role.intValue() == DefinedValuesUtils.ROLE_ADMINISTRADOR) {
-			roles.add("ROLE_ADMINISTRADOR");
-		} else if (role.intValue() == DefinedValuesUtils.ROLE_CONTROLADORIA_DO_MUNICIPIO) {
-			roles.add("ROLE_CONTROLADORIA");
-		}*/
+		if (role.intValue() == 1) {
+			roles.add("ROLE_ADMIN");
+		} else if (role.intValue() == 2) {
+			roles.add("ROLE_ALUNO");
+		}
 
 		return roles;
 	}

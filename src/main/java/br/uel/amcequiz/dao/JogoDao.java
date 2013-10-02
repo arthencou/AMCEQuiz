@@ -34,7 +34,16 @@ public class JogoDao {
 				"\t melhor tempo: "+jogoUsuario.getMelhorTempo()+"\n"+
 				"\t melhor numero acertos: "+jogoUsuario.getMelhorNumeroAcertos()+"\n");
 		
-		HibernateUtils.getSessionFactory().openSession().saveOrUpdate(jogoUsuario);
+		HibernateUtils.getSessionFactory().openSession()/*.saveOrUpdate(jogoUsuario);*/
+		.createSQLQuery("UPDATE jogo_usuario "
+				+ "SET melhor_tempo = :melhorTempo , "
+					+ "melhor_numero_acertos = :melhorNumeroAcertos "
+				+ "WHERE usuario_id = :usuarioId AND jogo_id = :jogoId")
+		.setLong("melhorTempo", jogoUsuario.getMelhorTempo())
+		.setInteger("melhorNumeroAcertos", jogoUsuario.getMelhorNumeroAcertos())
+		.setInteger("usuarioId", jogoUsuario.getUsuario().getId())
+		.setInteger("jogoId", jogoUsuario.getJogo().getId())
+		.executeUpdate();
 	}
 
 }

@@ -1,4 +1,4 @@
-package br.uel.amcequiz.manager;
+package br.uel.amcequiz.service;
 
 import br.uel.amcequiz.controller.DadosJogada;
 import br.uel.amcequiz.dao.JogoDao;
@@ -43,8 +43,6 @@ public class JogoManager {
 			tempoJogada += (dadosJogada.getTimeFinish() 
 					- dadosJogada.getTimeStart());
 		}
-		System.out.println("\n noAcertos: \n"+noAcertos);
-		System.out.println(" tempoJogada: \n"+tempoJogada+"ms\n");
 		
 		if (dadosJogada != null) {
 			JogosUsuarios jogoUsuario = 
@@ -59,8 +57,8 @@ public class JogoManager {
 				if (tempoJogada < melhorTempoAtual) {
 					jogoUsuario.setMelhorTempo(tempoJogada);
 				}
+				jogoDao.saveJogoUsuario(jogoUsuario);
 			}
-			jogoDao.saveJogoUsuario(jogoUsuario);
 		}
 	}
 

@@ -1,5 +1,7 @@
-package br.uel.amcequiz.manager;
+package br.uel.amcequiz.service;
 
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,10 @@ public class QuestaoManager {
 	public Questao findByJogoIdENum(Integer jogoId,
 			Integer noQuestao) {
 		return questaoDao.findByJogoIdENum(jogoId, noQuestao);
+	}
+
+	public List<Questao> findAllByJogoId(Integer jogoId) {
+		return questaoDao.findAllByJogoId(jogoId);
 	}
 
 }

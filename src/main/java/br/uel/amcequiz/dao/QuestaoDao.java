@@ -1,5 +1,7 @@
 package br.uel.amcequiz.dao;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import br.uel.amcequiz.model.Questao;
@@ -15,6 +17,14 @@ public class QuestaoDao {
 				.setInteger("jogoId", jogoId)
 				.setInteger("noQuestao", noQuestao)
 				.uniqueResult();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Questao> findAllByJogoId(Integer jogoId) {
+		return HibernateUtils.getSessionFactory().openSession()
+				.createQuery("from Questao where jogo.id = :jogoId ")
+				.setInteger("jogoId", jogoId)
+				.list();
 	}
 
 }

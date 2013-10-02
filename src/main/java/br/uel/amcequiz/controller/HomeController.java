@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import br.uel.amcequiz.manager.JogoManager;
-import br.uel.amcequiz.manager.UsuarioManager;
+import br.uel.amcequiz.service.JogoManager;
+import br.uel.amcequiz.service.UsuarioManager;
 import br.uel.amcequiz.model.Usuario;
 
 @Controller
@@ -26,14 +26,14 @@ public class HomeController {
 	public void setUsuarioManager(UsuarioManager usuarioManager) {
 		this.usuarioManager = usuarioManager;
 	}
-
-	@ModelAttribute("usuario") Usuario getUsuario() {
-		return new Usuario();
-	}
 	
 	@Autowired
 	public void setJogoManager(JogoManager jogoManager) {
 		this.jogoManager = jogoManager;
+	}
+
+	@ModelAttribute("usuario") Usuario getUsuario() {
+		return new Usuario();
 	}
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
