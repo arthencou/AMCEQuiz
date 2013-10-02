@@ -1,23 +1,44 @@
 <%@include file="/WEB-INF/views/header.jsp"%>
 <%@include file="/WEB-INF/views/include.jsp"%>
 <link href="${pageContext.request.contextPath}/assets/css/play.css" rel="stylesheet">
-	
-<div class="btn-group">
-	<core:forEach items="${questoesList}" var="questao" >
-		<button id="questao${questao.numero}" type="button" 
-			class="btn btn-default" 
-			onclick="disselect(${questao.numero});selecionarQuestao(${questao.numero});">
-			
-			"Questão ${questao.numero}"
-		</button>
-	</core:forEach>
+
+<div class="container-fluid">
+	<div class="panel">
+        <div class="panel-heading">
+          <h3 class="panel-title">Questões</h3>
+        </div>
+        <div class="bs-example panel-body">	
+			<div class="btn-group">
+				<core:forEach items="${questoesList}" var="questao" >
+					<button id="questao${questao.numero}" type="button" 
+						class="btn btn-default" 
+						onclick="selecionarQuestao(${questao.numero});">
+						
+						Questão ${questao.numero}
+					</button>
+				</core:forEach>
+			</div>
+		</div>  
+	</div>
 </div>
 
-<div id="questao" class="container-fluid">
+<div class="container-fluid">
+	<div class="panel">
+        <div class="panel-heading">
+          <h3 class="panel-title">Questão</h3>
+        </div>
+        <div  id="questao" class="panel-body">
+        </div>
+      </div>
 </div>
-
-<p>Alternativas:</p>
-<div id="alternativas" class="container theme-showcase">
+<div class="container-fluid">
+	<div class="panel">
+        <div class="panel-heading">
+          <h3 class="panel-title">Alternativas</h3>
+        </div>
+		<div id="alternativas" class="container theme-showcase">
+		</div>
+	</div>
 </div>
 
 <%@include file="/WEB-INF/views/footer.jsp"%>
@@ -105,8 +126,5 @@ function checkGameOver() {
 			alert('Error: ' + e);
 		}
 	});
-}
-function disselect(qnum) {
-	$('#questao'+qnum).attr('class', 'active');
 }
 </script>
