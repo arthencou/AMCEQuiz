@@ -18,7 +18,7 @@
 </div>
 
 <p>Alternativas:</p>
-<div id="alternativas" class="container-fluid">
+<div id="alternativas" class="container theme-showcase">
 </div>
 
 <%@include file="/WEB-INF/views/footer.jsp"%>
