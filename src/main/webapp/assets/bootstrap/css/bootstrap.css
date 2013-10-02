@@ -126,6 +126,9 @@ sub {
 
 img {
   border: 0;
+  display: block;
+  height: auto;
+  max-width: 100%;
 }
 
 svg:not(:root) {
@@ -750,6 +753,7 @@ pre code {
   padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
+  max-width: 800px !important;  
 }
 
 .container:before,
