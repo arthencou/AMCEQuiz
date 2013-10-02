@@ -5,7 +5,7 @@
 <head>
 <meta charset="utf-8">
 <title>AMCEQuiz</title>
-<link href="${pageContext.request.contextPath}/assets/bootstrap/css/bootstrap.min.css"
+<link href="${pageContext.request.contextPath}/assets/bootstrap/css/bootstrap.css"
 	rel="stylesheet">
 <link href="${pageContext.request.contextPath}/assets/stylesheet.css"
 	rel="stylesheet">
