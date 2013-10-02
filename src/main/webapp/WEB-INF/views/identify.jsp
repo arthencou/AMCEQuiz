@@ -3,7 +3,7 @@
 	rel="stylesheet">
 
 <form:form id="formLogin" modelAttribute="usuario" class="form-signin">
-	<h2 class="form-signin-heading">AMCE Quiz</h2>
+	<!-- <h2 class="form-signin-heading">AMCE</h2> -->
       <div class="input-group">
         
   		<span class="input-group-addon glyphicon glyphicon-user"></span>
