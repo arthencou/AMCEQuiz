@@ -2,17 +2,15 @@
 <%@include file="/WEB-INF/views/include.jsp"%>
 <link href="${pageContext.request.contextPath}/assets/css/play.css" rel="stylesheet">
 	
-<div class="header">
-	<ul class="nav nav-pills">
-		<li id="questao${questao.numero}">
-			<core:forEach items="${questoesList}" var="questao">
-				<a href="#"
-					onclick="selecionarQuestao(${questao.numero});" >
-					<core:out value="Questão ${questao.numero}" ></core:out>
-				</a>
-			</core:forEach>
-		</li>
-	</ul>
+<div class="btn-group">
+	<core:forEach items="${questoesList}" var="questao" >
+		<button id="questao${questao.numero}" type="button" 
+			class="btn btn-default" 
+			onclick="disselect(${questao.numero});selecionarQuestao(${questao.numero});">
+			
+			"Questão ${questao.numero}"
+		</button>
+	</core:forEach>
 </div>
 
 <div id="questao" class="container-fluid">
@@ -25,6 +23,7 @@
 <%@include file="/WEB-INF/views/footer.jsp"%>
 <script type="text/javascript">
 $(document).ready(function() {
+	selecionarQuestao(1);
 	carregarQuestao();
 	carregarAlternativas();
 });
@@ -106,5 +105,8 @@ function checkGameOver() {
 			alert('Error: ' + e);
 		}
 	});
+}
+function disselect(qnum) {
+	$('#questao'+qnum).attr('class', 'active');
 }
 </script>

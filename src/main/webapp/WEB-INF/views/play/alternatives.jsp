@@ -2,16 +2,15 @@
 <%@include file="/WEB-INF/views/questions/qheader.jsp"%>
 
 	<core:if test="${altSel != null}">
-		<p>Você já respondeu essa questão</p>
+		<p>Resposta ${altSel} selecionada. Para selecionar outra, basta clicar sobre ela.</p>
 	</core:if>
 	<div class="row">
 		<div class="col-sm-4">
 			<div class="list-group">
 				<core:forEach items="${alternativasList}" var="alternativa">
-					<a href="#" class="list-group-item<core:if test="${altSel != null}"> active</core:if>"
-						<core:if test="${altSel == null}">
-							onclick="submitResposta('${alternativa.key}')"
-						</core:if> >
+					<a href="#" class="list-group-item
+						<core:if test="${altSel == alternativa.key}"> active</core:if>"
+						onclick="submitResposta('${alternativa.key}')" >
 						
 						<core:out value="${alternativa.key}) ${alternativa.value}" />
 					</a>

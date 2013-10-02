@@ -88,6 +88,7 @@ public class PlayController {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/select", method = RequestMethod.POST)
 	public synchronized @ResponseBody void select(@RequestParam Integer qnum, 
 			HttpServletRequest request) {
@@ -96,6 +97,14 @@ public class PlayController {
 		Integer jogoId = (Integer) session.getAttribute("jogoId");
 		Questao questao = questaoManager.findByJogoIdENum(jogoId, qnum);
 		session.setAttribute("questao", questao);
+
+		TreeMap<Integer, DadosJogada> jogadasDados = 
+				(TreeMap<Integer, DadosJogada>) 
+				session.getAttribute("jogadasDados");
+		DadosJogada dadosJogada = jogadasDados.get(questao.getNumero());
+		if (dadosJogada == null) {
+			generateDadosJogada(questao, session);
+		}
 	}
 
 	@RequestMapping(value = "/question", method = RequestMethod.POST)
@@ -129,7 +138,7 @@ public class PlayController {
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/answer", method = RequestMethod.POST)
-	public synchronized @ResponseBody String answer(
+	public synchronized @ResponseBody void answer(
 			@RequestParam String op, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 
@@ -144,26 +153,12 @@ public class PlayController {
 		
 		Questao questao = (Questao) session.getAttribute("questao");
 		
-		String isCorrect = null;
 		if (op.equals(questao.getResposta())) {
 			dadosJogada.setIsCorrect(DadosJogada.TRUE);
-			isCorrect = "{\"rightAns\":\"true\"}";
 		} else {
 			dadosJogada.setIsCorrect(DadosJogada.FALSE);
-			isCorrect = "{\"rightAns\":\"false\"}";
 		}
 		dadosJogada.setOpcao(op);
-
-		Integer jogoId = (Integer) session.getAttribute("jogoId");
-		noQuestao = new Integer(++noQuestao);
-		questao = questaoManager.findByJogoIdENum(jogoId, noQuestao);
-
-		session.removeAttribute("noQuestao");
-		session.setAttribute("noQuestao", noQuestao);
-		session.removeAttribute("questao");
-		session.setAttribute("questao", questao);
-		
-		return isCorrect;
 	}
 	
 	@Deprecated
