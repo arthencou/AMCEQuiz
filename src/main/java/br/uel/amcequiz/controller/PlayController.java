@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import br.uel.amcequiz.service.JogoManager;
 import br.uel.amcequiz.service.QuestaoManager;
+import br.uel.amcequiz.model.Jogo;
 import br.uel.amcequiz.model.Questao;
 import br.uel.amcequiz.model.Usuario;
 
@@ -37,13 +38,14 @@ public class PlayController {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private DadosJogada generateDadosJogada(Questao questao, HttpSession session) {
+	private synchronized DadosJogada generateDadosJogada(Questao questao, 
+			HttpSession session) {
 		Integer jogoId = (Integer) session.getAttribute("jogoId");
 		
 		DadosJogada dadosJogada = new DadosJogada();
 		dadosJogada.setJogoId(jogoId);
 		dadosJogada.setNoQuestao(questao.getNumero());
-		dadosJogada.setTimeStart(System.currentTimeMillis());
+		//dadosJogada.setTimeStart(System.currentTimeMillis());
 		
 		TreeMap<Integer, DadosJogada> jogadasDados = 
 				(TreeMap<Integer, DadosJogada>) 
@@ -58,7 +60,7 @@ public class PlayController {
 	}
 	
 	@RequestMapping("/play")
-	public ModelAndView play(@RequestParam String jogo, 
+	public synchronized ModelAndView play(@RequestParam String jogo, 
 			HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession(false);
 		
@@ -69,18 +71,25 @@ public class PlayController {
 		
 		if (firstQuestion != null) {
 			session.setAttribute("jogoId", jogoId);
+			session.setAttribute("inicioJogo", System.currentTimeMillis());
 			session.setAttribute("questao", firstQuestion);
 			session.setAttribute("noQuestao", new Integer(1));
 			generateDadosJogada(firstQuestion, session);
-			return new ModelAndView("play", "questoesList", 
+			
+			ModelAndView modelAndView =  new ModelAndView("play");
+			modelAndView.addObject("questoesList", 
 					questaoManager.findAllByJogoId(jogoId));
+			modelAndView.addObject("tempoMaximoJogo", 
+					((Jogo) jogoManager.findById(jogoId)).getTempoMaximo());
+			return modelAndView;
+			
 		} else {
 			return new ModelAndView("redirect:/home");
 		}
 	}
 	
 	@RequestMapping(value = "/select", method = RequestMethod.POST)
-	public @ResponseBody void select(@RequestParam Integer qnum, 
+	public synchronized @ResponseBody void select(@RequestParam Integer qnum, 
 			HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		session.removeAttribute("questao");
@@ -90,7 +99,7 @@ public class PlayController {
 	}
 
 	@RequestMapping(value = "/question", method = RequestMethod.POST)
-	public ModelAndView question(HttpServletRequest request) {
+	public synchronized ModelAndView question(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		
 		Questao questao = (Questao) session.getAttribute("questao");
@@ -99,19 +108,28 @@ public class PlayController {
 				"question", questao.getTexto());
 	}
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/alternatives", method = RequestMethod.POST)
-	public ModelAndView alternatives(HttpServletRequest request) {
+	public synchronized ModelAndView alternatives(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		
 		Questao questao = (Questao) session.getAttribute("questao");
+		TreeMap<Integer, DadosJogada> jogadasDados = 
+				(TreeMap<Integer, DadosJogada>) 
+				session.getAttribute("jogadasDados");
+		DadosJogada dadosJogada = jogadasDados.get(questao.getNumero());
 
-		return new ModelAndView("play/alternatives", 
-				"alternativasList", questao.getAlternativas());
+		ModelAndView model = new ModelAndView("play/alternatives");
+		model.addObject("alternativasList", questao.getAlternativas());
+		if (dadosJogada.getIsCorrect() != DadosJogada.NOT_ANSWERED) {
+			model.addObject("altSel", dadosJogada.getOpcao());
+		}
+		return model;
 	}
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/answer", method = RequestMethod.POST)
-	public @ResponseBody String answer(
+	public synchronized @ResponseBody String answer(
 			@RequestParam String op, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 
@@ -122,18 +140,19 @@ public class PlayController {
 				session.getAttribute("jogadasDados");
 		
 		DadosJogada dadosJogada = jogadasDados.get(noQuestao); 
-		dadosJogada.setTimeFinish(System.currentTimeMillis());
+		//dadosJogada.setTimeFinish(System.currentTimeMillis());
 		
 		Questao questao = (Questao) session.getAttribute("questao");
 		
 		String isCorrect = null;
 		if (op.equals(questao.getResposta())) {
-			dadosJogada.setIsCorrect(true);
+			dadosJogada.setIsCorrect(DadosJogada.TRUE);
 			isCorrect = "{\"rightAns\":\"true\"}";
 		} else {
-			dadosJogada.setIsCorrect(false);
+			dadosJogada.setIsCorrect(DadosJogada.FALSE);
 			isCorrect = "{\"rightAns\":\"false\"}";
 		}
+		dadosJogada.setOpcao(op);
 
 		Integer jogoId = (Integer) session.getAttribute("jogoId");
 		noQuestao = new Integer(++noQuestao);
@@ -147,8 +166,10 @@ public class PlayController {
 		return isCorrect;
 	}
 	
+	@Deprecated
 	@RequestMapping(value = "/checkgameover", method = RequestMethod.POST)
-	public @ResponseBody String checkGameOver(HttpServletRequest request) {
+	public synchronized @ResponseBody String checkGameOver(
+			HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		
 		Questao questao = (Questao) session.getAttribute("questao");
@@ -163,7 +184,8 @@ public class PlayController {
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/gameover", method = RequestMethod.GET)
-	public ModelAndView gameOver(HttpServletRequest request) {
+	public synchronized ModelAndView gameOver(HttpServletRequest request,
+			@RequestParam(required = false) Boolean save) {
 		HttpSession session = request.getSession(false);
 		
 		Integer jogoId = (Integer) session.getAttribute("jogoId");
@@ -171,19 +193,28 @@ public class PlayController {
 		TreeMap<Integer, DadosJogada> jogadasDados =
 				(TreeMap<Integer, DadosJogada>)
 				session.getAttribute("jogadasDados");
+		Long inicioJogo = (Long) session.getAttribute("inicioJogo");
+		Long finalJogo = System.currentTimeMillis();
 		
 		if (jogoId == null) {
 			return new ModelAndView("redirect:/home");
 		}
-		
-		jogoManager.saveDadosJogadas(jogoId, usuario.getId(), jogadasDados);
+
+		Long tempoTotalJogo = finalJogo - inicioJogo;
+		if (save != null && save == true) {
+			jogoManager.saveDadosJogadas(jogoId, usuario.getId(), jogadasDados,
+					tempoTotalJogo);	
+		}
 		
 		session.removeAttribute("jogoId");
 		session.removeAttribute("noQuestao");
 		session.removeAttribute("questao");
 		session.removeAttribute("jogadasDados");
 		
-		return new ModelAndView("gameover", "jogadasDados", jogadasDados);
+		ModelAndView model = new ModelAndView("gameover");
+		model.addObject("jogadasDados", jogadasDados);
+		model.addObject("tempoTotalJogo", tempoTotalJogo);
+		return model;
 	}
 
 }

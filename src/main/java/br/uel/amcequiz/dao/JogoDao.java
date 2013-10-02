@@ -11,6 +11,13 @@ import br.uel.amcequiz.util.HibernateUtils;
 @Repository
 public class JogoDao {
 
+	public Jogo findById(Integer jogoId) {
+		return (Jogo) HibernateUtils.getSessionFactory().openSession()
+				.createQuery("from Jogo where id = :jogoId ")
+				.setInteger("jogoId", jogoId)
+				.uniqueResult();
+	}
+
 	@SuppressWarnings("unchecked")
 	public List<Jogo> findByUserId(Integer usuarioId) {
 		return HibernateUtils.getSessionFactory().openSession()

@@ -1,5 +1,5 @@
 <%@include file="/WEB-INF/views/header.jsp"%>
-<%@include file="/WEB-INF/views/questions/qheader.jsp"%>
+<%@include file="/WEB-INF/views/include.jsp"%>
 
 <div class="header">
 	<ul class="nav nav-pills">
@@ -21,7 +21,6 @@
 <div id="alternativas" class="container-fluid">
 </div>
 
-<%@include file="/WEB-INF/views/questions/qfooter.jsp"%>
 <%@include file="/WEB-INF/views/footer.jsp"%>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -79,13 +78,16 @@ function submitResposta(alternativa) {
 			} else {
 				alert('Resposta incorreta');
 			}
-			checkGameOver();
+			//checkGameOver();
+			carregarQuestao();
+			carregarAlternativas();
 		},
 		error : function(e) {
 			alert('Error: ' + e);
 		}
 	});
 }
+//Deprecated 
 function checkGameOver() {
 	$.ajax({
 		type : "POST",

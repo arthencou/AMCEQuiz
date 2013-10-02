@@ -24,24 +24,25 @@ public class JogoManager {
 	}
 
 	@Transactional
+	public Jogo findById(Integer jogoId) {
+		return jogoDao.findById(jogoId);
+	}
+
+	@Transactional
 	public List<Jogo> findByUserId(Integer id) {
 		return jogoDao.findByUserId(id);
 	}
 
 	@Transactional
 	public void saveDadosJogadas(Integer jogoId, Integer usuarioId, 
-			TreeMap<Integer, DadosJogada> jogadasDados) {
+			TreeMap<Integer, DadosJogada> jogadasDados, Long tempoTotalJogo) {
 		Integer noAcertos = 0;
-		Long tempoJogada = new Long(0);
-		
 		DadosJogada dadosJogada = null;
 		for (Map.Entry<Integer, DadosJogada> entry : jogadasDados.entrySet()) {
 			dadosJogada = entry.getValue();
-			if (dadosJogada.getIsCorrect()) {
+			if (dadosJogada.isCorrect()) {
 				noAcertos++;
 			}
-			tempoJogada += (dadosJogada.getTimeFinish() 
-					- dadosJogada.getTimeStart());
 		}
 		
 		if (dadosJogada != null) {
@@ -50,13 +51,9 @@ public class JogoManager {
 			Integer melhorNoAcertosAtual = jogoUsuario.getMelhorNumeroAcertos();
 			Long melhorTempoAtual = jogoUsuario.getMelhorTempo();
 			if (noAcertos >= melhorNoAcertosAtual &&
-					tempoJogada <= melhorTempoAtual) {
-				if (noAcertos > melhorNoAcertosAtual) {
-					jogoUsuario.setMelhorNumeroAcertos(noAcertos);
-				}
-				if (tempoJogada < melhorTempoAtual) {
-					jogoUsuario.setMelhorTempo(tempoJogada);
-				}
+					tempoTotalJogo <= melhorTempoAtual) {
+				jogoUsuario.setMelhorNumeroAcertos(noAcertos);
+				jogoUsuario.setMelhorTempo(tempoTotalJogo);
 				jogoDao.saveJogoUsuario(jogoUsuario);
 			}
 		}

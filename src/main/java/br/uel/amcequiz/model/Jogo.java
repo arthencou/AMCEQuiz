@@ -28,6 +28,9 @@ public class Jogo {
 	@Column(name = "nome")
 	private String nome;
 	
+	@Column(name = "tempo_maximo")
+	private Long tempoMaximo;
+	
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(
 			name = "jogo_usuario",
@@ -54,6 +57,14 @@ public class Jogo {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public Long getTempoMaximo() {
+		return tempoMaximo;
+	}
+
+	public void setTempoMaximo(Long tempoMaximo) {
+		this.tempoMaximo = tempoMaximo;
 	}
 
 	public Set<Usuario> getUsuarios() {
