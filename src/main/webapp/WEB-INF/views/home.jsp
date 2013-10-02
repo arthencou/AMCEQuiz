@@ -1,4 +1,5 @@
 <%@include file="/WEB-INF/views/header.jsp"%>
+<link href="${pageContext.request.contextPath}/assets/css/home.css" rel="stylesheet">
 <div>
 	<table>
 		<thead>
