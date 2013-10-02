@@ -1,6 +1,7 @@
 <%@include file="/WEB-INF/views/header.jsp"%>
 <%@include file="/WEB-INF/views/include.jsp"%>
-
+<link href="${pageContext.request.contextPath}/assets/css/play.css" rel="stylesheet">
+	
 <div class="header">
 	<ul class="nav nav-pills">
 		<li id="questao${questao.numero}">
