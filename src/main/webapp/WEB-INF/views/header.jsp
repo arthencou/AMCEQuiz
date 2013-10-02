@@ -9,8 +9,6 @@
 	rel="stylesheet">
 <link href="${pageContext.request.contextPath}/assets/stylesheet.css"
 	rel="stylesheet">
-<link href="${pageContext.request.contextPath}/assets/bootstrap/css/bootstrap-responsive.min.css"
-	rel="stylesheet">
 </head>
 <body>
 <div class="container">

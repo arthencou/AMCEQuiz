@@ -1,16 +1,18 @@
 <%@include file="/WEB-INF/views/header.jsp"%>
 <%@include file="/WEB-INF/views/include.jsp"%>
 <link href="${pageContext.request.contextPath}/assets/css/play.css" rel="stylesheet">
-	
-<div class="btn-group">
-	<core:forEach items="${questoesList}" var="questao" >
-		<button id="questao${questao.numero}" type="button" 
-			class="btn btn-default" 
-			onclick="disselect(${questao.numero});selecionarQuestao(${questao.numero});">
-			
-			"Questão ${questao.numero}"
-		</button>
-	</core:forEach>
+
+<div class="bs-example">
+	<div class="btn-group">
+		<core:forEach items="${questoesList}" var="questao" >
+			<button id="questao${questao.numero}" type="button" 
+				class="btn btn-default" 
+				onclick="selecionarQuestao(${questao.numero});">
+				
+				Questão ${questao.numero}
+			</button>
+		</core:forEach>
+	</div>
 </div>
 
 <div id="questao" class="container-fluid">
@@ -35,7 +37,6 @@ function selecionarQuestao(qnum) {
 		success : function(response) {
 			carregarQuestao();
 			carregarAlternativas();
-			$('#questao'+qnum).attr('class', 'active');
 		},
 		error : function(e) {
 			alert('Error: ' + e);
@@ -71,13 +72,7 @@ function submitResposta(alternativa) {
 		type : "POST",
 		url : "/amcequiz/answer",
 		data : "op=" + alternativa,
-		dataType : "JSON",
 		success : function(response) {
-			if (response.rightAns == 'true') {
-				alert('Resposta correta');
-			} else {
-				alert('Resposta incorreta');
-			}
 			//checkGameOver();
 			carregarQuestao();
 			carregarAlternativas();
@@ -105,8 +100,5 @@ function checkGameOver() {
 			alert('Error: ' + e);
 		}
 	});
-}
-function disselect(qnum) {
-	$('#questao'+qnum).attr('class', 'active');
 }
 </script>

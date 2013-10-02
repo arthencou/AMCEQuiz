@@ -12,7 +12,7 @@ public class QuestaoDao {
 
 	public Questao findByJogoIdENum(Integer jogoId,
 			Integer noQuestao) {
-		return (Questao) HibernateUtils.getSessionFactory().openSession()
+		return (Questao) HibernateUtils.getSessionFactory().getCurrentSession()
 				.createQuery("from Questao where jogo.id = :jogoId and numero = :noQuestao ")
 				.setInteger("jogoId", jogoId)
 				.setInteger("noQuestao", noQuestao)
@@ -21,7 +21,7 @@ public class QuestaoDao {
 
 	@SuppressWarnings("unchecked")
 	public List<Questao> findAllByJogoId(Integer jogoId) {
-		return HibernateUtils.getSessionFactory().openSession()
+		return HibernateUtils.getSessionFactory().getCurrentSession()
 				.createQuery("from Questao where jogo.id = :jogoId ")
 				.setInteger("jogoId", jogoId)
 				.list();

@@ -10,7 +10,7 @@ import br.uel.amcequiz.util.HibernateUtils;
 public class UsuarioDao {
 
 	public Usuario findByNome(String nome) {
-		return (Usuario) HibernateUtils.getSessionFactory().openSession()
+		return (Usuario) HibernateUtils.getSessionFactory().getCurrentSession()
 				.createQuery("from Usuario where nome = :nome ")
 				.setString("nome", nome)
 				.uniqueResult();

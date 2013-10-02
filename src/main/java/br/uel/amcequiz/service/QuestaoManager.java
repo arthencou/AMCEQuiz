@@ -26,6 +26,7 @@ public class QuestaoManager {
 		return questaoDao.findByJogoIdENum(jogoId, noQuestao);
 	}
 
+	@Transactional
 	public List<Questao> findAllByJogoId(Integer jogoId) {
 		return questaoDao.findAllByJogoId(jogoId);
 	}

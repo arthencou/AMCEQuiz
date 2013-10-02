@@ -20,7 +20,7 @@ public class DadosJogada {
 		/*timeStart = 0L;;
 		timeFinish = 0L;*/
 		isCorrect = NOT_ANSWERED;
-		opcao = null;
+		opcao = "";
 	}
 	
 	public void setJogoId(Integer jogoId) {

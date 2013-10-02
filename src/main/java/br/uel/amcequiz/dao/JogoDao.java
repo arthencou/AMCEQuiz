@@ -12,7 +12,7 @@ import br.uel.amcequiz.util.HibernateUtils;
 public class JogoDao {
 
 	public Jogo findById(Integer jogoId) {
-		return (Jogo) HibernateUtils.getSessionFactory().openSession()
+		return (Jogo) HibernateUtils.getSessionFactory().getCurrentSession()
 				.createQuery("from Jogo where id = :jogoId ")
 				.setInteger("jogoId", jogoId)
 				.uniqueResult();
@@ -20,14 +20,14 @@ public class JogoDao {
 
 	@SuppressWarnings("unchecked")
 	public List<Jogo> findByUserId(Integer usuarioId) {
-		return HibernateUtils.getSessionFactory().openSession()
+		return HibernateUtils.getSessionFactory().getCurrentSession()
 				.createQuery("select j from Jogo j join j.usuarios u where u.id = :id ")
 				.setInteger("id", usuarioId)
 				.list();
 	}
 
 	public JogosUsuarios getJogoUsuario(Integer jogoId, Integer usuarioId) {
-		return (JogosUsuarios) HibernateUtils.getSessionFactory().openSession()
+		return (JogosUsuarios) HibernateUtils.getSessionFactory().getCurrentSession()
 				.createQuery("from JogosUsuarios where jogo.id = :jogoId " +
 						"and usuario.id = :usuarioId ")
 				.setInteger("jogoId", jogoId)
@@ -41,7 +41,7 @@ public class JogoDao {
 				"\t melhor tempo: "+jogoUsuario.getMelhorTempo()+"\n"+
 				"\t melhor numero acertos: "+jogoUsuario.getMelhorNumeroAcertos()+"\n");
 		
-		HibernateUtils.getSessionFactory().openSession()/*.saveOrUpdate(jogoUsuario);*/
+		HibernateUtils.getSessionFactory().getCurrentSession()/*.saveOrUpdate(jogoUsuario);*/
 		.createSQLQuery("UPDATE jogo_usuario "
 				+ "SET melhor_tempo = :melhorTempo , "
 					+ "melhor_numero_acertos = :melhorNumeroAcertos "

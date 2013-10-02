@@ -73,7 +73,7 @@ public class PlayController {
 			session.setAttribute("jogoId", jogoId);
 			session.setAttribute("inicioJogo", System.currentTimeMillis());
 			session.setAttribute("questao", firstQuestion);
-			session.setAttribute("noQuestao", new Integer(1));
+			session.setAttribute("noQuestao", 1L);
 			generateDadosJogada(firstQuestion, session);
 			
 			ModelAndView modelAndView =  new ModelAndView("play");
@@ -95,8 +95,11 @@ public class PlayController {
 		HttpSession session = request.getSession(false);
 		session.removeAttribute("questao");
 		Integer jogoId = (Integer) session.getAttribute("jogoId");
+		
 		Questao questao = questaoManager.findByJogoIdENum(jogoId, qnum);
+		
 		session.setAttribute("questao", questao);
+		session.setAttribute("noQuestao", qnum);
 
 		TreeMap<Integer, DadosJogada> jogadasDados = 
 				(TreeMap<Integer, DadosJogada>) 
