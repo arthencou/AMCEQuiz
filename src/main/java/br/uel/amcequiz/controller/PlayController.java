@@ -164,22 +164,6 @@ public class PlayController {
 		dadosJogada.setOpcao(op);
 	}
 	
-	@Deprecated
-	@RequestMapping(value = "/checkgameover", method = RequestMethod.POST)
-	public synchronized @ResponseBody String checkGameOver(
-			HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		
-		Questao questao = (Questao) session.getAttribute("questao");
-		
-		if (questao == null) {
-			return "{\"isGameOver\":\"true\"}";
-		} else {
-			generateDadosJogada(questao, session);
-			return "{\"isGameOver\":\"false\"}";
-		}
-	}
-	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/gameover", method = RequestMethod.GET)
 	public synchronized ModelAndView gameOver(HttpServletRequest request,
@@ -197,11 +181,16 @@ public class PlayController {
 		if (jogoId == null) {
 			return new ModelAndView("redirect:/home");
 		}
+		
+		ModelAndView model = new ModelAndView("gameover");
 
 		Long tempoTotalJogo = finalJogo - inicioJogo;
 		if (save != null && save.equals("true")) {
 			jogoManager.saveDadosJogadas(jogoId, usuario.getId(), jogadasDados,
-					tempoTotalJogo);	
+					tempoTotalJogo);
+			model.addObject("save", true);
+		} else {
+			model.addObject("save", false);
 		}
 		
 		session.removeAttribute("jogoId");
@@ -209,7 +198,6 @@ public class PlayController {
 		session.removeAttribute("questao");
 		session.removeAttribute("jogadasDados");
 		
-		ModelAndView model = new ModelAndView("gameover");
 		model.addObject("jogadasDados", jogadasDados);
 		model.addObject("tempoTotalJogo", tempoTotalJogo / 1000);
 		return model;
