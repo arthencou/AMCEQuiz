@@ -183,7 +183,7 @@ public class PlayController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/gameover", method = RequestMethod.GET)
 	public synchronized ModelAndView gameOver(HttpServletRequest request,
-			@RequestParam(required = false) Boolean save) {
+			@RequestParam(required = false) String save) {
 		HttpSession session = request.getSession(false);
 		
 		Integer jogoId = (Integer) session.getAttribute("jogoId");
@@ -199,7 +199,7 @@ public class PlayController {
 		}
 
 		Long tempoTotalJogo = finalJogo - inicioJogo;
-		if (save != null && save == true) {
+		if (save != null && save.equals("true")) {
 			jogoManager.saveDadosJogadas(jogoId, usuario.getId(), jogadasDados,
 					tempoTotalJogo);	
 		}
@@ -211,7 +211,7 @@ public class PlayController {
 		
 		ModelAndView model = new ModelAndView("gameover");
 		model.addObject("jogadasDados", jogadasDados);
-		model.addObject("tempoTotalJogo", tempoTotalJogo);
+		model.addObject("tempoTotalJogo", tempoTotalJogo / 1000);
 		return model;
 	}
 

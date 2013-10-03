@@ -2,10 +2,12 @@
 <%@include file="/WEB-INF/views/include.jsp"%>
 <link href="${pageContext.request.contextPath}/assets/css/play.css" rel="stylesheet">
 
-<ul class="nav nav-pills pull-right">
-	<li><a href="#">Desistir do jogo</a></li>
-	<li class="active"><a href="#">Salvar jogo</a></li>
-</ul>
+<div class="container-fluid">
+	<ul class="nav nav-pills pull-right">
+		<li><a href="/amcequiz/gameover">Desistir do jogo</a></li>
+		<li class="active"><a href="/amcequiz/gameover?save=true">Salvar jogo</a></li>
+	</ul>
+</div>
 
 <div class="container-fluid">
 	<div class="panel">

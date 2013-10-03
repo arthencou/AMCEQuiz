@@ -2,7 +2,8 @@
 <%@include file="/WEB-INF/views/questions/qheader.jsp"%>
 
 	<core:if test="${altSel != null}">
-		<p>Opção <b>${altSel}</b> selecionada. Para selecionar outra, basta clicar sobre.</p>
+		<p>Opção <b>${altSel}</b> selecionada. 
+		Para selecionar outra, basta clicar sobre o item.</p>
 	</core:if>
 	<div class="row">
 		<div class="list-group">
