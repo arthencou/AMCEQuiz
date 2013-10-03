@@ -1,22 +1,21 @@
-<%@include file="/WEB-INF/views/header.jsp"%>
 <%@include file="/WEB-INF/views/include.jsp"%>
+<%@include file="/WEB-INF/views/header.jsp"%>
+<link href="${pageContext.request.contextPath}/assets/css/home.css" rel="stylesheet">
 
-<div class="container-fluid">
-	<ul class="nav nav-pills pull-right">
-		<li class="active"><a href="/amcequiz/gameover?save=true">Salvar jogo</a></li>
-		<li><a href="/amcequiz/gameover">Desistir do jogo</a></li>
-	</ul>
-</div>
+<%@include file="/WEB-INF/views/barra.jsp"%>
 
 <style>
-negrito {
+.negrito {
+  	padding-left: 15px;
 	font-weight:bold;
 }
-azul {
+.azul {
+  	padding-left: 15px;
 	font-weight:bold;
 	color:blue;
 }
-vermelho {
+.vermelho {
+  	padding-left: 15px;
 	font-weight:bold;
 	color:red;
 }
@@ -32,48 +31,53 @@ vermelho {
 				<core:set var="totalAcertos" value="${0}" />
 				<core:forEach items="${jogadasDados}" var="jogada">
 					<ul>
-						<li>Questao ${jogada.key}:
+						<li>Questão ${jogada.key}:
 							<core:choose>
 								<core:when test="${jogada.value.isCorrect() == true}">
-									<azul>Respota correta</azul>
+									<p class="azul">correta</p>
 									<core:set var="totalAcertos" value="${totalAcertos+1}" />
 								</core:when>
+								<core:when test="${jogada.value.isCorrect == 0}">
+									<p class="negrito">não respondida</p>
+								</core:when>
 								<core:otherwise>
-									<vermelho>Respota incorreta</vermelho>
+									<p class="vermelho">incorreta</p>
 								</core:otherwise>
 							</core:choose>
 						</li>
 					</ul>
 				</core:forEach>
 				<div class="alert alert-info">
-					Seu desempenho foi submetido no ranking.
+					Seu desempenho foi submetido ao ranking.
 				</div>
 			</core:when>
 			<core:otherwise>
 				<div class="alert alert-warning">
-					Você desistiu do jogo. Seu desempenho não foi submetido no ranking.
+					Você desistiu do jogo. Seu desempenho não foi submetido ao ranking.
 				</div>
 			</core:otherwise>
 		</core:choose>
 	</div>
 	<div class="panel-footer">
 		<p>
-			Total de acertos: <negrito>${totalAcertos}</negrito>
+			Total de acertos: <div class="negrito">${totalAcertos}</div>
 		</p>
 		<p>
 			Tempo total de jogo: 
 			<core:choose>
 				<core:when test="${tempoTotalJogo >= 61}">
-					<negrito>${tempoTotalJogo / 60} minutos</negrito>
+					<fmt:formatNumber var="ttm" value="${tempoTotalJogo/60}" 
+						maxFractionDigits="0" />
+					<fmt:formatNumber var="tts" value="${(tempoTotalJogo/60-ttm)*60}" 
+						maxFractionDigits="0" />
+					<div class="negrito">${tt} minutos e ${tts} segundos.</div>
 				</core:when>
 				<core:otherwise>
-					<negrito>${tempoTotalJogo} segundos</negrito>
+					<div class="negrito">${tempoTotalJogo} segundos</div>
 				</core:otherwise>
 			</core:choose>
 		</p>
 	</div>
 </div>
-
-
 
 <%@include file="/WEB-INF/views/footer.jsp"%>

@@ -15,5 +15,12 @@ public class UsuarioDao {
 				.setString("nome", nome)
 				.uniqueResult();
 	}
+
+	public Usuario findByLogin(String login) {
+		return (Usuario) HibernateUtils.getSessionFactory().getCurrentSession()
+				.createQuery("from Usuario where login = :login ")
+				.setString("login", login)
+				.uniqueResult();
+	}
 	
 }

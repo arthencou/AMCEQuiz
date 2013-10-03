@@ -1,12 +1,12 @@
-<%@include file="/WEB-INF/views/header.jsp"%>
 <%@include file="/WEB-INF/views/include.jsp"%>
+<%@include file="/WEB-INF/views/header.jsp"%>
 <link href="${pageContext.request.contextPath}/assets/css/play.css" rel="stylesheet">
 
-<div class="container-fluid">	
+<div class="header">
 	<ul class="nav nav-pills pull-right">
 		<li>
-			<label for="tempo">Tempo restante:</label>
-			<span id="tempo" class="label label-info"></span>
+			<label class="ctempo" for="tempo">Tempo restante:</label>
+			<span class="ctempo" id="tempo" class="label label-info"></span>
 		</li>
 		<li><a href="/amcequiz/gameover">Desistir do jogo</a></li>
 		<li class="active"><a href="/amcequiz/gameover?save=true">Salvar jogo</a></li>
@@ -18,7 +18,7 @@
         <div class="panel-heading">
           <h3 class="panel-title">Questões</h3>
         </div>
-        <div class="bs-example panel-body">	
+        <div class="panel-body">	
 			<div class="btn-group">
 				<core:forEach items="${questoesList}" var="questao" >
 					<button id="questao${questao.numero}" type="button" 
@@ -29,19 +29,27 @@
 					</button>
 				</core:forEach>
 			</div>
+			<div class="btn-group pull-right">
+				<button type="button" class="btn btn-default"
+					onclick="selecionarQuestao(questaoAtual+1);">
+					
+					Próxima
+				</button>
+			</div>
 		</div>  
 	</div>
 </div>
 
 <div class="container-fluid">
 	<div class="panel">
-        <div class="panel-heading">
-          <h3 class="panel-title">Questão</h3>
-        </div>
-        <div  id="questao" class="panel-body">
-        </div>
-      </div>
+		<div class="panel-heading">
+			<h3 id="questaoTitle" class="panel-title">Questão</h3>
+		</div>
+		<div  id="questao" class="panel-body">
+		</div>
+	</div>
 </div>
+
 <div class="container-fluid">
 	<div class="panel">
         <div class="panel-heading">
@@ -54,12 +62,19 @@
 
 <%@include file="/WEB-INF/views/footer.jsp"%>
 <script type="text/javascript">
+var questaoAtual = 0;
+var totalQuestoes = ${questoesList.size()}
 function selecionarQuestao(qnum) {
+	if (qnum > totalQuestoes) {
+		qnum = 1;
+	}
 	$.ajax({
 		type : "POST",
 		url : "/amcequiz/select",
 		data : "qnum=" + qnum,
 		success : function(response) {
+			questaoAtual = qnum;
+			$('#questaoTitle').text('Questão '+qnum);
 			carregarQuestao();
 			carregarAlternativas();
 		},
@@ -108,7 +123,8 @@ function submitResposta(alternativa) {
 		}
 	});
 }
-var tempoRestante = ${tempoMaximoJogo};
+var tempoMaximo = ${tempoMaximoJogo};
+var tempoRestante = tempoMaximo;
 function relogioContador() {
 	if (tempoRestante <= 0) {
 		window.location.replace("/amcequiz/gameover?save=true");
@@ -117,10 +133,6 @@ function relogioContador() {
     	setTimeout("relogioContador()", 1000);
         tempoRestante -= 1000;
 	}
-	
-    /*var $s = $(".segundo"),
-          $m = $(".minuto"),
-          $h = $(".hora");*/
     
 	var ss, mm, hh;
 	ss = parseInt(tempoRestante / 1000, 10);
@@ -129,17 +141,15 @@ function relogioContador() {
 	
 	ss = ss - (mm * 60);
 	mm = mm - (hh * 60);
-                    
-    /*$s.val(ss).trigger("change");
-    $m.val(mm).trigger("change");
-    $h.val(hh).trigger("change");*/
     
     $("#tempo").text(hh+':'+((mm<10)?('0'+mm):mm)+':'+((ss<10)?('0'+ss):ss));
     
-    if (mm == 29 && ss == 59) {
-    	$("#tempo").removeClass().addClass('label label-warning');
-    } else if (mm == 9 && ss == 59) {
-    	$("#tempo").removeClass().addClass('label label-danger');
+    if (mm <= 29) {
+    	if (mm <= 9) {
+	    	$("#tempo").removeClass().addClass('label label-danger');
+	    } else {
+    		$("#tempo").removeClass().addClass('label label-warning');
+	    }
     }
 }
 $(document).ready(function() {

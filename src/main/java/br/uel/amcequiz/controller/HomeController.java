@@ -36,7 +36,7 @@ public class HomeController {
 		return new Usuario();
 	}
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String identify(Model model) {
 		return "identify";
 	}
@@ -53,7 +53,7 @@ public class HomeController {
 		} else {
 			return "redirect:/";
 		}
-	}
+	}*/
 	
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public ModelAndView home(HttpServletRequest request) {

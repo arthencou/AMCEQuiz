@@ -30,11 +30,11 @@ public class CustomUserDetails implements UserDetails, CredentialsContainer {
 	private final boolean credentialsNonExpired;
 	private final boolean enabled;
 
-	private Integer id;
-	private String nomeCompleto;
+	/*private Integer id;
+	private String nomeCompleto;*/
 
-	public CustomUserDetails(Integer id, String nomeCompleto, String username,
-			String password, boolean enabled, boolean accountNonExpired,
+	public CustomUserDetails(String username, String password, 
+			boolean enabled, boolean accountNonExpired,
 			boolean credentialsNonExpired, boolean accountNonLocked,
 			Collection<? extends GrantedAuthority> authorities) {
 
@@ -42,9 +42,6 @@ public class CustomUserDetails implements UserDetails, CredentialsContainer {
 			throw new IllegalArgumentException(
 					"Cannot pass null or empty values to constructor.");
 		}
-
-		this.id = id;
-		this.nomeCompleto = nomeCompleto;
 
 		this.username = username;
 		this.password = password;
@@ -143,13 +140,5 @@ public class CustomUserDetails implements UserDetails, CredentialsContainer {
 	@Override
 	public int hashCode() {
 		return username.hashCode();
-	}
-
-	public Integer getId() {
-		return this.id;
-	}
-
-	public String getNomeCompleto() {
-		return this.nomeCompleto;
 	}
 }

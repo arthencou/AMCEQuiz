@@ -187,13 +187,14 @@ public class PlayController {
 		Long tempoTotalJogo = finalJogo - inicioJogo;
 		if (save != null && save.equals("true")) {
 			jogoManager.saveDadosJogadas(jogoId, usuario.getId(), jogadasDados,
-					tempoTotalJogo);
+					tempoTotalJogo, questaoManager.findAllByJogoId(jogoId));
 			model.addObject("save", true);
 		} else {
 			model.addObject("save", false);
 		}
 		
 		session.removeAttribute("jogoId");
+		session.removeAttribute("inicioJogo");
 		session.removeAttribute("noQuestao");
 		session.removeAttribute("questao");
 		session.removeAttribute("jogadasDados");

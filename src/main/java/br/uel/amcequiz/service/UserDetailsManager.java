@@ -32,16 +32,18 @@ public class UserDetailsManager implements UserDetailsService {
 	public UserDetails loadUserByUsername(String login)
 			throws UsernameNotFoundException {
 		Usuario usuario = usuarioDao.findByNome(login);
+		if (usuario == null) {
+			usuario = usuarioDao.findByLogin(login);
+		}
 
 		boolean enabled = true;
 		boolean accountNonExpired = true;
 		boolean credentialsNonExpired = true;
 		boolean accountNonLocked = true;
 
-		return new CustomUserDetails(usuario.getId(), usuario.getNome(),
-				usuario.getLogin(), usuario.getSenha(), enabled,
-				accountNonExpired, credentialsNonExpired, accountNonLocked,
-				getAuthorities(new Long(0)));
+		return new CustomUserDetails(usuario.getLogin(), usuario.getSenha(), 
+				enabled, accountNonExpired, credentialsNonExpired, 
+				accountNonLocked, getAuthorities(new Long(0)));
 	}
 
 	public Collection<GrantedAuthority> getAuthorities(Long role) {
@@ -53,10 +55,10 @@ public class UserDetailsManager implements UserDetailsService {
 	public List<String> getRoles(Long role) {
 		List<String> roles = new ArrayList<String>();
 
-		if (role.intValue() == 1) {
-			roles.add("ROLE_ADMIN");
-		} else if (role.intValue() == 2) {
+		if (role.intValue() == 0) {
 			roles.add("ROLE_ALUNO");
+		} else if (role.intValue() == 1) {
+			roles.add("ROLE_ADMIN");
 		}
 
 		return roles;
