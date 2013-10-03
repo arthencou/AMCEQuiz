@@ -22,7 +22,7 @@ public class QuestaoDao {
 	@SuppressWarnings("unchecked")
 	public List<Questao> findAllByJogoId(Integer jogoId) {
 		return HibernateUtils.getSessionFactory().getCurrentSession()
-				.createQuery("from Questao where jogo.id = :jogoId ")
+				.createQuery("from Questao where jogo.id = :jogoId order by numero")
 				.setInteger("jogoId", jogoId)
 				.list();
 	}

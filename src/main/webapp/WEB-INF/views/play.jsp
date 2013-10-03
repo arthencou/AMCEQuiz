@@ -2,6 +2,11 @@
 <%@include file="/WEB-INF/views/include.jsp"%>
 <link href="${pageContext.request.contextPath}/assets/css/play.css" rel="stylesheet">
 
+<ul class="nav nav-pills pull-right">
+	<li><a href="#">Desistir do jogo</a></li>
+	<li class="active"><a href="#">Salvar jogo</a></li>
+</ul>
+
 <div class="container-fluid">
 	<div class="panel">
         <div class="panel-heading">
@@ -44,9 +49,7 @@
 <%@include file="/WEB-INF/views/footer.jsp"%>
 <script type="text/javascript">
 $(document).ready(function() {
-	selecionarQuestao(1);
-	carregarQuestao();
-	carregarAlternativas();
+	$('#questao1').trigger("click");
 });
 function selecionarQuestao(qnum) {
 	$.ajax({
@@ -68,6 +71,7 @@ function carregarQuestao() {
 		url : "/amcequiz/question",
 		success : function(response) {
 			$('#questao').html(response);
+			MathJax.Hub.Queue(["Typeset",MathJax.Hub,"questao"]);
 		},
 		error : function(e) {
 			alert('Error: ' + e);
@@ -80,6 +84,7 @@ function carregarAlternativas() {
 		url : "/amcequiz/alternatives",
 		success : function(response) {
 			$('#alternativas').html(response);
+			MathJax.Hub.Queue(["Typeset",MathJax.Hub,"alternativas"]);
 		},
 		error : function(e) {
 			alert('Error: ' + e);

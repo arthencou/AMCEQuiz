@@ -1,6 +1,10 @@
 package br.uel.amcequiz.controller;
 
-public class DadosJogada {
+import java.io.Serializable;
+
+public class DadosJogada implements Serializable {
+	
+	private static final long serialVersionUID = -3476479517678949900L;
 	
 	public final static Integer NOT_ANSWERED = 0;
 	public final static Integer TRUE = 1;

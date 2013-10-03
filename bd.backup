@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.2.4
 -- Dumped by pg_dump version 9.2.4
--- Started on 2013-10-02 09:13:33 BRT
+-- Started on 2013-10-02 21:23:07 BRT
 
 SET statement_timeout = 0;
 SET client_encoding = 'UTF8';
@@ -228,7 +228,8 @@ COPY jogo_usuario (usuario_id, jogo_id, melhor_tempo, melhor_numero_acertos) FRO
 --
 
 COPY questao (id, jogo_id, numero, texto, alternativas, resposta) FROM stdin;
-1	1	1	\nNum projeto para calcular a estrutura de uma obra é preciso analisar as forças que atuam nos materiais utilizados. Para isso, um dos métodos usuais a engenharia é o círculo de Mohr, o qual nos indica as forças máximas que podem romper o material, assim como a localização dessas forças (representada pelas linhas tracejadas). As etapas que consistem o círculo de Mohr apresentam várias propriedades matemáticas, uma dessas etapas é ilustrada na figura abaixo. De acordo com os seus conhecimentos de trigonometria, qual deve ser o ângulo (em graus) formado entre as linhas tracejadas inscritas no círculo?\n<img src="/amcequiz/assets/images/questions/1.jpeg" /> 	{\n"a":"$9,15m^2$",\n"b":"$915m^2$",\n"c":"$915km^2$"\n}	b
+3	1	2	<p>Em função dos inúmeros buracos em um trecho da rua Alagoas, o engenheiro de obras da prefeitura\nde Londrina terá que planejar a substituição do asfalto do local. Para tanto, ajude-o a calcular a área que será\npavimentada para posteriores cálculos da quantidade de material necessário. Considere que a largura da rua (L) é\nigual a 8m e o comprimento do trecho (c) é igual a 1,144 km</p><img src="/amcequiz/assets/images/questions/2.jpeg" />	{\n\t"a":"$9,15m^2$",\n\t"b":"$9152m^2$",\n\t"c":"$9152km^2$",\n\t"d":"$91,52m^2$",\n\t"e":"N.R.A"\n}	b
+1	1	1	<p>Num projeto para calcular a estrutura de uma obra é preciso analisar as forças que atuam nos\nmateriais utilizados. Para isso, um dos métodos usuais na engenharia é o círculo de Mohr, o qual nos indica\nas forças máximas que podem romper o material, assim como a localização dessas forças (representada\npelas linhas tracejadas).\nAs etapas que consistem o círculo de Mohr apresentam várias propriedades matemáticas, uma dessas\netapas é ilustrada na figura abaixo. De acordo com os seus conhecimentos de trigonometria, qual deve ser\no ângulo (em graus) formado entre as linhas tracejadas inscritas no círculo?\n</p><img src="/amcequiz/assets/images/questions/1.jpeg" />	{\n"a":"$30\\\\,^{\\\\circ}$",\n"b":"$90\\\\,^{\\\\circ}$",\n"c":"$60\\\\,^{\\\\circ}$",\n"d":"$45\\\\,^{\\\\circ}$",\n"e":"N.R.A."\n}	a
 \.
 
 
@@ -238,7 +239,7 @@ COPY questao (id, jogo_id, numero, texto, alternativas, resposta) FROM stdin;
 -- Name: questao_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('questao_id_seq', 1, true);
+SELECT pg_catalog.setval('questao_id_seq', 3, true);
 
 
 --
@@ -345,7 +346,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2013-10-02 09:13:33 BRT
+-- Completed on 2013-10-02 21:23:08 BRT
 
 --
 -- PostgreSQL database dump complete
