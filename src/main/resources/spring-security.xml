@@ -17,13 +17,15 @@
 	<http auto-config="true" use-expressions="true"
 		disable-url-rewriting="true">
 
-		<security:intercept-url pattern="/login" access="permitAll" requires-channel="https" />
+		<!-- security:intercept-url pattern="/login" access="permitAll" requires-channel="https" / -->
+		<security:intercept-url pattern="/login" access="permitAll" />
 		<security:intercept-url pattern="/home" access="isAuthenticated()" />
 		<security:intercept-url pattern="/play/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
 
-		<form-login login-page="/login" authentication-failure-url="/login"
-			default-target-url="/home" authentication-success-handler-ref="authenticationSuccessHandler" />
+		<form-login login-page="/login" authentication-failure-url="/loginFailure"
+			default-target-url="/home" authentication-success-handler-ref="authenticationSuccessHandler" 
+			authentication-failure-handler-ref="authenticationFailureHandler" />
 
 		<logout
 			invalidate-session="true"
@@ -42,6 +44,11 @@
 		class="org.springframework.security.web.authentication.CustomAuthenticationSuccessHandler">
 		<beans:property name="defaultTargetUrl" value="/home" />
 		<beans:property name="targetUrlParameter" value="spring-security-redirect" />
+	</beans:bean>
+	
+	<beans:bean id="authenticationFailureHandler"
+		class="org.springframework.security.web.authentication.CustomAuthenticationFailureHandler">
+		<beans:property name="defaultFailureUrl" value="/loginFailure" />
 	</beans:bean>
 
 	<authentication-manager>

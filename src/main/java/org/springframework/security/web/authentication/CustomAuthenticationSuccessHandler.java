@@ -23,7 +23,7 @@ public class CustomAuthenticationSuccessHandler extends
 		Object principal = authentication.getPrincipal();
 
 		request.setAttribute("loginFailure", false);
-		request.getSession().setAttribute("userDetails",
-				(CustomUserDetails) principal);
+		request.getSession().setAttribute("usuario",
+				((CustomUserDetails) principal).getUsuario());
 	}
 }

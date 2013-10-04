@@ -43,7 +43,8 @@ public class UserDetailsManager implements UserDetailsService {
 
 		return new CustomUserDetails(usuario.getLogin(), usuario.getSenha(), 
 				enabled, accountNonExpired, credentialsNonExpired, 
-				accountNonLocked, getAuthorities(new Long(0)));
+				accountNonLocked, getAuthorities(new Long(usuario.getIsAdmin())),
+				usuario);
 	}
 
 	public Collection<GrantedAuthority> getAuthorities(Long role) {

@@ -28,6 +28,16 @@ public class AccessController {
 		return "login";
 	}
 	
+	@RequestMapping(value = "/loginFailure", method = RequestMethod.GET)
+	public String loginFailure(HttpServletRequest request) {
+		if (request.getSession().getAttribute("badCredentials") != null) {
+			System.out.println("\n Encontrou!!!\n");
+			request.getSession().removeAttribute("badCredentials");
+			request.setAttribute("badCredentials", true);
+		}
+		return login(request);
+	}
+	
 	@RequestMapping(value = "/accessDenied", method = RequestMethod.GET)
 	public String accessDenied() {
 		return "redirect:home";

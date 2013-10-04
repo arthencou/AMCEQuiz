@@ -14,6 +14,8 @@ import org.springframework.security.core.SpringSecurityCoreVersion;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.Assert;
 
+import br.uel.amcequiz.model.Usuario;
+
 /**
  * Esta classe encapsula informações do usuário autenticado através 
  * do Spring Security.
@@ -29,6 +31,8 @@ public class CustomUserDetails implements UserDetails, CredentialsContainer {
 	private final boolean accountNonLocked;
 	private final boolean credentialsNonExpired;
 	private final boolean enabled;
+	
+	private final Usuario usuario;
 
 	/*private Integer id;
 	private String nomeCompleto;*/
@@ -36,7 +40,8 @@ public class CustomUserDetails implements UserDetails, CredentialsContainer {
 	public CustomUserDetails(String username, String password, 
 			boolean enabled, boolean accountNonExpired,
 			boolean credentialsNonExpired, boolean accountNonLocked,
-			Collection<? extends GrantedAuthority> authorities) {
+			Collection<? extends GrantedAuthority> authorities,
+			Usuario usuario) {
 
 		if (((username == null) || "".equals(username)) || (password == null)) {
 			throw new IllegalArgumentException(
@@ -51,6 +56,7 @@ public class CustomUserDetails implements UserDetails, CredentialsContainer {
 		this.accountNonLocked = accountNonLocked;
 		this.authorities = Collections
 				.unmodifiableSet(sortAuthorities(authorities));
+		this.usuario = usuario;
 	}
 
 	private static SortedSet<GrantedAuthority> sortAuthorities(
@@ -140,5 +146,9 @@ public class CustomUserDetails implements UserDetails, CredentialsContainer {
 	@Override
 	public int hashCode() {
 		return username.hashCode();
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
 	}
 }
