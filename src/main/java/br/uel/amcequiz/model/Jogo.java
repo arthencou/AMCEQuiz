@@ -1,16 +1,12 @@
 package br.uel.amcequiz.model;
 
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
@@ -31,7 +27,11 @@ public class Jogo {
 	@Column(name = "tempo_maximo")
 	private Long tempoMaximo;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToOne
+	@JoinColumn(name = "grupo")
+	private AgrupamentoJogos grupo;
+	
+	/*@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(
 			name = "jogo_usuario",
 			joinColumns = {
@@ -41,7 +41,7 @@ public class Jogo {
 					@JoinColumn(name = "jogo_id")
 			}
 	)
-	private Set<Usuario> usuarios;
+	private Set<Usuario> usuarios;*/
 
 	public Integer getId() {
 		return id;
@@ -67,12 +67,20 @@ public class Jogo {
 		this.tempoMaximo = tempoMaximo;
 	}
 
-	public Set<Usuario> getUsuarios() {
+	public AgrupamentoJogos getGrupo() {
+		return grupo;
+	}
+
+	public void setGrupo(AgrupamentoJogos grupo) {
+		this.grupo = grupo;
+	}
+
+	/*public Set<Usuario> getUsuarios() {
 		return usuarios;
 	}
 
 	public void setUsuarios(Set<Usuario> usuarios) {
 		this.usuarios = usuarios;
-	}
+	}*/
 
 }

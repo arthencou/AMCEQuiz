@@ -1,3 +1,4 @@
+<%@include file="/WEB-INF/views/include.jsp"%>
 <%@include file="/WEB-INF/views/header.jsp"%>
 <link href="${pageContext.request.contextPath}/assets/css/home.css" rel="stylesheet">
 
@@ -9,6 +10,7 @@
         <table class="table table-striped">
 				<core:forEach items="${gamesList}" var="jogo">
 					<tr>
+						<td><core:if test="${jogo.grupo != null}"><core:out value="${jogo.grupo.nome}" /></core:if></td>
 						<td><core:out value="${jogo.nome}" /></td>
 						<td><a href="play?jogo=${jogo.id}">Jogar</a></td>
 					</tr>

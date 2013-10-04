@@ -21,7 +21,11 @@ public class JogoDao {
 	@SuppressWarnings("unchecked")
 	public List<Jogo> findByUserId(Integer usuarioId) {
 		return HibernateUtils.getSessionFactory().getCurrentSession()
-				.createQuery("select j from Jogo j join j.usuarios u where u.id = :id ")
+				/*.createQuery("select j from Jogo j join j.usuarios u where u.id in(:id )")*/
+				.createQuery("select j from JogosUsuarios ju join ju.jogo j " +
+						"join ju.usuario u where u.id = :id " +
+						"and ju.qtddPartidasDisponiveis > 0 " +
+						"order by j.grupo.nome, j.nome")
 				.setInteger("id", usuarioId)
 				.list();
 	}

@@ -70,7 +70,13 @@
 						maxFractionDigits="0" />
 					<fmt:formatNumber var="tts" value="${(tempoTotalJogo/60-ttm)*60}" 
 						maxFractionDigits="0" />
-					<div class="negrito">${tt} minutos e ${tts} segundos.</div>
+					<div class="negrito">
+						${ttm} 
+						<core:choose>
+							<core:when test="${ttm > 1}">minutos</core:when>
+							<core:otherwise>minuto</core:otherwise>
+						</core:choose>
+						e ${tts} segundos.</div>
 				</core:when>
 				<core:otherwise>
 					<div class="negrito">${tempoTotalJogo} segundos</div>

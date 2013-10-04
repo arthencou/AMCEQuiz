@@ -35,6 +35,9 @@ public class JogosUsuarios {
 	@Column(name = "melhor_numero_acertos")
 	private Integer melhorNumeroAcertos;
 	
+	@Column(name = "qtdd_partidas_disponiveis")
+	private Integer qtddPartidasDisponiveis;
+	
 
 	public Usuario getUsuario() {
 		return usuario;
@@ -66,6 +69,19 @@ public class JogosUsuarios {
 
 	public void setMelhorNumeroAcertos(Integer melhorNumeroAcertos) {
 		this.melhorNumeroAcertos = melhorNumeroAcertos;
+	}
+
+	public Integer getQtddPartidasDisponiveis() {
+		return qtddPartidasDisponiveis;
+	}
+
+	public void setQtddPartidasDisponiveis(Integer qtddPartidasDisponiveis) {
+		this.qtddPartidasDisponiveis = qtddPartidasDisponiveis;
+	}
+
+	public void decrementarPartidas() {
+		qtddPartidasDisponiveis--;
+		System.out.println("\n"+qtddPartidasDisponiveis+"\n");
 	}
 	
 }

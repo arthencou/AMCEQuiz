@@ -29,8 +29,8 @@ public class JogoManager {
 	}
 
 	@Transactional
-	public List<Jogo> findByUserId(Integer id) {
-		return jogoDao.findByUserId(id);
+	public List<Jogo> findByUserId(Integer usuarioId) {
+		return jogoDao.findByUserId(usuarioId);
 	}
 
 	@Transactional
@@ -62,6 +62,7 @@ public class JogoManager {
 					jogoDao.getJogoUsuario(jogoId, usuarioId);
 			Integer melhorNoAcertosAtual = jogoUsuario.getMelhorNumeroAcertos();
 			Long melhorTempoAtual = jogoUsuario.getMelhorTempo();
+			jogoUsuario.decrementarPartidas();
 			if (noAcertos >= melhorNoAcertosAtual &&
 					tempoTotalJogo <= melhorTempoAtual) {
 				jogoUsuario.setMelhorNumeroAcertos(noAcertos);

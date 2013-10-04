@@ -200,7 +200,7 @@ public class PlayController {
 		session.removeAttribute("jogadasDados");
 		
 		model.addObject("jogadasDados", jogadasDados);
-		model.addObject("tempoTotalJogo", tempoTotalJogo / 1000);
+		model.addObject("tempoTotalJogo", new Long(tempoTotalJogo / 1000));
 		return model;
 	}
 

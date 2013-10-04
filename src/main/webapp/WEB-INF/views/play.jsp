@@ -144,12 +144,12 @@ function relogioContador() {
     
     $("#tempo").text(hh+':'+((mm<10)?('0'+mm):mm)+':'+((ss<10)?('0'+ss):ss));
     
-    if (mm <= 29) {
-    	if (mm <= 9) {
-	    	$("#tempo").removeClass().addClass('label label-danger');
-	    } else {
-    		$("#tempo").removeClass().addClass('label label-warning');
-	    }
+    if (tempoRestante >= 0,2*tempoMaximo) {
+    	$("#tempo").removeClass().addClass('label label-info');
+    } else if (tempoRestante < 0,2*tempoMaximo) {
+    	$("#tempo").removeClass().addClass('label label-warning');
+    } else if (tempoRestante < 0,1*tempoMaximo) {
+    	$("#tempo").removeClass().addClass('label label-danger');
     }
 }
 $(document).ready(function() {

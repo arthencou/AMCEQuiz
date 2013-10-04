@@ -1,6 +1,8 @@
 package br.uel.amcequiz.controller;
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.uel.amcequiz.service.JogoManager;
+import br.uel.amcequiz.model.Jogo;
 import br.uel.amcequiz.model.Usuario;
 
 @Controller
@@ -53,6 +56,12 @@ public class HomeController {
 		
 		Usuario usuario = (Usuario) session.getAttribute("usuario");
 		
+		List<Jogo> gamesList = jogoManager.findByUserId(usuario.getId());
+		System.out.println("");
+		for (Jogo jogo : gamesList) {
+			System.out.println("\t"+jogo.getNome()+";\t");
+		}
+		System.out.println("");
 		return new ModelAndView("home", 
 				"gamesList", jogoManager.findByUserId(usuario.getId()));
 	}
