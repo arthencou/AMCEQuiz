@@ -22,6 +22,7 @@ import br.uel.amcequiz.model.Questao;
 import br.uel.amcequiz.model.Usuario;
 
 @Controller
+@RequestMapping(value = "/game")
 public class PlayController {
 	
 	private QuestaoManager questaoManager;
@@ -63,8 +64,15 @@ public class PlayController {
 	public synchronized ModelAndView play(@RequestParam String jogo, 
 			HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession(false);
+		if (session == null) {
+			return new ModelAndView("redirect:/accessDenied");
+		}
 		
 		Integer jogoId = Integer.parseInt(jogo);
+		if (!jogoManager.isPlayableByUser(
+				((Usuario)session.getAttribute("usuario")).getId(), jogoId) ){
+			return new ModelAndView("redirect:/accessDenied");
+		}
 		
 		Questao firstQuestion = 
 				questaoManager.findByJogoIdENum(jogoId, 1);
@@ -76,7 +84,7 @@ public class PlayController {
 			session.setAttribute("noQuestao", 1L);
 			generateDadosJogada(firstQuestion, session);
 			
-			ModelAndView modelAndView =  new ModelAndView("play");
+			ModelAndView modelAndView =  new ModelAndView("game/play");
 			modelAndView.addObject("questoesList", 
 					questaoManager.findAllByJogoId(jogoId));
 			modelAndView.addObject("tempoMaximoJogo", 
@@ -89,10 +97,13 @@ public class PlayController {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/select", method = RequestMethod.POST)
+	@RequestMapping(value = "/selectQuestion", method = RequestMethod.POST)
 	public synchronized @ResponseBody void select(@RequestParam Integer qnum, 
 			HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
+		if (session == null) {
+			return;
+		}
 		session.removeAttribute("questao");
 		Integer jogoId = (Integer) session.getAttribute("jogoId");
 		
@@ -113,10 +124,13 @@ public class PlayController {
 	@RequestMapping(value = "/question", method = RequestMethod.POST)
 	public synchronized ModelAndView question(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
+		if (session == null) {
+			return new ModelAndView("redirect:/accessDenied");
+		}
 		
 		Questao questao = (Questao) session.getAttribute("questao");
 		
-		return new ModelAndView("play/question", 
+		return new ModelAndView("game/question", 
 				"question", questao.getTexto());
 	}
 
@@ -124,6 +138,9 @@ public class PlayController {
 	@RequestMapping(value = "/alternatives", method = RequestMethod.POST)
 	public synchronized ModelAndView alternatives(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
+		if (session == null) {
+			return new ModelAndView("redirect:/accessDenied");
+		}
 		
 		Questao questao = (Questao) session.getAttribute("questao");
 		TreeMap<Integer, DadosJogada> jogadasDados = 
@@ -131,7 +148,7 @@ public class PlayController {
 				session.getAttribute("jogadasDados");
 		DadosJogada dadosJogada = jogadasDados.get(questao.getNumero());
 
-		ModelAndView model = new ModelAndView("play/alternatives");
+		ModelAndView model = new ModelAndView("game/alternatives");
 		model.addObject("alternativasList", questao.getAlternativas());
 		if (dadosJogada.getIsCorrect() != DadosJogada.NOT_ANSWERED) {
 			model.addObject("altSel", dadosJogada.getOpcao());
@@ -140,10 +157,13 @@ public class PlayController {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/answer", method = RequestMethod.POST)
+	@RequestMapping(value = "/answerQuestion", method = RequestMethod.POST)
 	public synchronized @ResponseBody void answer(
 			@RequestParam String op, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
+		if (session == null) {
+			return;
+		}
 
 		Integer noQuestao = (Integer) session.getAttribute("noQuestao");
 		
@@ -169,6 +189,9 @@ public class PlayController {
 	public synchronized ModelAndView gameOver(HttpServletRequest request,
 			@RequestParam(required = false) String save) {
 		HttpSession session = request.getSession(false);
+		if (session == null) {
+			return new ModelAndView("redirect:/accessDenied");
+		}
 		
 		Integer jogoId = (Integer) session.getAttribute("jogoId");
 		Usuario usuario = (Usuario) session.getAttribute("usuario");
@@ -182,7 +205,7 @@ public class PlayController {
 			return new ModelAndView("redirect:/home");
 		}
 		
-		ModelAndView model = new ModelAndView("gameover");
+		ModelAndView model = new ModelAndView("game/gameover");
 
 		Long tempoTotalJogo = finalJogo - inicioJogo;
 		if (save != null && save.equals("true")) {

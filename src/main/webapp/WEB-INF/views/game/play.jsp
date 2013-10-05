@@ -8,8 +8,8 @@
 			<label class="ctempo" for="tempo">Tempo restante:</label>
 			<span class="ctempo" id="tempo" class="label label-info"></span>
 		</li>
-		<li><a href="/amcequiz/gameover">Desistir do jogo</a></li>
-		<li class="active"><a href="/amcequiz/gameover?save=true">Salvar jogo</a></li>
+		<li><a href="/amcequiz/game/gameover">Desistir do jogo</a></li>
+		<li class="active"><a href="/amcequiz/game/gameover?save=true">Salvar jogo</a></li>
 	</ul>
 </div>
 
@@ -20,6 +20,11 @@
         </div>
         <div class="panel-body">	
 			<div class="btn-group">
+				<button id="anterior" type="button" class="btn btn-primary"
+					onclick="selecionarQuestao(questaoAtual-1);">
+					
+					Anterior
+				</button>
 				<core:forEach items="${questoesList}" var="questao" >
 					<button id="questao${questao.numero}" type="button" 
 						class="btn btn-default" 
@@ -28,9 +33,7 @@
 						Questão ${questao.numero}
 					</button>
 				</core:forEach>
-			</div>
-			<div class="btn-group pull-right">
-				<button type="button" class="btn btn-default"
+				<button id="proxima" type="button" class="btn btn-primary"
 					onclick="selecionarQuestao(questaoAtual+1);">
 					
 					Próxima
@@ -67,10 +70,12 @@ var totalQuestoes = ${questoesList.size()}
 function selecionarQuestao(qnum) {
 	if (qnum > totalQuestoes) {
 		qnum = 1;
+	} else if (qnum < 1) {
+		qnum = totalQuestoes;
 	}
 	$.ajax({
 		type : "POST",
-		url : "/amcequiz/select",
+		url : "/amcequiz/game/selectQuestion",
 		data : "qnum=" + qnum,
 		success : function(response) {
 			questaoAtual = qnum;
@@ -79,47 +84,48 @@ function selecionarQuestao(qnum) {
 			carregarAlternativas();
 		},
 		error : function(e) {
-			alert('Error: ' + e);
+			alert('Falha ao selecionar questão! Error: ' + e);
 		}
 	});
 }
 function carregarQuestao() {
 	$.ajax({
 		type : "POST",
-		url : "/amcequiz/question",
+		url : "/amcequiz/game/question",
 		success : function(response) {
 			$('#questao').html(response);
 			MathJax.Hub.Queue(["Typeset",MathJax.Hub,"questao"]);
 		},
 		error : function(e) {
-			alert('Error: ' + e);
+			alert('Falha ao carregar texto da questão! Error: ' + e);
 		}
 	});
 }
 function carregarAlternativas() {
 	$.ajax({
 		type : "POST",
-		url : "/amcequiz/alternatives",
+		url : "/amcequiz/game/alternatives",
 		success : function(response) {
 			$('#alternativas').html(response);
 			MathJax.Hub.Queue(["Typeset",MathJax.Hub,"alternativas"]);
 		},
 		error : function(e) {
-			alert('Error: ' + e);
+			alert('Falha ao carregar alternativas! Error: ' + e);
 		}
 	});
 }
 function submitResposta(alternativa) {
 	$.ajax({
 		type : "POST",
-		url : "/amcequiz/answer",
+		url : "/amcequiz/game/answerQuestion",
 		data : "op=" + alternativa,
 		success : function(response) {
+			$('#proxima').trigger("click");
 			carregarQuestao();
 			carregarAlternativas();
 		},
 		error : function(e) {
-			alert('Error: ' + e);
+			alert('Falha ao submeter resposta! Error: ' + e);
 		}
 	});
 }
@@ -127,7 +133,7 @@ var tempoMaximo = ${tempoMaximoJogo};
 var tempoRestante = tempoMaximo;
 function relogioContador() {
 	if (tempoRestante <= 0) {
-		window.location.replace("/amcequiz/gameover?save=true");
+		window.location.replace("/amcequiz/game/gameover?save=true");
 	}
 	else {
     	setTimeout("relogioContador()", 1000);
@@ -144,12 +150,12 @@ function relogioContador() {
     
     $("#tempo").text(hh+':'+((mm<10)?('0'+mm):mm)+':'+((ss<10)?('0'+ss):ss));
     
-    if (tempoRestante >= 0,2*tempoMaximo) {
-    	$("#tempo").removeClass().addClass('label label-info');
-    } else if (tempoRestante < 0,2*tempoMaximo) {
-    	$("#tempo").removeClass().addClass('label label-warning');
-    } else if (tempoRestante < 0,1*tempoMaximo) {
+    if (tempoRestante < 0.1*tempoMaximo) {
     	$("#tempo").removeClass().addClass('label label-danger');
+    } else if (tempoRestante < 0.2*tempoMaximo) {
+    	$("#tempo").removeClass().addClass('label label-warning');
+    } else {
+    	$("#tempo").removeClass().addClass('label label-info');
     }
 }
 $(document).ready(function() {

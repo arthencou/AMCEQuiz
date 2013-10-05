@@ -1,24 +1,11 @@
 <%@include file="/WEB-INF/views/include.jsp"%>
 <%@include file="/WEB-INF/views/header.jsp"%>
 <link href="${pageContext.request.contextPath}/assets/css/home.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/assets/css/gameover.css" rel="stylesheet">
 
 <%@include file="/WEB-INF/views/barra.jsp"%>
 
 <style>
-.negrito {
-  	padding-left: 15px;
-	font-weight:bold;
-}
-.azul {
-  	padding-left: 15px;
-	font-weight:bold;
-	color:blue;
-}
-.vermelho {
-  	padding-left: 15px;
-	font-weight:bold;
-	color:red;
-}
 </style>
 
 <div class="panel panel-default">
@@ -34,14 +21,14 @@
 						<li>Questão ${jogada.key}:
 							<core:choose>
 								<core:when test="${jogada.value.isCorrect() == true}">
-									<p class="azul">correta</p>
+									<span class="azul">correta</span>
 									<core:set var="totalAcertos" value="${totalAcertos+1}" />
 								</core:when>
 								<core:when test="${jogada.value.isCorrect == 0}">
-									<p class="negrito">não respondida</p>
+									<span class="negrito">não respondida</span>
 								</core:when>
 								<core:otherwise>
-									<p class="vermelho">incorreta</p>
+									<span class="vermelho">incorreta</span>
 								</core:otherwise>
 							</core:choose>
 						</li>
@@ -60,26 +47,27 @@
 	</div>
 	<div class="panel-footer">
 		<p>
-			Total de acertos: <div class="negrito">${totalAcertos}</div>
+			Total de acertos: <span class="negrito">${totalAcertos}</span>
 		</p>
 		<p>
 			Tempo total de jogo: 
 			<core:choose>
 				<core:when test="${tempoTotalJogo >= 61}">
-					<fmt:formatNumber var="ttm" value="${tempoTotalJogo/60}" 
+					<fmt:formatNumber var="ttm" value="${tempoTotalJogo/60-0.5}" 
 						maxFractionDigits="0" />
 					<fmt:formatNumber var="tts" value="${(tempoTotalJogo/60-ttm)*60}" 
 						maxFractionDigits="0" />
-					<div class="negrito">
+					<span class="negrito">
 						${ttm} 
 						<core:choose>
 							<core:when test="${ttm > 1}">minutos</core:when>
 							<core:otherwise>minuto</core:otherwise>
 						</core:choose>
-						e ${tts} segundos.</div>
+						e ${tts} segundos.
+					</span>
 				</core:when>
 				<core:otherwise>
-					<div class="negrito">${tempoTotalJogo} segundos</div>
+					<span class="negrito">${tempoTotalJogo} segundos</span>
 				</core:otherwise>
 			</core:choose>
 		</p>

@@ -38,7 +38,7 @@
 
 	<!-- Session configuration -->
 	<session-config>
-		<session-timeout>30</session-timeout>
+		<session-timeout>300</session-timeout>
 		<tracking-mode>COOKIE</tracking-mode>
 	</session-config>
 </web-app>

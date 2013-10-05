@@ -72,4 +72,15 @@ public class JogoManager {
 		}
 	}
 
+	@Transactional
+	public boolean isPlayableByUser(Integer usuarioId, Integer jogoId) {
+		JogosUsuarios jogoUsuario = jogoDao.getJogoUsuario(jogoId, usuarioId);
+		if (jogoUsuario != null &&
+				jogoUsuario.getQtddPartidasDisponiveis() > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 }

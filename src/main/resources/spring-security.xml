@@ -20,7 +20,7 @@
 		<!-- security:intercept-url pattern="/login" access="permitAll" requires-channel="https" / -->
 		<security:intercept-url pattern="/login" access="permitAll" />
 		<security:intercept-url pattern="/home" access="isAuthenticated()" />
-		<security:intercept-url pattern="/play/**" access="isAuthenticated()" />
+		<security:intercept-url pattern="/game/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
 
 		<form-login login-page="/login" authentication-failure-url="/loginFailure"

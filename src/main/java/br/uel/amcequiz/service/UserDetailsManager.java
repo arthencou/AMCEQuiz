@@ -41,7 +41,7 @@ public class UserDetailsManager implements UserDetailsService {
 		boolean credentialsNonExpired = true;
 		boolean accountNonLocked = true;
 
-		return new CustomUserDetails(usuario.getLogin(), usuario.getSenha(), 
+		return new CustomUserDetails(usuario.getNome(), usuario.getSenha(), 
 				enabled, accountNonExpired, credentialsNonExpired, 
 				accountNonLocked, getAuthorities(new Long(usuario.getIsAdmin())),
 				usuario);

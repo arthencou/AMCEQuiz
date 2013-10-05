@@ -1,5 +1,5 @@
 <%@include file="/WEB-INF/views/include.jsp"%>
-<%@include file="/WEB-INF/views/questions/qheader.jsp"%>
+<%@include file="/WEB-INF/views/game/qheader.jsp"%>
 
 	<core:if test="${altSel != null}">
 		<p>Opção <b>${altSel}</b> selecionada. 
@@ -18,4 +18,11 @@
 		</div>
 	</div>
 	
-<%@include file="/WEB-INF/views/questions/qfooter.jsp"%>
+<%@include file="/WEB-INF/views/game/qfooter.jsp"%>
+<core:if test="${altSel != null}">
+	<script>
+	$(document).ready(function() {
+		$('#questaoTitle').text('Questao '+questaoAtual+' - Alternativa selecionada: ${altSel}');
+	});
+	</script>
+</core:if>

@@ -2,6 +2,8 @@
 <%@include file="/WEB-INF/views/header.jsp"%>
 <link href="${pageContext.request.contextPath}/assets/css/home.css" rel="stylesheet">
 
+<%@include file="/WEB-INF/views/barra.jsp"%>
+
 <div class="container-fluid">
 	<div class="panel">
         <div class="panel-heading">
@@ -12,7 +14,7 @@
 					<tr>
 						<td><core:if test="${jogo.grupo != null}"><core:out value="${jogo.grupo.nome}" /></core:if></td>
 						<td><core:out value="${jogo.nome}" /></td>
-						<td><a href="play?jogo=${jogo.id}">Jogar</a></td>
+						<td><a href="game/play?jogo=${jogo.id}">Jogar</a></td>
 					</tr>
 				</core:forEach>
 		</table>
