@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Component;
 
@@ -25,6 +26,7 @@ public class Jogo {
 	private String nome;
 	
 	@Column(name = "tempo_maximo")
+	@NotNull
 	private Long tempoMaximo;
 	
 	@ManyToOne
@@ -42,6 +44,10 @@ public class Jogo {
 			}
 	)
 	private Set<Usuario> usuarios;*/
+	
+	public Jogo() {
+		tempoMaximo = 9223372036854775807L;
+	}
 
 	public Integer getId() {
 		return id;

@@ -15,16 +15,13 @@
 <script>
 var navAtual = 'navJogo'; 
 function gotoJogo() {
-	var agrupamento = $('#agrupamento').serialize();
-	var jogo = $('#jogo').serialize();
 	$.ajax({
-		type : "POST",
+		type : "GET",
 		url : "/amcequiz/admin/editjogo",
-		data : agrupamento + jogo,
 		success : function(response) {
 			$('#'+navAtual).removeClass();
 			navAtual = 'navJogo';
-			$('#'+navAtual).removeClass().addClass('active');
+			$('#navJogo').removeClass().addClass('active');
 			$("#conteudo").html(response);
 		},
 		error : function(e) {
@@ -33,15 +30,36 @@ function gotoJogo() {
 	});
 }
 function gotoQuestoes() {
-	$('#'+navAtual).removeClass();
-	navAtual = 'navQuestoes';
-	$('#'+navAtual).removeClass().addClass('active');
-	$("#conteudo").html('Questoes')
+	$.ajax({
+		type : "GET",
+		url : "/amcequiz/admin/editquestoes",
+		success : function(response) {
+			$('#'+navAtual).removeClass();
+			navAtual = 'navQuestoes';
+			$('#navQuestoes').removeClass().addClass('active');
+			$("#conteudo").html(response);
+		},
+		error : function(e) {
+			alert('Error: ' + e);
+		}
+	});
 }
 function gotoPermissoes() {
-	$('#'+navAtual).removeClass();
-	navAtual = 'navPermissoes';
-	$('#'+navAtual).removeClass().addClass('active');
-	$("#conteudo").html('Permissoes')
+	$.ajax({
+		type : "GET",
+		url : "/amcequiz/admin/editpermissoes",
+		success : function(response) {
+			$('#'+navAtual).removeClass();
+			navAtual = 'navPermissoes';
+			$('#navPermissoes').removeClass().addClass('active');
+			$("#conteudo").html(response);
+		},
+		error : function(e) {
+			alert('Error: ' + e);
+		}
+	});
 }
+$(document).ready(function() {
+	gotoJogo();
+});
 </script>

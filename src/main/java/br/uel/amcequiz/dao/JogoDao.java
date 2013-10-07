@@ -19,6 +19,22 @@ public class JogoDao {
 				.uniqueResult();
 	}
 
+	public Jogo findByNome(String nome) {
+		return (Jogo) HibernateUtils.getSessionFactory().getCurrentSession()
+				.createQuery("from Jogo where nome = :nome ")
+				.setString("nome", nome)
+				.uniqueResult();
+	}
+
+	public Jogo findByNomeEGrupo(String nomeJogo, String nomeGrupo) {
+		return (Jogo) HibernateUtils.getSessionFactory().getCurrentSession()
+				.createQuery("from Jogo where nome = :nomeJogo " +
+						"and grupo.nome = :nomeGrupo ")
+				.setString("nomeJogo", nomeJogo)
+				.setString("nomeGrupo", nomeGrupo)
+				.uniqueResult();
+	}
+
 	@SuppressWarnings("unchecked")
 	public List<Jogo> findByUserId(Integer usuarioId) {
 		return HibernateUtils.getSessionFactory().getCurrentSession()

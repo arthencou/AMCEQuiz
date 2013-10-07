@@ -43,8 +43,24 @@ public class JogoManager {
 	}
 
 	@Transactional
+	public void save(Jogo jogo) 
+			throws ConstraintViolationException {
+		jogoDao.save(jogo);
+	}
+
+	@Transactional
 	public Jogo findById(Integer jogoId) {
 		return jogoDao.findById(jogoId);
+	}
+
+	@Transactional
+	public Jogo findByNome(String nome) {
+		return jogoDao.findByNome(nome);
+	}
+
+	@Transactional
+	public Jogo findByNomeEGrupo(String nomeJogo, String nomeGrupo) {
+		return jogoDao.findByNomeEGrupo(nomeJogo, nomeGrupo);
 	}
 
 	@Transactional
@@ -53,15 +69,15 @@ public class JogoManager {
 	}
 
 	/**
-	 * Avalia os dados do jogo recém terminado para decidir
-	 * se o posicionamento do usuário no ranking deve ou não considerá-los.
-	 * @param jogoId: id do jogo na camada de persistência.
-	 * @param usuarioId: id do usuário na camada de persistência.
+	 * Avalia os dados do jogo recï¿½m terminado para decidir
+	 * se o posicionamento do usuï¿½rio no ranking deve ou nï¿½o considerï¿½-los.
+	 * @param jogoId: id do jogo na camada de persistï¿½ncia.
+	 * @param usuarioId: id do usuï¿½rio na camada de persistï¿½ncia.
 	 * @param jogadasDados: os dados da jogada.
 	 * @param tempoTotalJogo: tempo total de jogo.
-	 * @param questoesList: lista de questões do jogo.
+	 * @param questoesList: lista de questï¿½es do jogo.
 	 * @return Verdadeiro, caso a jogada entre no ranking, ou Falso, caso 
-	 * contrário. 
+	 * contrï¿½rio. 
 	 */
 	@Transactional
 	public boolean saveDadosJogadas(Integer jogoId, Integer usuarioId, 
@@ -70,7 +86,7 @@ public class JogoManager {
 		Integer noAcertos = 0;
 		DadosJogada dadosJogada = null;
 		
-		/*Contando o total de acertos na última jogada*/
+		/*Contando o total de acertos na ï¿½ltima jogada*/
 		for (Questao questao : questoesList) {
 			Integer noQuestao = questao.getNumero();
 			dadosJogada = jogadasDados.get(noQuestao);
@@ -91,7 +107,7 @@ public class JogoManager {
 			Long melhorTempoAtual = jogoUsuario.getMelhorTempo();
 			jogoUsuario.decrementarPartidas();
 			
-			/*Condição para atualizar seus dados no ranking*/
+			/*Condiï¿½ï¿½o para atualizar seus dados no ranking*/
 			if (noAcertos >= melhorNoAcertosAtual) {
 				if (!(noAcertos == melhorNoAcertosAtual 
 						&& tempoTotalJogo > melhorTempoAtual)) {
@@ -100,7 +116,7 @@ public class JogoManager {
 					jogoUsuario.setMelhorTempo(tempoTotalJogo);
 					jogoDao.saveJogoUsuario(jogoUsuario);
 					
-					/*Armazenando os acertos por questão (do jogador).*/
+					/*Armazenando os acertos por questï¿½o (do jogador).*/
 					for (Map.Entry<Integer, DadosJogada> entry
 							: jogadasDados.entrySet()) {
 						DadosJogada dj = entry.getValue();
@@ -120,9 +136,9 @@ public class JogoManager {
 	}
 
 	/**
-	 * Informa se um determinado usuário pode jogar um determinado jogo.
-	 * @param usuarioId: o id do usuário na camada de persistência.
-	 * @param jogoId: o id do jogo na camada de persistência.
+	 * Informa se um determinado usuï¿½rio pode jogar um determinado jogo.
+	 * @param usuarioId: o id do usuï¿½rio na camada de persistï¿½ncia.
+	 * @param jogoId: o id do jogo na camada de persistï¿½ncia.
 	 * @return Verdadeiro ou Falso.
 	 */
 	@Transactional
@@ -132,19 +148,6 @@ public class JogoManager {
 				jogoUsuario.getQtddPartidasDisponiveis() != 0) {
 			return true;
 		} else {
-			return false;
-		}
-	}
-
-	@Transactional
-	public boolean saveJogo(AgrupamentoJogos agrupamento, Jogo jogo) {
-		try {
-			agrupamentoJogosDao.save(agrupamento);
-			jogo.setGrupo(agrupamento);
-			jogoDao.save(jogo);
-			
-			return true;
-		} catch (ConstraintViolationException e) {
 			return false;
 		}
 	}
