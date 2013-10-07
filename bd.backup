@@ -2,9 +2,9 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.2.4
--- Dumped by pg_dump version 9.2.4
--- Started on 2013-10-04 13:06:11 BRT
+-- Dumped from database version 9.2.1
+-- Dumped by pg_dump version 9.2.1
+-- Started on 2013-10-07 13:49:05
 
 SET statement_timeout = 0;
 SET client_encoding = 'UTF8';
@@ -13,7 +13,7 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 
 --
--- TOC entry 177 (class 3079 OID 11778)
+-- TOC entry 178 (class 3079 OID 11727)
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
 --
 
@@ -21,8 +21,8 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2033 (class 0 OID 0)
--- Dependencies: 177
+-- TOC entry 1991 (class 0 OID 0)
+-- Dependencies: 178
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
 
@@ -36,7 +36,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- TOC entry 176 (class 1259 OID 28202)
+-- TOC entry 168 (class 1259 OID 49917)
 -- Name: agrupamento_jogos; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -49,7 +49,7 @@ CREATE TABLE agrupamento_jogos (
 ALTER TABLE public.agrupamento_jogos OWNER TO postgres;
 
 --
--- TOC entry 175 (class 1259 OID 28200)
+-- TOC entry 169 (class 1259 OID 49920)
 -- Name: agrupamento_jogos_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -64,8 +64,8 @@ CREATE SEQUENCE agrupamento_jogos_id_seq
 ALTER TABLE public.agrupamento_jogos_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2034 (class 0 OID 0)
--- Dependencies: 175
+-- TOC entry 1992 (class 0 OID 0)
+-- Dependencies: 169
 -- Name: agrupamento_jogos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -73,7 +73,16 @@ ALTER SEQUENCE agrupamento_jogos_id_seq OWNED BY agrupamento_jogos.id;
 
 
 --
--- TOC entry 168 (class 1259 OID 28134)
+-- TOC entry 1993 (class 0 OID 0)
+-- Dependencies: 169
+-- Name: agrupamento_jogos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('agrupamento_jogos_id_seq', 1, true);
+
+
+--
+-- TOC entry 170 (class 1259 OID 49922)
 -- Name: jogo; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -81,14 +90,14 @@ CREATE TABLE jogo (
     id integer NOT NULL,
     nome character varying(30) NOT NULL,
     tempo_maximo bigint DEFAULT 9223372036854775807::bigint NOT NULL,
-    grupo integer
+    grupo_id integer
 );
 
 
 ALTER TABLE public.jogo OWNER TO postgres;
 
 --
--- TOC entry 169 (class 1259 OID 28137)
+-- TOC entry 171 (class 1259 OID 49926)
 -- Name: jogo_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -103,8 +112,8 @@ CREATE SEQUENCE jogo_id_seq
 ALTER TABLE public.jogo_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2035 (class 0 OID 0)
--- Dependencies: 169
+-- TOC entry 1994 (class 0 OID 0)
+-- Dependencies: 171
 -- Name: jogo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -112,7 +121,16 @@ ALTER SEQUENCE jogo_id_seq OWNED BY jogo.id;
 
 
 --
--- TOC entry 170 (class 1259 OID 28139)
+-- TOC entry 1995 (class 0 OID 0)
+-- Dependencies: 171
+-- Name: jogo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('jogo_id_seq', 2, true);
+
+
+--
+-- TOC entry 172 (class 1259 OID 49928)
 -- Name: jogo_usuario; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -121,14 +139,14 @@ CREATE TABLE jogo_usuario (
     jogo_id integer NOT NULL,
     melhor_tempo bigint DEFAULT 9223372036854775807::bigint,
     melhor_numero_acertos integer DEFAULT 0,
-    qtdd_partidas_disponiveis integer DEFAULT 50 NOT NULL
+    qtdd_partidas_disponiveis integer DEFAULT (-1) NOT NULL
 );
 
 
 ALTER TABLE public.jogo_usuario OWNER TO postgres;
 
 --
--- TOC entry 171 (class 1259 OID 28144)
+-- TOC entry 173 (class 1259 OID 49934)
 -- Name: questao; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -145,7 +163,7 @@ CREATE TABLE questao (
 ALTER TABLE public.questao OWNER TO postgres;
 
 --
--- TOC entry 172 (class 1259 OID 28150)
+-- TOC entry 174 (class 1259 OID 49940)
 -- Name: questao_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -160,8 +178,8 @@ CREATE SEQUENCE questao_id_seq
 ALTER TABLE public.questao_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2036 (class 0 OID 0)
--- Dependencies: 172
+-- TOC entry 1996 (class 0 OID 0)
+-- Dependencies: 174
 -- Name: questao_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -169,7 +187,16 @@ ALTER SEQUENCE questao_id_seq OWNED BY questao.id;
 
 
 --
--- TOC entry 173 (class 1259 OID 28152)
+-- TOC entry 1997 (class 0 OID 0)
+-- Dependencies: 174
+-- Name: questao_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('questao_id_seq', 21, true);
+
+
+--
+-- TOC entry 175 (class 1259 OID 49942)
 -- Name: usuario; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -185,7 +212,7 @@ CREATE TABLE usuario (
 ALTER TABLE public.usuario OWNER TO postgres;
 
 --
--- TOC entry 174 (class 1259 OID 28155)
+-- TOC entry 176 (class 1259 OID 49946)
 -- Name: usuario_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -200,8 +227,8 @@ CREATE SEQUENCE usuario_id_seq
 ALTER TABLE public.usuario_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2037 (class 0 OID 0)
--- Dependencies: 174
+-- TOC entry 1998 (class 0 OID 0)
+-- Dependencies: 176
 -- Name: usuario_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -209,7 +236,30 @@ ALTER SEQUENCE usuario_id_seq OWNED BY usuario.id;
 
 
 --
--- TOC entry 1996 (class 2604 OID 28205)
+-- TOC entry 1999 (class 0 OID 0)
+-- Dependencies: 176
+-- Name: usuario_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('usuario_id_seq', 37, true);
+
+
+--
+-- TOC entry 177 (class 1259 OID 58115)
+-- Name: usuario_questao; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE usuario_questao (
+    usuario_id integer NOT NULL,
+    questao_id integer NOT NULL,
+    is_correta_jogada_ranking boolean
+);
+
+
+ALTER TABLE public.usuario_questao OWNER TO postgres;
+
+--
+-- TOC entry 1943 (class 2604 OID 49948)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -217,7 +267,7 @@ ALTER TABLE ONLY agrupamento_jogos ALTER COLUMN id SET DEFAULT nextval('agrupame
 
 
 --
--- TOC entry 1988 (class 2604 OID 28157)
+-- TOC entry 1945 (class 2604 OID 49949)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -225,7 +275,7 @@ ALTER TABLE ONLY jogo ALTER COLUMN id SET DEFAULT nextval('jogo_id_seq'::regclas
 
 
 --
--- TOC entry 1993 (class 2604 OID 28158)
+-- TOC entry 1949 (class 2604 OID 49950)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -233,7 +283,7 @@ ALTER TABLE ONLY questao ALTER COLUMN id SET DEFAULT nextval('questao_id_seq'::r
 
 
 --
--- TOC entry 1994 (class 2604 OID 28159)
+-- TOC entry 1951 (class 2604 OID 49951)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -241,8 +291,8 @@ ALTER TABLE ONLY usuario ALTER COLUMN id SET DEFAULT nextval('usuario_id_seq'::r
 
 
 --
--- TOC entry 2025 (class 0 OID 28202)
--- Dependencies: 176
+-- TOC entry 1978 (class 0 OID 49917)
+-- Dependencies: 168
 -- Data for Name: agrupamento_jogos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -252,38 +302,20 @@ COPY agrupamento_jogos (id, nome) FROM stdin;
 
 
 --
--- TOC entry 2038 (class 0 OID 0)
--- Dependencies: 175
--- Name: agrupamento_jogos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('agrupamento_jogos_id_seq', 1, true);
-
-
---
--- TOC entry 2017 (class 0 OID 28134)
--- Dependencies: 168
+-- TOC entry 1979 (class 0 OID 49922)
+-- Dependencies: 170
 -- Data for Name: jogo; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY jogo (id, nome, tempo_maximo, grupo) FROM stdin;
+COPY jogo (id, nome, tempo_maximo, grupo_id) FROM stdin;
 1	Etapa 1	5400000	1
 2	Etapa 2	5400000	1
 \.
 
 
 --
--- TOC entry 2039 (class 0 OID 0)
--- Dependencies: 169
--- Name: jogo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('jogo_id_seq', 2, true);
-
-
---
--- TOC entry 2019 (class 0 OID 28139)
--- Dependencies: 170
+-- TOC entry 1980 (class 0 OID 49928)
+-- Dependencies: 172
 -- Data for Name: jogo_usuario; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -316,8 +348,6 @@ COPY jogo_usuario (usuario_id, jogo_id, melhor_tempo, melhor_numero_acertos, qtd
 28	1	9223372036854775807	0	1
 29	1	9223372036854775807	0	1
 30	1	9223372036854775807	0	1
-31	1	9223372036854775807	0	1
-32	1	9223372036854775807	0	1
 33	1	9223372036854775807	0	1
 34	1	9223372036854775807	0	1
 35	1	9223372036854775807	0	1
@@ -358,48 +388,42 @@ COPY jogo_usuario (usuario_id, jogo_id, melhor_tempo, melhor_numero_acertos, qtd
 35	2	9223372036854775807	0	1
 36	2	9223372036854775807	0	1
 37	2	9223372036854775807	0	1
-1	1	7651	2	0
-1	2	9223372036854775807	0	1
+32	1	1533642	4	0
+31	1	896722	3	0
+1	2	9223372036854775807	0	-1
+2	2	9223372036854775807	0	-1
+2	1	56455	4	-1
+1	1	9578	0	-1
 \.
 
 
 --
--- TOC entry 2020 (class 0 OID 28144)
--- Dependencies: 171
+-- TOC entry 1981 (class 0 OID 49934)
+-- Dependencies: 173
 -- Data for Name: questao; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY questao (id, jogo_id, numero, texto, alternativas, resposta) FROM stdin;
 11	1	4	<p>Em uma associação de agricultores precisa-se construir um silo para o armazenamento de soja com capacidade de pelo menos $4000m^3$ e raio construído de no máximo $15m$. O engenheiro executivo contratado recomendou um silo cilíndrico (ilustrado abaixo) com diâmetro de $22m$ e altura total de $17,6m$.</p>\n<p>Entretanto, o interior desse silo apresenta um sistema de ventilação de grãos que ocupa $36,21\\%$ do seu volume total. Dadas as recomendações do engenheiro, qual a porcentagem do volume útil a mais que ficará disponível aos agricultores, baseado na capacidade solicitada? E qual será a área não construída, tendo como a área total delimitada anteriormente pela associação?</p>\n<p>$\\pi = 3,14$</p>\n<img src="/amcequiz/assets/images/questions/4.png" />	{\n\t"a":"$\\\\%V_{sobrou} = 40,00\\\\%; A_{livre} = 326,56m^2$",\n\t"b":"$\\\\%V_{sobrou} = 10,90\\\\%; A_{livre} = 320,55m^2$",\n\t"c":"$\\\\%V_{sobrou} = 4,58\\\\%; A_{livre} = 326,56m^2$",\n\t"d":"$\\\\%V_{sobrou} = 1,73\\\\%; A_{livre} = 120,56m^2$",\n\t"e":"N. R. A"\n}	c
 3	1	2	<p>Em função dos inúmeros buracos em um trecho da rua Alagoas, o engenheiro de obras da prefeitura de Londrina terá que planejar a substituição do asfalto do local. Para tanto, ajude-o a calcular a área que será pavimentada para posteriores cálculos da quantidade de material necessário.\nConsidere que a largura da rua (L) é igual a $8m$ e o comprimento do trecho (c) é igual a $1,144km$</p><img src="/amcequiz/assets/images/questions/2.jpeg" />	{\n\t"a":"$9,15m^2$",\n\t"b":"$9152m^2$",\n\t"c":"$9152km^2$",\n\t"d":"$91,52m^2$",\n\t"e":"N.R.A"\n}	b
-15	2	1	<p>Um galpão composto apenas pela cobertura de $25m$ de largura, $40m$ de comprimento e altura de $7m$ foi comprado por um fabricante de roupas a fim de erguer a sua sede. Para aproveitar a estrutura já construída, o engenheiro contratado irá reservar parte dessa área para um depósito e o restante da área será fechado para a formação de escritórios. Conforme o fabricante, a região separada para o depósito deve estocar cerca de $1500 caixas$ com dimensões: $a=1m$, $b=1m$, $c=2m$.</p>\n<p>Dadas as condições acima descritas, qual será a área ($m^2$) que o engenheiro deixará disponível para a construção dos escritórios?\n</p><img src="/amcequiz/assets/images/questions/5.png" />	{\n\t"a":"$570m^2$",\n\t"b":"$430m^2$",\n\t"c":"$320m^2$",\n\t"d":"$190m^2$",\n\t"e":"N. R. A"\n}	a
 1	1	1	<p>Num projeto para calcular a estrutura de uma obra é preciso analisar as forças que atuam nos materiais utilizados. Para isso, um dos métodos usuais na engenharia é o círculo de Mohr, o qual nos indica as forças máximas que podem romper o material, assim como a localização dessas forças (representada pelas linhas tracejadas).</p>\n<p>As etapas que consistem o círculo de Mohr apresentam várias propriedades matemáticas, uma dessas etapas é ilustrada na figura abaixo. De acordo com os seus conhecimentos de trigonometria, qual deve ser o ângulo (em graus) formado entre as linhas tracejadas inscritas no círculo?\n</p><img src="/amcequiz/assets/images/questions/1.jpeg" />\n	{\n"a":"$30\\\\,^{\\\\circ}$",\n"b":"$90\\\\,^{\\\\circ}$",\n"c":"$60\\\\,^{\\\\circ}$",\n"d":"$45\\\\,^{\\\\circ}$",\n"e":"N.R.A."\n}	b
 9	1	3	<p>Uma concreteira deve atender diariamente os pontos indicados no plano cartesiano abaixo. Sabendo-se que o percurso não deve demandar muito tempo, pois o processo de pega (início da formação dos cristais que irão garantir a resistência da estrutura) do material inicia, aproximadamente, $3h$ após a sua hidratação.</P\n<p>Ajude o engenheiro civil responsável pela obra a encontrar a menor distância que o caminhão betoneira deverá seguir para que ele chegue a tempo nos seus devidos destinos, tendo $A$ como seu ponto de partida e chegada. Lembre-se que a menor distância entre dois pontos é uma reta. Escala:</p> <p>$unidade = 2,10km$</p> <img src="/amcequiz/assets/images/questions/3.png" />	{\n\t"a":"$150km$",\n\t"b":"$80m$",\n\t"c":"$72,54km$",\n\t"d":"$152,33km$",\n\t"e":"N. R. A."\n}	d
 17	2	3	<p>Um engenheiro civil identificou $6$ pontos que delimitam o terreno a se construir uma casa, apresentados no plano cartesiano abaixo. Sabendo que $64\\%$ do terreno será de área construída (área impermeável), qual a área permeável disponível nesse terreno?<p/>\n<p>Escala: $unidade = 0,95m$.</p><img src="/amcequiz/assets/images/questions/7.png" />	{\n\t"a":"$A_{permeável} = 370,00m^2$",\n\t"b":"$A_{permeável} = 120,21m^2$",\n\t"c":"$A_{permeável} = 333,92m^2$",\n\t"d":"$A_{permeável} = 213,71m^2$",\n\t"e":"N. R. A"\n}	b
-16	2	2	<p>O proprietário de uma loja contratou um engenheiro projetista para que ele dimensionasse a parede conforme a Figura abaixo, a fim de dividir um cômodo. Assim, chegou-se a conclusão que a parede teria raio interno (do círculo) de $10m$, ângulo que define o arco de $45\\,^{\\circ}$, espessura da parede $15cm$ e altura $2,70m$. Como a parede não receberá carga, além de seu próprio peso, a parede vai ser constituída de apenas $30\\%$ de blocos estruturais (de grande resistência), responsáveis pela integridade do conjunto. Os $70\\%$ restantes serão preenchidos com blocos de vedação, os quais apresentam baixa resistência.</p>\n<p>Qual a quantidade de blocos estruturais e de vedação necessários? E qual será a peso total de blocos utilizados nessa parede?</p>\n<p>Dados: bloco estrutural e vedação ($19cm \\times 19cm \\times 39cm$) de peso $14,90kgf$ e $11,52kgf$, respectivamente.\n<p>$\\pi = 3,14$</p><img src="/amcequiz/assets/images/questions/6.jpeg" />	{\n\t"a":"$N_{Est} = 30Blocos; N_{Ved} = 70Blocos; Peso_{total} = 4030,0Kgf$",\n\t"b":"$N_{Est} = 90Blocos; N_{Ved} = 230Blocos; Peso_{total} = 3999,8Kgf$",\n\t"c":"$N_{Est} = 96Blocos; N_{Ved} = 225Blocos; Peso_{total} = 4022,4Kgf$",\n\t"d":"$N_{Est} = 30Blocos; N_{Ved} = 70Blocos; Peso_{total} = 4022,4Kgf$",\n\t"e":"N. R. A"\n}	c
 20	2	4	<p>Numa laje dimensionada para resistir a $360kgf/m^2$ foi dada uma festa onde se identificou $5pessoas/m^2$. Sabendo que o engenheiro civil, muito prudente, adicionou uma margem de erro à resistência da laje de $30\\%$ de sua capacidade, qual será a proporção de força requerida em relação à resistência disponível nessa laje? Justifique a relação constatada. (a laje caiu?)</p>\n<p>Dado: $1 pessoa = 75kgf$.<p/>\n	{\n\t"a":"$\\\\frac{F_{solicitada}}{F_{disponível}} = 80,12\\\\%$. Portanto a laje não caiu.",\n\t"b":"$\\\\frac{F_{solicitada}}{F_{disponível}} = 104,17\\\\%$. Portanto a laje caiu.",\n\t"c":"$\\\\frac{F_{solicitada}}{F_{disponível}} = 85,00\\\\%$. Portanto a laje caiu",\n\t"d":"$\\\\frac{F_{solicitada}}{F_{disponível}} = 130,17\\\\%$. Portanto a laje não caiu",\n\t"e":"N. R. A"\n}	a
 21	2	5	<p>O engenheiro precisa quantificar a água escoada sobre e sob o solo, durante as diversas oscilações das chuvas ao longo do ano, para que seja possível dimensionar estruturas que vão conter a água (barragens, desvios de rios para a construção de hidroelétricas) ou aproveitá-la (hidroelétricas, captação de água para abastecer as cidades). Esse estudo demanda anos para que as previsões de máximas e mínimas chuvas sejam confiáveis. Numa propriedade rural será instalado um laboratório para tais estudos, e uma variável muito importante é a área que permeará a água.</p>\n<p>Sabendo que o terreno tem formato hexagonal regular com lado de $174m$, qual será a área em que a chuva incidirá (em alqueires)?</p>\n<p>$1 alqueire = 24200m^2$</p>	{\n\t"a":"$7,18 alqueires$",\n\t"b":"$242 alqueires$",\n\t"c":"$1,69 alqueires$",\n\t"d":"$3,25 alqueires$",\n\t"e":"N. R. A"\n}	d
+15	2	1	<p>Um galpão composto apenas pela cobertura de $25m$ de largura, $40m$ de comprimento e altura de $7m$ foi comprado por um fabricante de roupas a fim de erguer a sua sede. Para aproveitar a estrutura já construída, o engenheiro contratado irá reservar parte dessa área para um depósito e o restante da área será fechado para a formação de escritórios. Conforme o fabricante, a região separada para o depósito deve estocar cerca de $1500 caixas$ com dimensões: $a=1m$, $b=1m$, $c=2m$.</p>\n<p>Dadas as condições acima descritas, qual será a área ($m^2$) que o engenheiro deixará disponível para a construção dos escritórios?\n</p><img src="/amcequiz/assets/images/questions/5.png" />	{\n\t"a":"$570m^2$",\n\t"b":"$430m^2$",\n\t"c":"$320m^2$",\n\t"d":"$190m^2$",\n\t"e":"N. R. A"\n}	a
+16	2	2	<p>O proprietário de uma loja contratou um engenheiro projetista para que ele dimensionasse a parede conforme a Figura abaixo, a fim de dividir um cômodo. Assim, chegou-se a conclusão que a parede teria raio interno (do círculo) de $10m$, ângulo que define o arco de $45\\,^{\\circ}$, espessura da parede $15cm$ e altura $2,70m$. Como a parede não receberá carga, além de seu próprio peso, a parede vai ser constituída de apenas $30\\%$ de blocos estruturais (de grande resistência), responsáveis pela integridade do conjunto. Os $70\\%$ restantes serão preenchidos com blocos de vedação, os quais apresentam baixa resistência.</p>\n<p>Qual a quantidade de blocos estruturais e de vedação necessários? E qual será a peso total de blocos utilizados nessa parede?</p>\n<p>Dados: bloco estrutural e vedação ($19cm \\times 19cm \\times 39cm$) de peso $14,90kgf$ e $11,52kgf$, respectivamente.\n<p>$\\pi = 3,14$</p><img src="/amcequiz/assets/images/questions/6.jpeg" />	{\n\t"a":"$N_{Est} = 30Blocos; N_{Ved} = 70Blocos; Peso_{total} = 4030,0Kgf$",\n\t"b":"$N_{Est} = 90Blocos; N_{Ved} = 230Blocos; Peso_{total} = 3999,8Kgf$",\n\t"c":"$N_{Est} = 96Blocos; N_{Ved} = 225Blocos; Peso_{total} = 4022,4Kgf$",\n\t"d":"$N_{Est} = 30Blocos; N_{Ved} = 70Blocos; Peso_{total} = 4022,4Kgf$",\n\t"e":"N. R. A"\n}	c
 \.
 
 
 --
--- TOC entry 2040 (class 0 OID 0)
--- Dependencies: 172
--- Name: questao_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('questao_id_seq', 21, true);
-
-
---
--- TOC entry 2022 (class 0 OID 28152)
--- Dependencies: 173
+-- TOC entry 1982 (class 0 OID 49942)
+-- Dependencies: 175
 -- Data for Name: usuario; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY usuario (id, nome, login, senha, is_admin) FROM stdin;
 2	Andressa Mika Tanaka	mika	33895a2347888331e196adf74ce1decb	1
-1	arthur	\N	202cb962ac59075b964b07152d234b70	0
 3	Alessandro Matheus Verlique Rodrigues	\N	202cb962ac59075b964b07152d234b70	0
 4	Aline Santos de Marchi	\N	202cb962ac59075b964b07152d234b70	0
 5	Ana Beatriz Chamorro e Silva	\N	202cb962ac59075b964b07152d234b70	0
@@ -435,20 +459,31 @@ COPY usuario (id, nome, login, senha, is_admin) FROM stdin;
 35	Victor Marcelo Crivelaro Maximo	\N	202cb962ac59075b964b07152d234b70	0
 36	Vinicius Ryu Agata	\N	202cb962ac59075b964b07152d234b70	0
 37	Wildney Rodolpho de Oliveira	\N	202cb962ac59075b964b07152d234b70	0
+1	arthur	\N	202cb962ac59075b964b07152d234b70	0
 \.
 
 
 --
--- TOC entry 2041 (class 0 OID 0)
--- Dependencies: 174
--- Name: usuario_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- TOC entry 1983 (class 0 OID 58115)
+-- Dependencies: 177
+-- Data for Name: usuario_questao; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('usuario_id_seq', 37, true);
+COPY usuario_questao (usuario_id, questao_id, is_correta_jogada_ranking) FROM stdin;
+2	15	\N
+2	1	t
+2	3	t
+2	9	t
+2	11	t
+1	1	\N
+1	3	\N
+1	9	\N
+1	11	\N
+\.
 
 
 --
--- TOC entry 2010 (class 2606 OID 28207)
+-- TOC entry 1953 (class 2606 OID 49953)
 -- Name: pk_agrupamento_jogos; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -457,7 +492,7 @@ ALTER TABLE ONLY agrupamento_jogos
 
 
 --
--- TOC entry 1998 (class 2606 OID 28161)
+-- TOC entry 1957 (class 2606 OID 49955)
 -- Name: pk_jogo; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -466,7 +501,7 @@ ALTER TABLE ONLY jogo
 
 
 --
--- TOC entry 2002 (class 2606 OID 28163)
+-- TOC entry 1963 (class 2606 OID 49957)
 -- Name: pk_questao; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -475,7 +510,7 @@ ALTER TABLE ONLY questao
 
 
 --
--- TOC entry 2006 (class 2606 OID 28165)
+-- TOC entry 1967 (class 2606 OID 49959)
 -- Name: pk_usuario; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -484,7 +519,7 @@ ALTER TABLE ONLY usuario
 
 
 --
--- TOC entry 2000 (class 2606 OID 28167)
+-- TOC entry 1961 (class 2606 OID 49961)
 -- Name: pk_usuario_jogo; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -493,7 +528,16 @@ ALTER TABLE ONLY jogo_usuario
 
 
 --
--- TOC entry 2012 (class 2606 OID 28209)
+-- TOC entry 1971 (class 2606 OID 58119)
+-- Name: pk_usuario_questao; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY usuario_questao
+    ADD CONSTRAINT pk_usuario_questao PRIMARY KEY (usuario_id, questao_id);
+
+
+--
+-- TOC entry 1955 (class 2606 OID 49963)
 -- Name: uq_agrupamento_jogos_nome; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -502,7 +546,16 @@ ALTER TABLE ONLY agrupamento_jogos
 
 
 --
--- TOC entry 2004 (class 2606 OID 28169)
+-- TOC entry 1959 (class 2606 OID 58131)
+-- Name: uq_jogo_nome_grupo; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY jogo
+    ADD CONSTRAINT uq_jogo_nome_grupo UNIQUE (nome, grupo_id);
+
+
+--
+-- TOC entry 1965 (class 2606 OID 49965)
 -- Name: uq_jogo_numero_questao; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -511,7 +564,7 @@ ALTER TABLE ONLY questao
 
 
 --
--- TOC entry 2008 (class 2606 OID 28193)
+-- TOC entry 1969 (class 2606 OID 49967)
 -- Name: uq_usuario_login; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -520,16 +573,16 @@ ALTER TABLE ONLY usuario
 
 
 --
--- TOC entry 2013 (class 2606 OID 28215)
+-- TOC entry 1972 (class 2606 OID 49968)
 -- Name: fk_jogo_agrupamento_jogos; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY jogo
-    ADD CONSTRAINT fk_jogo_agrupamento_jogos FOREIGN KEY (grupo) REFERENCES agrupamento_jogos(id) ON UPDATE CASCADE;
+    ADD CONSTRAINT fk_jogo_agrupamento_jogos FOREIGN KEY (grupo_id) REFERENCES agrupamento_jogos(id) ON UPDATE CASCADE;
 
 
 --
--- TOC entry 2016 (class 2606 OID 28170)
+-- TOC entry 1975 (class 2606 OID 49973)
 -- Name: fk_questao_jogo; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -538,7 +591,7 @@ ALTER TABLE ONLY questao
 
 
 --
--- TOC entry 2014 (class 2606 OID 28175)
+-- TOC entry 1973 (class 2606 OID 49978)
 -- Name: fk_usuario_jogo_jogo; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -547,7 +600,7 @@ ALTER TABLE ONLY jogo_usuario
 
 
 --
--- TOC entry 2015 (class 2606 OID 28180)
+-- TOC entry 1974 (class 2606 OID 49983)
 -- Name: fk_usuario_jogo_usuario; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -556,7 +609,25 @@ ALTER TABLE ONLY jogo_usuario
 
 
 --
--- TOC entry 2032 (class 0 OID 0)
+-- TOC entry 1977 (class 2606 OID 58125)
+-- Name: fk_usuario_questao_questao; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY usuario_questao
+    ADD CONSTRAINT fk_usuario_questao_questao FOREIGN KEY (questao_id) REFERENCES questao(id) ON UPDATE CASCADE;
+
+
+--
+-- TOC entry 1976 (class 2606 OID 58120)
+-- Name: fk_usuario_questao_usuario; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY usuario_questao
+    ADD CONSTRAINT fk_usuario_questao_usuario FOREIGN KEY (usuario_id) REFERENCES usuario(id) ON UPDATE CASCADE;
+
+
+--
+-- TOC entry 1990 (class 0 OID 0)
 -- Dependencies: 6
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
@@ -567,7 +638,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2013-10-04 13:06:11 BRT
+-- Completed on 2013-10-07 13:49:06
 
 --
 -- PostgreSQL database dump complete
