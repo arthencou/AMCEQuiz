@@ -7,7 +7,7 @@
 <title>AMCEQuiz</title>
 <link href="${pageContext.request.contextPath}/assets/bootstrap/css/bootstrap.css"
 	rel="stylesheet">
-<link href="${pageContext.request.contextPath}/assets/stylesheet.css"
+<link href="${pageContext.request.contextPath}/assets/css/stylesheet.css"
 	rel="stylesheet">
 </head>
 <body>

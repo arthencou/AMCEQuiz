@@ -20,7 +20,7 @@ public class AccessController {
 		HttpSession session = request.getSession(false);
 
 		if (session != null) {
-			if (session.getAttribute("userDetails") != null) {
+			if (session.getAttribute("usuario") != null) {
 				return "redirect:home";
 			}
 		}

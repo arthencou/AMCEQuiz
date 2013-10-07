@@ -2,9 +2,10 @@ package br.uel.amcequiz.dao;
 
 import java.util.List;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.stereotype.Repository;
 
-import br.uel.amcequiz.model.JogosUsuarios;
+import br.uel.amcequiz.model.JogoUsuario;
 import br.uel.amcequiz.model.Jogo;
 import br.uel.amcequiz.util.HibernateUtils;
 
@@ -22,29 +23,25 @@ public class JogoDao {
 	public List<Jogo> findByUserId(Integer usuarioId) {
 		return HibernateUtils.getSessionFactory().getCurrentSession()
 				/*.createQuery("select j from Jogo j join j.usuarios u where u.id in(:id )")*/
-				.createQuery("select j from JogosUsuarios ju join ju.jogo j " +
+				.createQuery("select j from JogoUsuario ju join ju.jogo j " +
 						"join ju.usuario u where u.id = :id " +
-						"and ju.qtddPartidasDisponiveis > 0 " +
+						"and ju.qtddPartidasDisponiveis != :zero " +
 						"order by j.grupo.nome, j.nome")
 				.setInteger("id", usuarioId)
+				.setInteger("zero", 0)
 				.list();
 	}
 
-	public JogosUsuarios getJogoUsuario(Integer jogoId, Integer usuarioId) {
-		return (JogosUsuarios) HibernateUtils.getSessionFactory().getCurrentSession()
-				.createQuery("from JogosUsuarios where jogo.id = :jogoId " +
+	public JogoUsuario getJogoUsuario(Integer jogoId, Integer usuarioId) {
+		return (JogoUsuario) HibernateUtils.getSessionFactory().getCurrentSession()
+				.createQuery("from JogoUsuario where jogo.id = :jogoId " +
 						"and usuario.id = :usuarioId ")
 				.setInteger("jogoId", jogoId)
 				.setInteger("usuarioId", usuarioId)
 				.uniqueResult();
 	}
 
-	public void saveJogoUsuario(JogosUsuarios jogoUsuario) {
-		
-		System.out.println("\n dadosJogada\n" +
-				"\t melhor tempo: "+jogoUsuario.getMelhorTempo()+"\n"+
-				"\t melhor numero acertos: "+jogoUsuario.getMelhorNumeroAcertos()+"\n");
-		
+	public void saveJogoUsuario(JogoUsuario jogoUsuario) {
 		HibernateUtils.getSessionFactory().getCurrentSession()/*.saveOrUpdate(jogoUsuario);*/
 		.createSQLQuery("UPDATE jogo_usuario "
 				+ "SET melhor_tempo = :melhorTempo , "
@@ -55,6 +52,11 @@ public class JogoDao {
 		.setInteger("usuarioId", jogoUsuario.getUsuario().getId())
 		.setInteger("jogoId", jogoUsuario.getJogo().getId())
 		.executeUpdate();
+	}
+
+	public void save(Jogo jogo) throws ConstraintViolationException {
+		HibernateUtils.getSessionFactory().getCurrentSession()
+		.save(jogo);
 	}
 
 }

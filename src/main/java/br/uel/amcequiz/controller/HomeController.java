@@ -51,10 +51,15 @@ public class HomeController {
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public ModelAndView home(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
+
+		session.removeAttribute("jogoId");
+		session.removeAttribute("inicioJogo");
+		session.removeAttribute("noQuestao");
+		session.removeAttribute("questao");
+		session.removeAttribute("jogadasDados");
 		
 		Usuario usuario = (Usuario) session.getAttribute("usuario");
 		
-		System.out.println("");
 		return new ModelAndView("home", 
 				"gamesList", jogoManager.findByUserId(usuario.getId()));
 	}

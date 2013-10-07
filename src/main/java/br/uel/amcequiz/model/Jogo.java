@@ -28,7 +28,7 @@ public class Jogo {
 	private Long tempoMaximo;
 	
 	@ManyToOne
-	@JoinColumn(name = "grupo")
+	@JoinColumn(name = "grupo_id")
 	private AgrupamentoJogos grupo;
 	
 	/*@ManyToMany(cascade = CascadeType.ALL)

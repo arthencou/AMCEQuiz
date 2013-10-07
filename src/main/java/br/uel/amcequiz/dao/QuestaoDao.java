@@ -5,10 +5,16 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import br.uel.amcequiz.model.Questao;
+import br.uel.amcequiz.model.UsuarioQuestao;
 import br.uel.amcequiz.util.HibernateUtils;
 
 @Repository
 public class QuestaoDao {
+
+	public void saveUsuarioQuestao(UsuarioQuestao usuarioQuestao) {
+		HibernateUtils.getSessionFactory().getCurrentSession()
+				.saveOrUpdate(usuarioQuestao);
+	}
 
 	public Questao findByJogoIdENum(Integer jogoId,
 			Integer noQuestao) {

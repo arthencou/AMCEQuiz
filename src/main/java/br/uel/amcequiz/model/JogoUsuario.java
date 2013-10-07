@@ -13,9 +13,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Entity
-@IdClass(JogosUsuariosPK.class)
+@IdClass(JogoUsuarioPK.class)
 @Table(name = "jogo_usuario")
-public class JogosUsuarios {
+public class JogoUsuario {
 
 	@Id
 	@ManyToOne
@@ -36,8 +36,8 @@ public class JogosUsuarios {
 	private Integer melhorNumeroAcertos;
 	
 	@Column(name = "qtdd_partidas_disponiveis")
+	@NotNull
 	private Integer qtddPartidasDisponiveis;
-	
 
 	public Usuario getUsuario() {
 		return usuario;
@@ -80,8 +80,9 @@ public class JogosUsuarios {
 	}
 
 	public void decrementarPartidas() {
-		qtddPartidasDisponiveis--;
-		System.out.println("\n"+qtddPartidasDisponiveis+"\n");
+		if (qtddPartidasDisponiveis > 0) {
+			qtddPartidasDisponiveis--;
+		}
 	}
 	
 }

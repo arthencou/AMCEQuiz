@@ -1,49 +1,38 @@
 <%@include file="/WEB-INF/views/include.jsp"%>
 <%@include file="/WEB-INF/views/header.jsp"%>
-<link href="${pageContext.request.contextPath}/assets/css/home.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/assets/css/gameover.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/assets/css/fundo-degrade.css" rel="stylesheet">
 
 <%@include file="/WEB-INF/views/barra.jsp"%>
-
-<style>
-</style>
 
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<h1 class="panel-title">Resumo do jogo</h1>
 	</div>
 	<div class="panel-body">
-		<core:choose>
-			<core:when test="${save == true}">
-				<core:set var="totalAcertos" value="${0}" />
-				<core:forEach items="${jogadasDados}" var="jogada">
-					<ul>
-						<li>Questão ${jogada.key}:
-							<core:choose>
-								<core:when test="${jogada.value.isCorrect() == true}">
-									<span class="azul">correta</span>
-									<core:set var="totalAcertos" value="${totalAcertos+1}" />
-								</core:when>
-								<core:when test="${jogada.value.isCorrect == 0}">
-									<span class="negrito">não respondida</span>
-								</core:when>
-								<core:otherwise>
-									<span class="vermelho">incorreta</span>
-								</core:otherwise>
-							</core:choose>
-						</li>
-					</ul>
-				</core:forEach>
-				<div class="alert alert-info">
-					Seu desempenho foi submetido ao ranking.
-				</div>
-			</core:when>
-			<core:otherwise>
-				<div class="alert alert-warning">
-					Você desistiu do jogo. Seu desempenho não foi submetido ao ranking.
-				</div>
-			</core:otherwise>
-		</core:choose>
+		<security:authorize access="hasRole('ROLE_ALUNO')">
+			<core:choose>
+				<core:when test="${save == true}">
+					<%@include file="/WEB-INF/views/game/gmovresults.jsp"%>
+					<div class="alert alert-info">
+						Seu desempenho foi submetido ao ranking.
+					</div>
+				</core:when>
+				<core:when test="${save == false}">
+					<%@include file="/WEB-INF/views/game/gmovresults.jsp"%>
+					<div class="alert alert-warning">
+						Seu desempenho ainda não foi melhor. A posição no ranking não será aprimorada.
+					</div>
+				</core:when>
+				<core:otherwise>
+					<div class="alert alert-warning">
+						Você desistiu do jogo. Seu desempenho não foi submetido ao ranking.
+					</div>
+				</core:otherwise>
+			</core:choose>
+		</security:authorize>
+		<security:authorize access="hasRole('ROLE_ADMIN')">
+			<%@include file="/WEB-INF/views/game/gmovresults.jsp"%>
+		</security:authorize>
 	</div>
 	<div class="panel-footer">
 		<p>

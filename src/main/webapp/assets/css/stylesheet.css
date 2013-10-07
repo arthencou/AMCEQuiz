@@ -1,0 +1,19 @@
+.negrito {
+	font-weight:bold;
+}
+.azul {
+  	padding-left: 15px;
+	font-weight:bold;
+	color:blue;
+}
+.vermelho {
+  	padding-left: 15px;
+	font-weight:bold;
+	color:red;
+}
+.nome-usuario {
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 40px;
+  padding-bottom: 19px;
+}

@@ -8,7 +8,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,7 +22,7 @@ import br.uel.amcequiz.model.Usuario;
 
 @Controller
 @RequestMapping(value = "/game")
-public class PlayController {
+public class GameController {
 	
 	private QuestaoManager questaoManager;
 	private JogoManager jogoManager;
@@ -60,18 +59,18 @@ public class PlayController {
 		return dadosJogada;
 	}
 	
-	@RequestMapping("/play")
-	public synchronized ModelAndView play(@RequestParam String jogo, 
-			HttpServletRequest request, Model model) {
+	@RequestMapping("/set")
+	public synchronized String set(@RequestParam String game, 
+			HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		if (session == null) {
-			return new ModelAndView("redirect:/accessDenied");
+			return "redirect:/accessDenied";
 		}
 		
-		Integer jogoId = Integer.parseInt(jogo);
+		Integer jogoId = Integer.parseInt(game);
 		if (!jogoManager.isPlayableByUser(
 				((Usuario)session.getAttribute("usuario")).getId(), jogoId) ){
-			return new ModelAndView("redirect:/accessDenied");
+			return "redirect:/accessDenied";
 		}
 		
 		Questao firstQuestion = 
@@ -79,21 +78,37 @@ public class PlayController {
 		
 		if (firstQuestion != null) {
 			session.setAttribute("jogoId", jogoId);
-			session.setAttribute("inicioJogo", System.currentTimeMillis());
 			session.setAttribute("questao", firstQuestion);
 			session.setAttribute("noQuestao", 1L);
 			generateDadosJogada(firstQuestion, session);
 			
-			ModelAndView modelAndView =  new ModelAndView("game/play");
-			modelAndView.addObject("questoesList", 
-					questaoManager.findAllByJogoId(jogoId));
-			modelAndView.addObject("tempoMaximoJogo", 
-					((Jogo) jogoManager.findById(jogoId)).getTempoMaximo());
-			return modelAndView;
-			
+			return "game/goodluck";
 		} else {
+			return "redirect:/home";
+		}
+	}
+	
+	@RequestMapping("/play")
+	public synchronized ModelAndView play(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		if (session == null) {
+			return new ModelAndView("redirect:/accessDenied");
+		}
+		
+		Integer jogoId = (Integer) session.getAttribute("jogoId");
+		if (jogoId == null) {
 			return new ModelAndView("redirect:/home");
 		}
+			
+		ModelAndView modelAndView =  new ModelAndView("game/play");
+		modelAndView.addObject("questoesList", 
+				questaoManager.findAllByJogoId(jogoId));
+		modelAndView.addObject("tempoMaximoJogo", 
+				((Jogo) jogoManager.findById(jogoId)).getTempoMaximo());
+
+		session.setAttribute("inicioJogo", System.currentTimeMillis());
+		
+		return modelAndView;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -150,7 +165,7 @@ public class PlayController {
 
 		ModelAndView model = new ModelAndView("game/alternatives");
 		model.addObject("alternativasList", questao.getAlternativas());
-		if (dadosJogada.getIsCorrect() != DadosJogada.NOT_ANSWERED) {
+		if (dadosJogada.getIsCorrect() != null) {
 			model.addObject("altSel", dadosJogada.getOpcao());
 		}
 		return model;
@@ -177,9 +192,9 @@ public class PlayController {
 		Questao questao = (Questao) session.getAttribute("questao");
 		
 		if (op.equals(questao.getResposta())) {
-			dadosJogada.setIsCorrect(DadosJogada.TRUE);
+			dadosJogada.setIsCorrect(new Boolean(true));
 		} else {
-			dadosJogada.setIsCorrect(DadosJogada.FALSE);
+			dadosJogada.setIsCorrect(new Boolean(false));
 		}
 		dadosJogada.setOpcao(op);
 	}
@@ -187,7 +202,7 @@ public class PlayController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/gameover", method = RequestMethod.GET)
 	public synchronized ModelAndView gameOver(HttpServletRequest request,
-			@RequestParam(required = false) String save) {
+			@RequestParam(required = true) String save) {
 		HttpSession session = request.getSession(false);
 		if (session == null) {
 			return new ModelAndView("redirect:/accessDenied");
@@ -207,13 +222,16 @@ public class PlayController {
 		
 		ModelAndView model = new ModelAndView("game/gameover");
 
+		Boolean save_ = null;
 		Long tempoTotalJogo = finalJogo - inicioJogo;
 		if (save != null && save.equals("true")) {
-			jogoManager.saveDadosJogadas(jogoId, usuario.getId(), jogadasDados,
-					tempoTotalJogo, questaoManager.findAllByJogoId(jogoId));
-			model.addObject("save", true);
-		} else {
-			model.addObject("save", false);
+			if (jogoManager.saveDadosJogadas(
+					jogoId, usuario.getId(), jogadasDados,
+					tempoTotalJogo, questaoManager.findAllByJogoId(jogoId))) {
+				save_ = true;
+			} else {
+				save_ = false;
+			}
 		}
 		
 		session.removeAttribute("jogoId");
@@ -221,7 +239,8 @@ public class PlayController {
 		session.removeAttribute("noQuestao");
 		session.removeAttribute("questao");
 		session.removeAttribute("jogadasDados");
-		
+
+		model.addObject("save", save_);
 		model.addObject("jogadasDados", jogadasDados);
 		model.addObject("tempoTotalJogo", new Long(tempoTotalJogo / 1000));
 		return model;

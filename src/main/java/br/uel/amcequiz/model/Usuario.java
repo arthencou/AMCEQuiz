@@ -1,6 +1,7 @@
 package br.uel.amcequiz.model;
 
 import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,6 +34,14 @@ public class Usuario implements Serializable {
 	
 	@Column(name = "is_admin")
 	private Integer isAdmin;
+	
+	public Usuario() {
+		
+	}
+
+	public Usuario(Integer id) {
+		this.id = id;
+	}
 
 	public Integer getId() {
 		return id;

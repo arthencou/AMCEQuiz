@@ -1,5 +1,5 @@
 <%@include file="/WEB-INF/views/header.jsp"%>
-<link href="${pageContext.request.contextPath}/assets/css/identify.css"
+<link href="${pageContext.request.contextPath}/assets/css/login.css"
 	rel="stylesheet">
 
 <form id="formLogin" class="form-signin" action="j_spring_security_check" method="post">

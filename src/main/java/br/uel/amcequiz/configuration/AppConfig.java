@@ -14,7 +14,8 @@ import org.springframework.web.servlet.view.JstlView;
 @ComponentScan("br.uel.amcequiz")
 @Configuration
 @EnableWebMvc
-@ImportResource({ "classpath:hibernate.xml", "classpath:spring-security.xml" })
+@ImportResource({ "classpath:hibernate.xml", "classpath:spring-security.xml",
+	"classpath:spring-mvc.xml"})
 public class AppConfig extends WebMvcConfigurerAdapter {
 
 	@Override

@@ -6,16 +6,16 @@ public class DadosJogada implements Serializable {
 	
 	private static final long serialVersionUID = -3476479517678949900L;
 	
-	public final static Integer NOT_ANSWERED = 0;
+	/*public final static Integer NOT_ANSWERED = 0;
 	public final static Integer TRUE = 1;
-	public final static Integer FALSE = 2;
+	public final static Integer FALSE = 2;*/
 	
 	private Integer jogoId;
 	private Integer noQuestao;
 	/*private Long timeStart;
 	private Long timeFinish;*/
 	private String opcao;
-	private Integer isCorrect;
+	private Boolean/*Integer*/ isCorrect;
 	
 	
 	public DadosJogada() {
@@ -23,7 +23,7 @@ public class DadosJogada implements Serializable {
 		noQuestao = 0;
 		/*timeStart = 0L;;
 		timeFinish = 0L;*/
-		isCorrect = NOT_ANSWERED;
+		isCorrect = null;//NOT_ANSWERED;
 		opcao = "";
 	}
 	
@@ -67,16 +67,21 @@ public class DadosJogada implements Serializable {
 		this.opcao = opcao;
 	}
 	
-	public Integer getIsCorrect() {
+	public Boolean/*Integer*/ getIsCorrect() {
 		return isCorrect;
 	}
 	
-	public void setIsCorrect(Integer isCorrect) {
+	public void setIsCorrect(Boolean/*Integer*/ isCorrect) {
 		this.isCorrect = isCorrect;
 	}
 
 	public boolean isCorrect() {
-		return (isCorrect == TRUE)?true:false;
+		//return (isCorrect == TRUE)?true:false;
+		if (isCorrect != null) {
+			return isCorrect;
+		} else {
+			return false;
+		}
 	}
 	
 }
