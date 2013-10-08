@@ -8,12 +8,12 @@
 	</div>
 	<div class="panel-body">
 		<div class="btn-group">
-			<core:set var="count" value="${0}" />
+			<core:set var="contQ" value="${0}" />
 			<core:forEach items="${questoesList}" var="questao">
-				<core:set var="count" value="${count+1}" />
-				<button id="questao${count}" type="button" class="btn btn-default" 
-					onclick="selecionarQuestao(${count});">
-					Questão ${count}
+				<core:set var="contQ" value="${contQ+1}" />
+				<button id="questao${contQ}" type="button" class="btn btn-default" 
+					onclick="selecionarQuestao(${contQ});">
+					Questão ${contQ}
 				</button>
 			</core:forEach>
 		</div>
@@ -26,24 +26,63 @@
 		<div class="panel-heading">
 			<h3 id="questaoTitle" class="panel-title">Questão</h3>
 		</div>
-		<div  id="questao" class="panel-body">
-		</div>
+		<table class="panel-body">
+			<tbody><tr>
+				<td>
+					<div id="questaoCode">
+						<div class="span6">
+			      			<h2>Corpo da Questão (em HTML e LaTeX)</h2>
+			        		<textarea class="field span12" id="textarea" rows="6" 
+			        			placeholder="Enter a short synopsis"></textarea>
+			    		</div>
+					</div>
+				</td>
+				<td>
+					<div id="questaoRendered">
+						<core:out value="${questaoAtual.texto}" />
+					</div>
+					<script>MathJax.Hub.Queue(["Typeset",MathJax.Hub,"questaoRendered"]);</script>
+				</td>
+			</tr></tbody>
+		</table>
 	</div>
 </div>
 
 <div class="container-fluid">
 	<div class="panel">
-        <div class="panel-heading">
-          <h3 class="panel-title">Alternativas</h3>
-        </div>
-        <table><tbody><tr>
-          <td>
-			<div id="alternativas" class="container theme-showcase">
-			  <core:forEach items="${alternativasList}" var="alternativa">
-			  	
-			  </core:forEach>
-			</div>
-		  </td>
+		<div class="panel-heading">
+			<h3 class="panel-title">Alternativas</h3>
+		</div>
+		<table><tbody><tr>
+			<td>
+				<div id="alternativasCode" class="container theme-showcase">
+					<div class="input-group">
+						<core:set var="ContA" value="${0}"/>
+						<core:forEach items="${alternativasList}" var="alternativa">
+							<span class="input-group-addon">
+								<input type="radio"
+									<core:if test="${questaoAtual.resposta.equals(alfabeto[ContA])}">
+										checked="true"
+									</core:if>>
+							</span>
+			        		<textarea class="field span12" id="textarea" rows="6" 
+			        			placeholder="Texto da alternativa ${alfabeto[ContA]}"></textarea>
+							<core:set var="ContA" value="${ContA+1}"/>
+						</core:forEach>
+					</div>
+				</div>
+			</td>
+			<td>
+				<div id="alternativasRendered" class="container theme-showcase">
+					<core:set var="ContA" value="${0}"/>
+					<core:forEach items="${alternativasList}" var="alternativa">
+						<core:out value="${alfabeto[ContA]}"/>
+						<core:out value="${alternativa.value}"/>
+						<core:set var="ContA" value="${ContA+1}"/>
+					</core:forEach>
+				</div>
+				<script>MathJax.Hub.Queue(["Typeset",MathJax.Hub,"alternativasRendered"]);</script>
+			</td>
 		</tr></tbody></table>
 	</div>
 </div>

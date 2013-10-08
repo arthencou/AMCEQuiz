@@ -99,7 +99,8 @@ public class AdminController {
 
 	@RequestMapping(value = "/editquestoes", method = RequestMethod.GET)
 	public synchronized ModelAndView editQuestoes() {
-		return new ModelAndView("admin/editquestoes");
+		ModelAndView model = new ModelAndView("admin/editquestoes");
+		model.addObject("");
 	}
 
 	@RequestMapping(value = "/editpermissoes", method = RequestMethod.GET)
