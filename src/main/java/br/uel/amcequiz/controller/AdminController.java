@@ -62,7 +62,7 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/editjogo", method = RequestMethod.GET)
-	public synchronized @ResponseBody ModelAndView editJogo() {
+	public synchronized ModelAndView editJogo() {
 		return new ModelAndView("admin/editjogo");
 	}
 	
@@ -80,12 +80,11 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/savejogo", method = RequestMethod.POST)
-	public synchronized ModelAndView saveJogo(
+	public synchronized @ResponseBody void saveJogo(
 			HttpServletRequest request, @ModelAttribute Jogo jogo) {
 		HttpSession session = request.getSession(false);
 		AgrupamentoJogos agrupamento = 
 				(AgrupamentoJogos) session.getAttribute("agrupamento");
-		
 		Jogo jogo_ = null;
 		if (agrupamento != null) {
 			jogo_ = jogoManager.findByNomeEGrupo(
@@ -97,18 +96,16 @@ public class AdminController {
 			jogo = jogo_;
 		}
 		session.setAttribute("jogo", jogo);
-
-		return new ModelAndView("admin/editjogo");
 	}
 
-	@RequestMapping("/editquestoes")
-	public synchronized String editQuestoes() {
-		return "admin/editquestoes";
+	@RequestMapping(value = "/editquestoes", method = RequestMethod.GET)
+	public synchronized ModelAndView editQuestoes() {
+		return new ModelAndView("admin/editquestoes");
 	}
 
-	@RequestMapping("/editpermissoes")
-	public synchronized String editPermissoes() {
-		return "admin/editpermissoes";
+	@RequestMapping(value = "/editpermissoes", method = RequestMethod.GET)
+	public synchronized ModelAndView editPermissoes() {
+		return new ModelAndView("admin/editpermissoes");
 	}
 	
 	@RequestMapping("/submit")
