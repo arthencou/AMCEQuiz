@@ -136,13 +136,13 @@
 </button>
 
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-<script type="text/javascript" src="/${pageContext.request.contextPath}/assets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/assets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script>MathJax.Hub.Queue(["Typeset",MathJax.Hub,"questaoRendered"]);</script>
 <script>
 function selecionarQuestao(qnum) {
 	$.ajax({
 		type : "POST",
-		url : "/${pageContext.request.contextPath}/admin/setquestao",
+		url : "${pageContext.request.contextPath}/admin/setquestao",
 		data : "qnum=" + qnum,
 		success : function(response) {
 			gotoQuestoes();
@@ -161,7 +161,7 @@ function salvarQuestao(procedimento, args) {
 	var questao = $("#questao").serialize();
 	$.ajax({
 		type : "POST",
-		url : "/${pageContext.request.contextPath}/admin/savequestao",
+		url : "${pageContext.request.contextPath}/admin/savequestao",
 		data : questao,
 		success : function() {
 			window[procedimento](args);
@@ -174,7 +174,7 @@ function salvarQuestao(procedimento, args) {
 function novaQuestao() {
 	$.ajax({
 		type : "POST",
-		url : "/${pageContext.request.contextPath}/admin/newquestao",
+		url : "${pageContext.request.contextPath}/admin/newquestao",
 		success : function() {
 			gotoQuestoes();
 		},
@@ -191,7 +191,7 @@ function removerQuestao(qnum) {
 	}
 	$.ajax({
 		type : "POST",
-		url : "/${pageContext.request.contextPath}/admin/deletequestao",
+		url : "${pageContext.request.contextPath}/admin/deletequestao",
 		data : "qnum="+qnum,
 		success : function() {
 			gotoQuestoes();
@@ -204,7 +204,7 @@ function removerQuestao(qnum) {
 function novaAlternativa() {
 	$.ajax({
 		type : "POST",
-		url : "/${pageContext.request.contextPath}/admin/newalternativa",
+		url : "${pageContext.request.contextPath}/admin/newalternativa",
 		success : function() {
 			gotoQuestoes();
 		},
@@ -221,7 +221,7 @@ function removerAlternativa(letra) {
 	}
 	$.ajax({
 		type : "POST",
-		url : "/${pageContext.request.contextPath}/admin/deletealternativa",
+		url : "${pageContext.request.contextPath}/admin/deletealternativa",
 		data : "letra="+letra,
 		success : function() {
 			gotoQuestoes();

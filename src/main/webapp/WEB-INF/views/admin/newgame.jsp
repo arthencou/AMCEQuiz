@@ -19,7 +19,7 @@ var navAtual = 'navJogo';
 function gotoJogo() {
 	$.ajax({
 		type : "GET",
-		url : "/${pageContext.request.contextPath}/admin/editjogo",
+		url : "${pageContext.request.contextPath}/admin/editjogo",
 		success : function(response) {
 			$('#'+navAtual).removeClass();
 			navAtual = 'navJogo';
@@ -34,7 +34,7 @@ function gotoJogo() {
 function gotoQuestoes() {
 	$.ajax({
 		type : "GET",
-		url : "/${pageContext.request.contextPath}/admin/editquestoes",
+		url : "${pageContext.request.contextPath}/admin/editquestoes",
 		success : function(response) {
 			$('#'+navAtual).removeClass();
 			navAtual = 'navQuestoes';
@@ -49,7 +49,7 @@ function gotoQuestoes() {
 function gotoPermissoes() {
 	$.ajax({
 		type : "GET",
-		url : "/${pageContext.request.contextPath}/admin/editpermissoes",
+		url : "${pageContext.request.contextPath}/admin/editpermissoes",
 		success : function(response) {
 			$('#'+navAtual).removeClass();
 			navAtual = 'navPermissoes';
@@ -64,9 +64,9 @@ function gotoPermissoes() {
 function discardChanges() {
 	$.ajax({
 		type : "POST",
-		url : "/${pageContext.request.contextPath}/admin/flushgamechanges",
+		url : "${pageContext.request.contextPath}/admin/flushgamechanges",
 		success : function(response) {
-			window.location.replace("/${pageContext.request.contextPath}/home");
+			window.location.replace("${pageContext.request.contextPath}/home");
 		},
 		error : function(e) {
 			alert('Error: ' + e);
@@ -76,10 +76,10 @@ function discardChanges() {
 function persistChanges() {
 	$.ajax({
 		type : "POST",
-		url : "/${pageContext.request.contextPath}/admin/persistgamechanges",
+		url : "${pageContext.request.contextPath}/admin/persistgamechanges",
 		success : function(response) {
 			if (response.successful == 'true') {
-				window.location.replace("/${pageContext.request.contextPath}/home");
+				window.location.replace("${pageContext.request.contextPath}/home");
 			} else {
 				alert('Não foi possível salvar todos os dados');
 			}

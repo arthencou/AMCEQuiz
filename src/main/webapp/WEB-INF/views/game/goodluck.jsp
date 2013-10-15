@@ -5,7 +5,7 @@
 	<tbody>
 		<tr>
 			<td>
-				<img src="/${pageContext.request.contextPath}/assets/images/mascote.png" /></td>
+				<img src="${pageContext.request.contextPath}/assets/images/mascote.png" /></td>
 			<td>
 				<h1 class="text-center">Boa sorte!</h1>
 			</td>
@@ -19,6 +19,6 @@ $(document).ready(function() {
 	setTimeout("redirectPlay()", 3500);
 });
 function redirectPlay() {
-	window.location.replace("/${pageContext.request.contextPath}/game/play");
+	window.location.replace("${pageContext.request.contextPath}/game/play");
 }
 </script>

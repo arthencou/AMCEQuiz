@@ -61,4 +61,4 @@ function timeFormat(time) {
 </core:forEach>
 
 <%@include file="/WEB-INF/views/footer.jsp"%>
-<script type="text/javascript" src="/${pageContext.request.contextPath}/assets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/assets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
