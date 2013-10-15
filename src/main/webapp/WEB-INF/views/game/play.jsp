@@ -9,11 +9,11 @@
 			<span class="ctempo label label-info" id="tempo"></span>
 		</li>
 		<security:authorize access="hasRole('ROLE_ALUNO')">
-			<li><a href="/amcequiz/game/gameover?save=false">Desistir do jogo</a></li>
-			<li class="active"><a href="/amcequiz/game/gameover?save=true">Salvar jogo</a></li>
+			<li><a href="/${pageContext.request.contextPath}/game/gameover?save=false">Desistir do jogo</a></li>
+			<li class="active"><a href="/${pageContext.request.contextPath}/game/gameover?save=true">Salvar jogo</a></li>
 		</security:authorize>
 		<security:authorize access="hasRole('ROLE_ADMIN')">
-			<li class="active"><a href="/amcequiz/game/gameover?save=true">Terminar e corrigir</a></li>
+			<li class="active"><a href="/${pageContext.request.contextPath}/game/gameover?save=true">Terminar e corrigir</a></li>
 		</security:authorize>
 	</ul>
 </div>
@@ -80,7 +80,7 @@ function selecionarQuestao(qnum) {
 	}
 	$.ajax({
 		type : "POST",
-		url : "/amcequiz/game/selectQuestion",
+		url : "/${pageContext.request.contextPath}/game/selectQuestion",
 		data : "qnum=" + qnum,
 		success : function(response) {
 			questaoAtual = qnum;
@@ -96,7 +96,7 @@ function selecionarQuestao(qnum) {
 function carregarQuestao() {
 	$.ajax({
 		type : "POST",
-		url : "/amcequiz/game/question",
+		url : "/${pageContext.request.contextPath}/game/question",
 		success : function(response) {
 			$('#questao').html(response);
 			MathJax.Hub.Queue(["Typeset",MathJax.Hub,"questao"]);
@@ -109,7 +109,7 @@ function carregarQuestao() {
 function carregarAlternativas() {
 	$.ajax({
 		type : "POST",
-		url : "/amcequiz/game/alternatives",
+		url : "/${pageContext.request.contextPath}/game/alternatives",
 		success : function(response) {
 			$('#alternativas').html(response);
 			MathJax.Hub.Queue(["Typeset",MathJax.Hub,"alternativas"]);
@@ -122,7 +122,7 @@ function carregarAlternativas() {
 function submitResposta(alternativa) {
 	$.ajax({
 		type : "POST",
-		url : "/amcequiz/game/answerQuestion",
+		url : "/${pageContext.request.contextPath}/game/answerQuestion",
 		data : "op=" + alternativa,
 		success : function(response) {
 			$('#proxima').trigger("click");
@@ -138,7 +138,7 @@ var tempoMaximo = ${tempoMaximoJogo};
 var tempoRestante = tempoMaximo;
 function relogioContador() {
 	if (tempoRestante <= 0) {
-		window.location.replace("/amcequiz/game/gameover?save=true");
+		window.location.replace("/${pageContext.request.contextPath}/game/gameover?save=true");
 	}
 	else {
     	setTimeout("relogioContador()", 1000);

@@ -89,7 +89,7 @@ function saveAgrupamento(procedimento, args) {
 	var agrupamento = $('#agrupamento').serialize();
 	$.ajax({
 		type : "POST",
-		url : "/amcequiz/admin/saveagrupamento",
+		url : "/${pageContext.request.contextPath}/admin/saveagrupamento",
 		data : agrupamento,
 		success : function() {
 			saveJogo(procedimento, args);
@@ -103,7 +103,7 @@ function saveJogo(procedimento, args) {
 	var jogo = $('#jogo').serialize();
 	$.ajax({
 		type : "POST",
-		url : "/amcequiz/admin/savejogo",
+		url : "/${pageContext.request.contextPath}/admin/savejogo",
 		data : jogo,
 		success : function() {
 			window[procedimento](args);

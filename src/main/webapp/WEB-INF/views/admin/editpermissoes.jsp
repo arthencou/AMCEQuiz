@@ -39,7 +39,7 @@ function novoUsuario() {
 	if (validarNome(nome)) {
 		$.ajax({
 			type : "POST",
-			url : "/amcequiz/admin/newusuario",
+			url : "/${pageContext.request.contextPath}/admin/newusuario",
 			data : "nome="+nome,
 			success : function() {
 				gotoPermissoes();
@@ -57,7 +57,7 @@ function excluirUsuario(index, procedimento, args) {
 	if (validarNome(nome)) {
 		$.ajax({
 			type : "POST",
-			url : "/amcequiz/admin/deleteusuario",
+			url : "/${pageContext.request.contextPath}/admin/deleteusuario",
 			data : "nome="+nome,
 			success : function() {
 				window[procedimento](args);
@@ -80,7 +80,7 @@ function salvarUsuario(index, procedimento, args) {
 		var podeEditar = $('#usuarioPodeEditar-'+index).val();
 		$.ajax({
 			type : "POST",
-			url : "/amcequiz/admin/saveusuario",
+			url : "/${pageContext.request.contextPath}/admin/saveusuario",
 			data : "nome="+nome+"&partidas="+partidas+"&podeEditar="+podeEditar,
 			success : function() {
 				window[procedimento](args);

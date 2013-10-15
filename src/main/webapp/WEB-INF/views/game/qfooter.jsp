@@ -1,1 +1,1 @@
-<script type="text/javascript" src="/amcequiz/assets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" src="/${pageContext.request.contextPath}/assets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
