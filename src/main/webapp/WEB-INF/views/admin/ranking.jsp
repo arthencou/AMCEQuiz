@@ -39,16 +39,7 @@ function timeFormat(time) {
 				<td><core:out value="${pos}" /></td>
 				<td><core:out value="${jogada[0]}" /></td>
 				<td><core:out value="${jogada[1]}" /></td>
-				<td>
-					<core:choose>
-						<core:when test="${jogada[2].equals(172800000)}">
-							<core:out value="$\infty$" />
-						</core:when>
-						<core:otherwise><script>
-							document.write(timeFormat(${jogada[2]}));</script>
-						</core:otherwise>
-					</core:choose>
-				</td>
+				<td><script>document.write(timeFormat(${jogada[2]}));</script></td>
 			</tr>
 			<core:set var="lastPoints" value="${jogada[1]}" />
 			<core:set var="lastTime" value="${jogada[2]}" />
