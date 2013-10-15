@@ -148,7 +148,7 @@ public class AdminController {
 	}
 	
 	
-	/*EdiÁ„o - identificaÁ„o do jogo*/
+	/*Edi√ß√£o - identifica√ß√£o do jogo*/
 	
 	@RequestMapping(value = "/editjogo", method = RequestMethod.GET)
 	public synchronized ModelAndView editJogo(HttpServletRequest request) {
@@ -189,7 +189,7 @@ public class AdminController {
 	}
 	
 	
-	/*EdiÁ„o - questıes*/
+	/*Edi√ß√£o - quest√µes*/
 
 	private final String[] alfabeto = {"a","b","c","d","e","f","g","h","i","j","k"};
 	
@@ -307,7 +307,7 @@ public class AdminController {
 	}
 	
 	
-	/*EdiÁ„o - permissıes*/
+	/*Edi√ß√£o - permiss√µes*/
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/editpermissoes", method = RequestMethod.GET)
@@ -394,7 +394,7 @@ public class AdminController {
 	}
 	
 	
-	/*EdiÁ„o - submiss„o*/
+	/*Edi√ß√£o - submiss√£o*/
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/persistgamechanges")
@@ -404,7 +404,7 @@ public class AdminController {
 		
 		Jogo jogo = (Jogo) session.getAttribute("jogo");
 
-		//Criando um relacionamento entre o usu·rio logado e seu novo jogo.
+		//Criando um relacionamento entre o usu√°rio logado e seu novo jogo.
 		Usuario u = SpringSecurityUtils.usuarioLogado();
 		JogoUsuario ju = 
 				jogoManager.findJogoUsuario(u.getNome(), jogo.getNome());

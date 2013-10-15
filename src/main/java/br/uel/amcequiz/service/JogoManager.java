@@ -83,12 +83,12 @@ public class JogoManager {
 	}
 
 	/**
-	 * Procura todos os usu�rios relacionados a um jogo, com exce��o
-	 * de um determinado usu�rio.
+	 * Procura todos os usuários relacionados a um jogo, com exceção
+	 * de um determinado usuário.
 	 * @param jogoNome: Nome do jogo.
-	 * @param ulNome: Usu�rio que n�o ser� inclu�do no resultado.
-	 * @return Um mapa de Usu�rios e relacionamentos com um jogo
-	 * excetuando o usu�rio informado.
+	 * @param ulNome: Usuário que não será incluído no resultado.
+	 * @return Um mapa de Usuários e relacionamentos com um jogo
+	 * excetuando o usuário informado.
 	 */
 	@Transactional
 	public TreeMap<String, JogoUsuario> findJogoUsuariosExUl(
@@ -109,15 +109,15 @@ public class JogoManager {
 	}
 
 	/**
-	 * Avalia os dados do jogo rec�m terminado para decidir
-	 * se o posicionamento do usu�rio no ranking deve ou n�o consider�-los.
-	 * @param jogoId: id do jogo na camada de persist�ncia.
-	 * @param usuarioId: id do usu�rio na camada de persist�ncia.
+	 * Avalia os dados do jogo recï¿½m terminado para decidir
+	 * se o posicionamento do usuï¿½rio no ranking deve ou nï¿½o considerï¿½-los.
+	 * @param jogoId: id do jogo na camada de persistï¿½ncia.
+	 * @param usuarioId: id do usuï¿½rio na camada de persistï¿½ncia.
 	 * @param jogadasDados: os dados da jogada.
 	 * @param tempoTotalJogo: tempo total de jogo.
-	 * @param questoesList: lista de quest�es do jogo.
+	 * @param questoesList: lista de questï¿½es do jogo.
 	 * @return Verdadeiro, caso a jogada entre no ranking, ou Falso, caso 
-	 * contr�rio. 
+	 * contrï¿½rio. 
 	 */
 	@Transactional
 	public boolean saveDadosJogadas(Integer jogoId, Integer usuarioId, 
@@ -126,7 +126,7 @@ public class JogoManager {
 		Integer noAcertos = 0;
 		DadosJogada dadosJogada = null;
 		
-		/*Contando o total de acertos na �ltima jogada*/
+		/*Contando o total de acertos na ï¿½ltima jogada*/
 		for (Questao questao : questoesList) {
 			Integer noQuestao = questao.getNumero();
 			dadosJogada = jogadasDados.get(noQuestao);
@@ -147,7 +147,7 @@ public class JogoManager {
 			Long melhorTempoAtual = jogoUsuario.getMelhorTempo();
 			jogoUsuario.decrementarPartidas();
 			
-			/*Condi��o para atualizar seus dados no ranking*/
+			/*Condiï¿½ï¿½o para atualizar seus dados no ranking*/
 			if (noAcertos >= melhorNoAcertosAtual) {
 				if (!(noAcertos == melhorNoAcertosAtual 
 						&& tempoTotalJogo > melhorTempoAtual)) {
@@ -156,7 +156,7 @@ public class JogoManager {
 					jogoUsuario.setMelhorTempo(tempoTotalJogo);
 					jogoDao.saveJogoUsuario(jogoUsuario);
 					
-					/*Armazenando os acertos por quest�o (do jogador).*/
+					/*Armazenando os acertos por questï¿½o (do jogador).*/
 					for (Map.Entry<Integer, DadosJogada> entry
 							: jogadasDados.entrySet()) {
 						DadosJogada dj = entry.getValue();
@@ -176,9 +176,9 @@ public class JogoManager {
 	}
 
 	/**
-	 * Informa se um determinado usu�rio pode jogar um determinado jogo.
-	 * @param usuarioId: o id do usu�rio na camada de persist�ncia.
-	 * @param jogoId: o id do jogo na camada de persist�ncia.
+	 * Informa se um determinado usuï¿½rio pode jogar um determinado jogo.
+	 * @param usuarioId: o id do usuï¿½rio na camada de persistï¿½ncia.
+	 * @param jogoId: o id do jogo na camada de persistï¿½ncia.
 	 * @return Verdadeiro ou Falso.
 	 */
 	@Transactional
@@ -193,9 +193,9 @@ public class JogoManager {
 	}
 
 	/**
-	 * Informa se um determinado usu�rio pode editar um determinado jogo.
-	 * @param jogoId: o id do jogo em quest�o.
-	 * @param usuarioId: o id do usu�rio em quest�o.
+	 * Informa se um determinado usuário pode editar um determinado jogo.
+	 * @param jogoId: o id do jogo em questão.
+	 * @param usuarioId: o id do usuário em questão.
 	 * @return Verdadeiro ou Falso.
 	 */
 	@Transactional
