@@ -18,7 +18,7 @@ public class UsuarioManager {
 	}
 	
 	@Transactional(readOnly = true)
-	public Usuario logar(String nome) {
+	public Usuario findByNome(String nome) {
 		return usuarioDao.findByNome(nome);
 	}
 

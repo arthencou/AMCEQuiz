@@ -11,6 +11,10 @@ import br.uel.amcequiz.util.HibernateUtils;
 @Repository
 public class QuestaoDao {
 
+	public void save(Questao questao) throws Exception {
+		HibernateUtils.getSessionFactory().getCurrentSession().saveOrUpdate(questao);
+	}
+
 	public void saveUsuarioQuestao(UsuarioQuestao usuarioQuestao) {
 		HibernateUtils.getSessionFactory().getCurrentSession()
 				.saveOrUpdate(usuarioQuestao);

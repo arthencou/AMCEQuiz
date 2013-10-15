@@ -1,14 +1,16 @@
 <%@include file="/WEB-INF/views/include.jsp"%>
 <%@include file="/WEB-INF/views/header.jsp"%>
+<link href="${pageContext.request.contextPath}/assets/css/editjogo.css" rel="stylesheet">
 
 <ul class="nav nav-tabs">
-  <li id="navJogo" class="active"><a href="#" onclick="gotoJogo();">Jogo</a></li>
-  <li id="navQuestoes"><a href="#" onclick="gotoQuestoes();">Questões</a></li>
-  <li id="navPermissoes"><a href="#" onclick="gotoPermissoes();">Permissões</a></li>
+	<li id="navJogo" class="active"><a href="#" onclick="saveChanges('gotoJogo','');">Jogo</a></li>
+	<li id="navQuestoes"><a href="#" onclick="saveChanges('gotoQuestoes','');">Questões</a></li>
+	<li id="navPermissoes"><a href="#" onclick="saveChanges('gotoPermissoes','');">Permissões</a></li>
+	<li id="navDescartar" class="pull-right"><a href="#" onclick="discardChanges();">Descartar alterações</a></li>
+	<li id="navDescartar" class="pull-right"><a href="#" onclick="saveChanges('persistChanges','');">Salvar</a></li>
 </ul>
 
 <div id="conteudo">
-	Teste
 </div>
 
 <%@include file="/WEB-INF/views/footer.jsp"%>
@@ -53,6 +55,34 @@ function gotoPermissoes() {
 			navAtual = 'navPermissoes';
 			$('#navPermissoes').removeClass().addClass('active');
 			$("#conteudo").html(response);
+		},
+		error : function(e) {
+			alert('Error: ' + e);
+		}
+	});
+}
+function discardChanges() {
+	$.ajax({
+		type : "POST",
+		url : "/amcequiz/admin/flushgamechanges",
+		success : function(response) {
+			window.location.replace("/amcequiz/home");
+		},
+		error : function(e) {
+			alert('Error: ' + e);
+		}
+	});
+}
+function persistChanges() {
+	$.ajax({
+		type : "POST",
+		url : "/amcequiz/admin/persistgamechanges",
+		success : function(response) {
+			if (response.successful == 'true') {
+				window.location.replace("/amcequiz/home");
+			} else {
+				alert('Não foi possível salvar todos os dados');
+			}
 		},
 		error : function(e) {
 			alert('Error: ' + e);

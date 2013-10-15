@@ -1,12 +1,13 @@
 package br.uel.amcequiz.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.uel.amcequiz.dao.AgrupamentoJogosDao;
 import br.uel.amcequiz.model.AgrupamentoJogos;
-
 @Service
 public class AgrupamentoJogosManager {
 
@@ -18,21 +19,23 @@ public class AgrupamentoJogosManager {
 	}
 	
 	@Transactional
-	public void save(AgrupamentoJogos agrupamento) 
-			throws Exception {
-		AgrupamentoJogos ag = 
-				agrupamentoJogosDao.findByNome(agrupamento.getNome());
-		if (ag == null) {
-			agrupamentoJogosDao.save(agrupamento);
-		} else {
-			agrupamento.setId(ag.getId());
-			agrupamento.setNome(ag.getNome());
-		}
+	public void save(AgrupamentoJogos agrupamento) {
+		agrupamentoJogosDao.save(agrupamento);
+	}
+
+	@Transactional
+	public AgrupamentoJogos findById(Integer grupoId) {
+		return agrupamentoJogosDao.findById(grupoId);
 	}
 	
 	@Transactional
 	public AgrupamentoJogos findByNome(String nome) {
 		return agrupamentoJogosDao.findByNome(nome);
+	}
+
+	@Transactional
+	public List<Object[]> playersRankByGrupo(Integer grupoId) {
+		return agrupamentoJogosDao.playersRankByGrupo(grupoId);
 	}
 
 }

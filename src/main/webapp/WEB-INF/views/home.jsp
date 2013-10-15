@@ -22,7 +22,8 @@
 						${jogo.nome}
 					</td>
 					<security:authorize access="hasRole('ROLE_ADMIN')">
-						<td><a href="admin/edit?jogo=${jogo}">Editar</a></td>
+					<td><a href="admin/ranking?grupoid=${jogo.grupo.id}">Ranking-grupo</a></td>
+						<td><a href="admin/editgame?gameid=${jogo.id}">Editar</a></td>
 					</security:authorize>
 					<td><a href="game/set?game=${jogo.id}">Jogar</a></td>
 				</tr>

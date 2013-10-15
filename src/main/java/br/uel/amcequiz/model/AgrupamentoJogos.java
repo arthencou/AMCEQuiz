@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,9 @@ public class AgrupamentoJogos {
 	
 	@Column(name = "nome")
 	private String nome;
+	
+	@Transient
+	private Boolean checked = true;
 
 	public Integer getId() {
 		return id;
@@ -37,4 +41,13 @@ public class AgrupamentoJogos {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
+	public Boolean getChecked() {
+		return checked;
+	}
+
+	public void setChecked(Boolean checked) {
+		this.checked = checked;
+	}
+	
 }

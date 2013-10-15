@@ -1,5 +1,6 @@
 package br.uel.amcequiz.model;
 
+import java.io.Serializable;
 import java.util.TreeMap;
 
 import javax.persistence.Column;
@@ -20,8 +21,10 @@ import org.springframework.stereotype.Component;
 @Entity
 @TypeDef(name = "json", typeClass = JsonAttribute.class)
 @Table(name = "questao")
-public class Questao {
+public class Questao implements Serializable {
 	
+	private static final long serialVersionUID = 7853767021822179319L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -37,7 +40,7 @@ public class Questao {
 	private Integer numero;
 	
 	@Column(name = "texto")
-	private String texto;
+	private String texto = "";
 
 	@Type(type = "json")
 	@Column(name = "alternativas", columnDefinition = "text")
@@ -45,7 +48,7 @@ public class Questao {
 	
 	@Column(name = "resposta")
 	@NotNull
-	private String resposta;
+	private String resposta = "";
 
 	public Integer getId() {
 		return id;

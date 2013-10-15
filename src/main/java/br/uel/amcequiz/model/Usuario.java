@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Component;
 
@@ -24,7 +25,8 @@ public class Usuario implements Serializable {
 	private Integer id;
 	
 	@Column(name = "nome")
-	private String nome;
+	@NotNull
+	private String nome = "";
 	
 	@Column(name = "login")
 	private String login;
@@ -33,7 +35,8 @@ public class Usuario implements Serializable {
 	private String senha;
 	
 	@Column(name = "is_admin")
-	private Integer isAdmin;
+	@NotNull
+	private Integer isAdmin = 0;
 	
 	public Usuario() {
 		
@@ -85,6 +88,10 @@ public class Usuario implements Serializable {
 
 	public void setIsAdmin(Integer isAdmin) {
 		this.isAdmin = isAdmin;
+	}
+	
+	public boolean isAdmin() {
+		return (isAdmin == 1)?true:false;
 	}
 
 	public static long getSerialversionuid() {

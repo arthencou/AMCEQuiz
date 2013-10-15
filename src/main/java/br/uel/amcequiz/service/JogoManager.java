@@ -3,6 +3,7 @@ package br.uel.amcequiz.service;
 import br.uel.amcequiz.controller.DadosJogada;
 import br.uel.amcequiz.dao.AgrupamentoJogosDao;
 import br.uel.amcequiz.dao.JogoDao;
+import br.uel.amcequiz.dao.JogoUsuarioDao;
 import br.uel.amcequiz.dao.QuestaoDao;
 import br.uel.amcequiz.model.AgrupamentoJogos;
 import br.uel.amcequiz.model.Jogo;
@@ -11,6 +12,8 @@ import br.uel.amcequiz.model.Questao;
 import br.uel.amcequiz.model.Usuario;
 import br.uel.amcequiz.model.UsuarioQuestao;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -25,6 +28,7 @@ public class JogoManager {
 	
 	private JogoDao jogoDao;
 	private QuestaoDao questaoDao;
+	private JogoUsuarioDao jogoUsuarioDao;
 	private AgrupamentoJogosDao agrupamentoJogosDao;
 	
 	@Autowired
@@ -37,6 +41,11 @@ public class JogoManager {
 		this.questaoDao = questaoDao;
 	}
 	
+	@Autowired
+	public void setJogoUsuarioDao(JogoUsuarioDao jogoUsuarioDao) {
+		this.jogoUsuarioDao = jogoUsuarioDao;
+	}
+
 	@Autowired
 	public void setAgrupamentoJogos (AgrupamentoJogosDao agrupamentoJogosDao) {
 		this.agrupamentoJogosDao = agrupamentoJogosDao;
@@ -66,6 +75,37 @@ public class JogoManager {
 	@Transactional
 	public List<Jogo> findByUserId(Integer usuarioId) {
 		return jogoDao.findByUserId(usuarioId);
+	}
+	
+	@Transactional
+	public JogoUsuario findJogoUsuario(String usuarioNome, String jogoNome) {
+		return jogoUsuarioDao.findJogoUsuario(usuarioNome, jogoNome);
+	}
+
+	/**
+	 * Procura todos os usuários relacionados a um jogo, com exceção
+	 * de um determinado usuário.
+	 * @param jogoNome: Nome do jogo.
+	 * @param ulNome: Usuário que não será incluído no resultado.
+	 * @return Um mapa de Usuários e relacionamentos com um jogo
+	 * excetuando o usuário informado.
+	 */
+	@Transactional
+	public TreeMap<String, JogoUsuario> findJogoUsuariosExUl(
+			String jogoNome, String ulNome) {
+		List<JogoUsuario> jogoUsuarios = 
+				jogoUsuarioDao.findJogoUsuariosExUl(jogoNome, ulNome);
+		TreeMap<String, JogoUsuario> jogoUsuariosMap = 
+				new TreeMap<String, JogoUsuario>();
+		for(JogoUsuario ju : jogoUsuarios) {
+			jogoUsuariosMap.put(ju.getUsuario().getNome(), ju);
+		}
+		return jogoUsuariosMap;
+	}
+
+	@Transactional
+	public void remover(JogoUsuario ju) {
+		jogoUsuarioDao.delete(ju);
 	}
 
 	/**
@@ -149,6 +189,37 @@ public class JogoManager {
 			return true;
 		} else {
 			return false;
+		}
+	}
+
+	/**
+	 * Informa se um determinado usuário pode editar um determinado jogo.
+	 * @param jogoId: o id do jogo em questão.
+	 * @param usuarioId: o id do usuário em questão.
+	 * @return Verdadeiro ou Falso.
+	 */
+	@Transactional
+	public boolean isEditableByUser(Integer jogoId, Integer usuarioId) {
+		JogoUsuario jogoUsuario = 
+				jogoDao.findUsuarioEditaJogo(usuarioId, jogoId);
+		if (jogoUsuario != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Transactional
+	public void saveGameInfo(AgrupamentoJogos agrupamento, Jogo jogo,
+			ArrayList<Questao> questoesList, 
+			Collection<JogoUsuario> jogoUsuarios) throws Exception {
+		this.agrupamentoJogosDao.save(agrupamento);
+		jogoDao.save(jogo);
+		for (Questao questao : questoesList) {
+			questaoDao.save(questao);
+		}
+		for (JogoUsuario ju : jogoUsuarios) {
+			jogoUsuarioDao.save(ju);
 		}
 	}
 

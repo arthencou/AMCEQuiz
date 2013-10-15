@@ -1,0 +1,35 @@
+th td {
+	overflow: hidden;
+	width: 400px;
+	min-width: 400px;
+	max-width: 400px;
+	display: block;
+}
+
+.alternativaTextArea {
+  resize: vertical;
+  min-height:46px;
+}
+
+#questaoTextArea {
+  width: 300px; 
+  min-width:300px;
+
+  height:400px; 
+  min-height:400px;
+  
+  resize: vertical;
+}
+
+#questaoTextArea p {
+	text-align: justify;
+}
+
+.alternativa-rendered,
+#questaoRendered {
+	overflow-y: auto;
+	overflow-x: auto;
+	width: 400px;
+	max-width: 400px;
+	max-height: 900px;
+}

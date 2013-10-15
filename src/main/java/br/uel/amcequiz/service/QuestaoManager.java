@@ -1,6 +1,7 @@
 package br.uel.amcequiz.service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,13 @@ public class QuestaoManager {
 	@Autowired
 	public void setQuestaoDao(QuestaoDao questaoDao) {
 		this.questaoDao = questaoDao;
+	}
+
+	@Transactional
+	public void saveQuestoes(ArrayList<Questao> questoes) throws Exception {
+		for (Questao q : questoes) {
+			questaoDao.save(q);
+		}
 	}
 
 	@Transactional

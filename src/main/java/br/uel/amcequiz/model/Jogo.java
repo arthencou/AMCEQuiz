@@ -1,5 +1,7 @@
 package br.uel.amcequiz.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,8 +17,10 @@ import org.springframework.stereotype.Component;
 @Component
 @Entity
 @Table(name = "jogo")
-public class Jogo {
-	
+public class Jogo implements Serializable {
+
+	private static final long serialVersionUID = -3145048044596826628L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")

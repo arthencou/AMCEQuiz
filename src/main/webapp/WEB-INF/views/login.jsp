@@ -1,3 +1,4 @@
+<%@include file="/WEB-INF/views/include.jsp"%>
 <%@include file="/WEB-INF/views/header.jsp"%>
 <link href="${pageContext.request.contextPath}/assets/css/login.css"
 	rel="stylesheet">
@@ -7,12 +8,16 @@
 	<div class="input-group">
 		<span class="input-group-addon glyphicon glyphicon-user"></span>
 		<input id="j_username" name="j_username" placeholder="Insira seu nome" class="form-control" type="text" value=""/>
+	</div>
+	<div class="input-group">
+		<core:if test="${badCredentials == true}">
+			<span class="input-group-addon glyphicon glyphicon-lock"></span>
+		</core:if>
 		<input id="j_password" name="j_password" placeholder="Insira sua senha" class="form-control"
-		<core:choose>
-			<core:when test="${badCredentials == true}">type="password" value=""</core:when>
-			<core:otherwise>type="hidden" value="123"</core:otherwise>
-		</core:choose> />
-		
+			<core:choose>
+				<core:when test="${badCredentials == true}">type="password" value=""</core:when>
+				<core:otherwise>type="hidden" value="123"</core:otherwise>
+			</core:choose>/>
 	</div>
 	<button id="loginButton" class="btn btn-lg btn-primary btn-block" type="submit" data-placement="bottom">Entrar</button>
 </form>

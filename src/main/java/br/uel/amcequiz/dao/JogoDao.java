@@ -12,6 +12,11 @@ import br.uel.amcequiz.util.HibernateUtils;
 @Repository
 public class JogoDao {
 
+	public void save(Jogo jogo) throws ConstraintViolationException {
+		HibernateUtils.getSessionFactory().getCurrentSession()
+		.saveOrUpdate(jogo);
+	}
+
 	public Jogo findById(Integer jogoId) {
 		return (Jogo) HibernateUtils.getSessionFactory().getCurrentSession()
 				.createQuery("from Jogo where id = :jogoId ")
@@ -70,9 +75,14 @@ public class JogoDao {
 		.executeUpdate();
 	}
 
-	public void save(Jogo jogo) throws ConstraintViolationException {
-		HibernateUtils.getSessionFactory().getCurrentSession()
-		.save(jogo);
+	public JogoUsuario findUsuarioEditaJogo(
+			Integer usuarioId, Integer jogoId) {
+		return (JogoUsuario) HibernateUtils.getSessionFactory().getCurrentSession()
+				.createQuery("from JogoUsuario where usuario.id = :usuarioId " +
+						"and jogo.id = :jogoId and podeEditar = true")
+				.setInteger("usuarioId", usuarioId)
+				.setInteger("jogoId", jogoId)
+				.uniqueResult();
 	}
 
 }

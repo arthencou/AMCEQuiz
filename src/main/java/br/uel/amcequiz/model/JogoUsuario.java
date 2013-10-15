@@ -1,5 +1,7 @@
 package br.uel.amcequiz.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -15,29 +17,35 @@ import org.springframework.stereotype.Component;
 @Entity
 @IdClass(JogoUsuarioPK.class)
 @Table(name = "jogo_usuario")
-public class JogoUsuario {
+public class JogoUsuario implements Serializable {
+
+	private static final long serialVersionUID = 6147963586942415959L;
 
 	@Id
 	@ManyToOne
 	@JoinColumn(name = "usuario_id")
 	@NotNull
-	private Usuario usuario;
+	private Usuario usuario = new Usuario();
 
 	@Id
 	@ManyToOne
 	@JoinColumn(name = "jogo_id")
 	@NotNull
-	private Jogo jogo;
+	private Jogo jogo = new Jogo();
 	
 	@Column(name = "melhor_tempo")
-	private Long melhorTempo;
+	private Long melhorTempo = 86400000L;
 	
 	@Column(name = "melhor_numero_acertos")
 	private Integer melhorNumeroAcertos;
 	
 	@Column(name = "qtdd_partidas_disponiveis")
 	@NotNull
-	private Integer qtddPartidasDisponiveis;
+	private Integer qtddPartidasDisponiveis = 1;
+	
+	@Column(name = "pode_editar")
+	@NotNull
+	private Boolean podeEditar = false;
 
 	public Usuario getUsuario() {
 		return usuario;
@@ -83,6 +91,14 @@ public class JogoUsuario {
 		if (qtddPartidasDisponiveis > 0) {
 			qtddPartidasDisponiveis--;
 		}
+	}
+
+	public Boolean getPodeEditar() {
+		return podeEditar;
+	}
+
+	public void setPodeEditar(Boolean podeEditar) {
+		this.podeEditar = podeEditar;
 	}
 	
 }
