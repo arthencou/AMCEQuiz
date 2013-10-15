@@ -1,2 +1,5 @@
 target/
-.settings/org.eclipse.m2e.wtp.prefs
+.settings/
+.classpath
+.project
+.springBeans
