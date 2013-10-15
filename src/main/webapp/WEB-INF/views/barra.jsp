@@ -11,8 +11,8 @@
 					(Aluno)
 				</security:authorize>
 			</span></li>
-			<li><a id="sair" href="/${pageContext.request.contextPath}/logout">Sair</a></li>
-			<li class="active"><a id="home" href="/${pageContext.request.contextPath}/home">Jogos</a></li>
+			<li><a id="sair" href="${pageContext.request.contextPath}/logout">Sair</a></li>
+			<li class="active"><a id="home" href="${pageContext.request.contextPath}/home">Jogos</a></li>
 		</ul>
 	</div>
 </div>
