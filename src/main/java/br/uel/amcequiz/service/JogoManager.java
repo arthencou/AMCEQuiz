@@ -1,17 +1,5 @@
 package br.uel.amcequiz.service;
 
-import br.uel.amcequiz.controller.DadosJogada;
-import br.uel.amcequiz.dao.AgrupamentoJogosDao;
-import br.uel.amcequiz.dao.JogoDao;
-import br.uel.amcequiz.dao.JogoUsuarioDao;
-import br.uel.amcequiz.dao.QuestaoDao;
-import br.uel.amcequiz.model.AgrupamentoJogos;
-import br.uel.amcequiz.model.Jogo;
-import br.uel.amcequiz.model.JogoUsuario;
-import br.uel.amcequiz.model.Questao;
-import br.uel.amcequiz.model.Usuario;
-import br.uel.amcequiz.model.UsuarioQuestao;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,6 +11,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.uel.amcequiz.controller.DadosJogada;
+import br.uel.amcequiz.dao.AgrupamentoJogosDao;
+import br.uel.amcequiz.dao.JogoDao;
+import br.uel.amcequiz.dao.JogoUsuarioDao;
+import br.uel.amcequiz.dao.QuestaoDao;
+import br.uel.amcequiz.dao.UsuarioDao;
+import br.uel.amcequiz.model.AgrupamentoJogos;
+import br.uel.amcequiz.model.Jogo;
+import br.uel.amcequiz.model.JogoUsuario;
+import br.uel.amcequiz.model.Questao;
+import br.uel.amcequiz.model.Usuario;
+import br.uel.amcequiz.model.UsuarioQuestao;
+
 @Service
 public class JogoManager {
 	
@@ -30,6 +31,7 @@ public class JogoManager {
 	private QuestaoDao questaoDao;
 	private JogoUsuarioDao jogoUsuarioDao;
 	private AgrupamentoJogosDao agrupamentoJogosDao;
+	private UsuarioDao usuarioDao;
 	
 	@Autowired
 	public void setGameDao(JogoDao jogoDao) {
@@ -47,8 +49,13 @@ public class JogoManager {
 	}
 
 	@Autowired
-	public void setAgrupamentoJogos (AgrupamentoJogosDao agrupamentoJogosDao) {
+	public void setAgrupamentoJogosDao (AgrupamentoJogosDao agrupamentoJogosDao) {
 		this.agrupamentoJogosDao = agrupamentoJogosDao;
+	}
+	
+	@Autowired
+	public void setUsuarioDao (UsuarioDao usuarioDao) {
+		this.usuarioDao = usuarioDao;
 	}
 
 	@Transactional
@@ -219,6 +226,10 @@ public class JogoManager {
 			questaoDao.save(questao);
 		}
 		for (JogoUsuario ju : jogoUsuarios) {
+			Usuario u = usuarioDao.findByNome(ju.getUsuario().getNome());
+			if (u == null) {
+				usuarioDao.create(ju.getUsuario());
+			}
 			jogoUsuarioDao.save(ju);
 		}
 	}

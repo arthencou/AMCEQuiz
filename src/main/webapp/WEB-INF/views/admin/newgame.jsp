@@ -77,6 +77,7 @@ function persistChanges() {
 	$.ajax({
 		type : "POST",
 		url : "${pageContext.request.contextPath}/admin/persistgamechanges",
+		dataType : "json",
 		success : function(response) {
 			if (response.successful == 'true') {
 				window.location.replace("${pageContext.request.contextPath}/home");

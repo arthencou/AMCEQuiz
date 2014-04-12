@@ -385,6 +385,8 @@ public class AdminController {
 		}
 		JogoUsuario ju = new JogoUsuario();
 		ju.setUsuario(u);
+		ju.setQtddPartidasDisponiveis(Integer.valueOf(partidas));
+		ju.setPodeEditar(Boolean.valueOf(podeEditar));
 		ju.setJogo((Jogo)session.getAttribute("jogo"));
 
 		TreeMap<String, JogoUsuario> jogoUsuarios = 
@@ -427,11 +429,16 @@ public class AdminController {
 					jogoUsuarios.values() );
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "{successful:'false'}";
+			jogoUsuarios.remove(u.getNome());
+			
+			System.out.println("DEU PAU!!");
+			
+			return "{\"successful\":\"false\"}";
 		}
 
 		flushChanges(request);
-		return "{successful:'true'}";
+		System.out.println("FUNFOU!!");
+		return "{\"successful\":\"true\"}";
 	}
 
 	@RequestMapping("/flushgamechanges")

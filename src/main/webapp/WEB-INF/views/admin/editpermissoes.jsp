@@ -5,7 +5,8 @@
 	<div class="row">
 		<div class="list-group">
 		<input id="usuarioNome-${i}" value="${jogousuario.usuario.nome}" 
-			type="text" onblur="salvarUsuario(${i},'gotoPermissoes','');" pattern="[A-Z][a-z]*" />
+			type="text" onclick="excluirUsuario(${i},'','');" 
+			onblur="salvarUsuario(${i},'gotoPermissoes','');" pattern="[A-Z][a-z]*" />
 		<input id="usuarioPartidas-${i}" value="${jogousuario.qtddPartidasDisponiveis}" 
 			type="number" onblur="salvarUsuario(${i},'gotoPermissoes','');" />
 		<core:if test="${jogousuario.usuario.isAdmin()}">
@@ -15,6 +16,7 @@
 		<button type="button" onclick="excluirUsuario(${i},'gotoPermissoes','');">Excluir</button>
 		</div>
 	</div>
+	<core:set var="i" value="${i+1}" />
 </core:forEach>
 <div class="row">
 	<div class="list-group">
@@ -90,6 +92,9 @@ function salvarUsuario(index, procedimento, args) {
 			}
 		});
 	}
+}
+function alterarUsuario(index, procedimento, args) {
+	
 }
 function saveChanges(procedimento, args) {
 	window[procedimento](args);

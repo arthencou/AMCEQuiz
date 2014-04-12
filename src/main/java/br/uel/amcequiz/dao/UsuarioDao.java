@@ -23,4 +23,9 @@ public class UsuarioDao {
 				.uniqueResult();
 	}
 	
+	public void create(Usuario usuario) {
+		HibernateUtils.getSessionFactory().getCurrentSession()
+			.save(usuario);
+	}
+	
 }

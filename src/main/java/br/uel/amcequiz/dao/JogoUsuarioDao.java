@@ -11,6 +11,9 @@ import br.uel.amcequiz.util.HibernateUtils;
 public class JogoUsuarioDao {
 
 	public void save(JogoUsuario jogoUsuario) {
+		
+		System.out.printf("\n\n\tJogo: %s; Usuario: %s;\n", jogoUsuario.getJogo().getNome(), jogoUsuario.getUsuario().getNome());
+		
 		HibernateUtils.getSessionFactory().getCurrentSession()
 		.saveOrUpdate(jogoUsuario);
 	}
