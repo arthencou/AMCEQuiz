@@ -58,7 +58,7 @@
 								id="inputNomeJogo" class="form-control" placeholder="Nome do jogo"/>
 						</div>
 						<div class="control-group">
-							<label for="inputTempoJogo" class="control-label">Limite de tempo</label>
+							<label for="inputTempoJogo" class="control-label">Limite de tempo (em segundos)</label>
 							<form:input path="tempoMaximo" type="number" required="false" value="${jogo.tempoMaximo}"
 								 id="inputTempoJogo" class="form-control" />
 						</div>
