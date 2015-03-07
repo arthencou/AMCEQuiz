@@ -1,5 +1,6 @@
 <%@include file="/WEB-INF/views/include.jsp"%>
-
+<div class="panel panel-default">
+	<div class="panel-body">
 <core:set var="i" value="${0}" />
 <core:forEach items="${jogousuarios}" var="jogousuario">
 	<div class="row">
@@ -26,6 +27,9 @@
 		<button type="button" onclick="novoUsuario();">Criar</button>
 	</div>
 </div>
+	</div>
+</div>
+
 
 <script>
 function validarNome(nome) {
