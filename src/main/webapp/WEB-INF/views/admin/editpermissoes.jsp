@@ -58,6 +58,11 @@
 				</div>
 			</div>
 		</div>
+		
+		<button class="btn btn-success pull-right" 
+			onclick="saveChanges('persistChanges','');">
+				Finalizar
+		</button>
 	</div>
 </div>
 
