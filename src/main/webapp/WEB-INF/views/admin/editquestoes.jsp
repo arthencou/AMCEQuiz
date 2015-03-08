@@ -1,6 +1,8 @@
 <%@include file="/WEB-INF/views/include.jsp"%>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 <link href="${pageContext.request.contextPath}/assets/css/editquestoes.css" rel="stylesheet">
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/assets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
 </script>
@@ -136,8 +138,6 @@
   Prosseguir
 </button>
 
-<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/assets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script>MathJax.Hub.Queue(["Typeset",MathJax.Hub,"questaoRendered"]);</script>
 <script>
 function selecionarQuestao(qnum) {
