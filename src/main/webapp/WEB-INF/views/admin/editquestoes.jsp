@@ -87,6 +87,7 @@
             function alternativaTextoMudado(letra) {
               var texto = $('#textareaAlternativa-'+letra).val();
               $('#altRender-'+letra).html(texto);
+              MathJax.Hub.Queue(["Typeset",MathJax.Hub,"altRender-"+letra]);
             }
           </script>
           <core:forEach items="${questao.alternativas}" var="alternativa"><tr>
@@ -153,7 +154,6 @@ function selecionarQuestao(qnum) {
   });
 }
 function questaoTextoMudado() {
-  //var qtx = $('#questaoTextArea').val();
   $('#questaoRendered').html($('#questaoTextArea').val());
   MathJax.Hub.Queue(["Typeset",MathJax.Hub,"questaoRendered"]);
 }
@@ -236,6 +236,5 @@ function saveChanges(procedimento, args) {
 }
 $(document).ready(function() {
   questaoTextoMudado();
-  //$('#questaoRendered').html('TESTE');
 });
 </script>
