@@ -7,7 +7,7 @@
 	<li id="navQuestoes"><a href="#" onclick="saveChanges('gotoQuestoes','');">Questões</a></li>
 	<li id="navPermissoes"><a href="#" onclick="saveChanges('gotoPermissoes','');">Permissões</a></li>
 	<li id="navDescartar" class="pull-right"><a href="#" onclick="discardChanges();">Descartar alterações</a></li>
-	<li id="navDescartar" class="pull-right"><a href="#" onclick="saveChanges('persistChanges','');">Salvar</a></li>
+	<li id="navSalvar" class="pull-right"><a href="#" onclick="saveChanges('persistChanges','');">Salvar</a></li>
 </ul>
 
 <div id="conteudo">
