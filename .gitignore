@@ -3,3 +3,4 @@ target/
 .classpath
 .project
 .springBeans
+src/main/webapp/assets/images/questions/
