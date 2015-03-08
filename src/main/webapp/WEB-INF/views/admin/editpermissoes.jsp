@@ -1,32 +1,63 @@
 <%@include file="/WEB-INF/views/include.jsp"%>
 <div class="panel panel-default">
 	<div class="panel-body">
-<core:set var="i" value="${0}" />
-<core:forEach items="${jogousuarios}" var="jogousuario">
-	<div class="row">
-		<div class="list-group">
-		<input id="usuarioNome-${i}" value="${jogousuario.usuario.nome}" 
-			type="text" onclick="excluirUsuario(${i},'','');" 
-			onblur="salvarUsuario(${i},'gotoPermissoes','');" pattern="[A-Z][a-z]*" />
-		<input id="usuarioPartidas-${i}" value="${jogousuario.qtddPartidasDisponiveis}" 
-			type="number" onblur="salvarUsuario(${i},'gotoPermissoes','');" />
-		<core:if test="${jogousuario.usuario.isAdmin()}">
-			<input id="usuarioPodeEditar-${i}" value="${jogousuario.podeEditar}" 
-				type="checkbox" onblur="salvarUsuario(${i},'gotoPermissoes','');" />
-		</core:if>
-		<button type="button" onclick="excluirUsuario(${i},'gotoPermissoes','');">Excluir</button>
+		<div class="container-fluid">
+			<core:set var="i" value="${0}" />
+			<core:forEach items="${jogousuarios}" var="jogousuario">
+			<div class="row">
+				<div class="col-xs-4">
+					<input class="form-control"
+						id="usuarioNome-${i}"
+						value="${jogousuario.usuario.nome}" 
+						type="text"
+						onclick="excluirUsuario(${i},'','');" 
+						onblur="salvarUsuario(${i},'gotoPermissoes','');"
+						pattern="[A-Z][a-z]*" />
+				</div>
+				<div class="col-xs-2">
+					<input class="form-control"
+						id="usuarioPartidas-${i}"
+						value="${jogousuario.qtddPartidasDisponiveis}" 
+						type="number"
+						onblur="salvarUsuario(${i},'gotoPermissoes','');" />
+				</div>
+				<core:if test="${jogousuario.usuario.isAdmin()}">
+					<input class="form-control"
+						id="usuarioPodeEditar-${i}"
+						value="${jogousuario.podeEditar}" 
+						type="checkbox"
+						onblur="salvarUsuario(${i},'gotoPermissoes','');" />
+				</core:if>
+				<button
+					type="button" class="btn btn-default"
+					onclick="excluirUsuario(${i},'gotoPermissoes','');">
+						Excluir
+				</button>
+			</div>
+			<core:set var="i" value="${i+1}" />
+			</core:forEach>
 		</div>
-	</div>
-	<core:set var="i" value="${i+1}" />
-</core:forEach>
-<div class="row">
-	<div class="list-group">
-		<label for="novoUsuarioNome">Adicionar usuário</label>
-		<input id="novoUsuarioNome" type="text" autofocus="autofocus"
-			placeholder="Nome" onkeypress="onEnterKeyPress(event,'novoUsuario','');"/>
-		<button type="button" onclick="novoUsuario();">Criar</button>
-	</div>
-</div>
+		
+		<div class="container">
+			<div class="row">
+				<div class="list-group">
+					<div class="col-xs-4">
+						<label for="novoUsuarioNome">Adicionar usuário</label>
+						<input class="form-control"
+							id="novoUsuarioNome"
+							type="text" 
+							autofocus="autofocus"
+							placeholder="Nome"
+							onkeypress="onEnterKeyPress(event,'novoUsuario','');"/>
+					</div>
+					<button class="btn btn-default"
+						type="button" 
+						onclick="novoUsuario();">
+							Criar
+					</button>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 
